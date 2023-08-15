@@ -11,7 +11,7 @@ import { db, auth } from '../firebase'
 import attackLogic from './attacks'
 import cleanUp from './cleanUp';
 
-function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng}) {
+function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}) {
   const [stage, setStage] = useState('begin')
   const [convo, setConvo] = useState([])
   const [step, setStep] = useState(0)
@@ -133,15 +133,23 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng}) {
   const checkDeaths = () => {
     const localTurn = turn
     setTurn(localTurn + 1)
-    let deaths = []
+    const lose = jar.filter(b=> b.health > 0)
+    const win = jug.filter(b=> b.health > 0)
+    const deaths = []
     if(jar[0].health == 0){deaths.push(0)}
     if(jar[1].health == 0){deaths.push(1)}
-    if(deaths.length > 0 && jar.filter(b=> b.health > 0).length > 1 ){
+    if(win.length === 0){
+      setConvo([`${rival.name} is all out of bugs! You win!`, returnHome])
+      setStage('over')
+    } else if(lose.length === 0){
+      setConvo([`You are all out of bugs! ${rival.name} wins`, returnHome])
+      setStage('over')
+    } else if(deaths.length > 0 && lose.length > 1 ){
       setStep(deaths[0])
       setStage('switch')
       setDeath(deaths)
       setConvo([])
-    } else if ((jug[0].health == 0 || jug[1].health == 0) && jug.filter(b=> b.health > 0).length > 1) {
+    } else if ((jug[0].health == 0 || jug[1].health == 0) && win.length > 1) {
       addTurn(localTurn + 1, moves)
       setStage('end')
       setDeath(['easteregg'])
@@ -217,7 +225,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng}) {
   if (stage === "turn"){
     return (
     <div style={{width: "100%", height: "100%", border: "double"}}>
-      <div style={{width: "100%", height: "10%"}}>What should {jar[step].name} do?</div>
+      <div style={{width: "100%", height: "10%"}}>{area?.length > 0 ? `The area is ${area}, ` : '' }What should {jar[step].name} do?</div>
       <div style={{width: "100%", height: "70%", display: 'flex'}}>
         <div style={{width: "50%", height: "100%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('attack')}><h1 style={{width: "100%", textAlign:'center'}}>Attack</h1></div>
         <div style={{width: "50%", height: "100%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('switch')}><h1 style={{textAlign:'center', width: "100%",}}>Switch</h1></div>

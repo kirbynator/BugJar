@@ -239,6 +239,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
           })
         }
       }
+      return([convo, insect, enemy])
     break
     case "Sting":
       var calc = damageCal(move, bug, target)

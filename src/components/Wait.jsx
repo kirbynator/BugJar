@@ -10,7 +10,7 @@ function Wait({rng, page, setPage, players}) {
   return (
     <div>{start()}
       <>{page === 'ready' ? 
-        <div>{players[0].name + " vs " + players[1].name}</div> :
+        <div style={{display: 'flex'}}><h1>{players[0].name}</h1><h3 style={{paddingTop:'32px'}}>vs</h3><h1 style={{paddingTop:'32px'}}>{players[1].name}</h1></div> :
         <div>Your code:<p>{rng}</p></div>
       }</>  
     </div>

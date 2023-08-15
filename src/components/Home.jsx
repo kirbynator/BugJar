@@ -22,7 +22,7 @@ function Home() {
     )
   } else if(page==='wait'){
     return(
-      <Battle page={page} code={code}/>    )
+      <Battle setPage={setPage} page={page} setCode={setCode} code={code}/>    )
   }
 }
 

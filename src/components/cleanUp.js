@@ -29,6 +29,9 @@ const cleanUp = (jar, jug, area) => {
     }
     return b
   })
+  const swarm = localJar.filter(b=> b.health > 0 && b.moves.find(m=> m.name === "Swarm"))
+  swarm.map(b=>{b.moves.map(m=>{ if(m.name === "Swarm"){ m.power = Math.min(swarm.length, 3)}})})
+
   localJar[0] = modBugs[0]
   localJar[1] = modBugs[1]
   localJug[0] = modBugs[2]
