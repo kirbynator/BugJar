@@ -66,19 +66,19 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
     case "Shell Shield":
       if(bug.temp?.wasInv) {
         bug.temp.inv = Math.random() > 0.5
-        return(bug.temp.inv ? [`${bug.name} uses Shell Shield to try to protect itself, and was successful!`] : [`${bug.name} uses Shell Shield to try to protect themself, and failed`], bug, null)
+        return(bug.temp.inv ? [`${bug.name} used Shell Shield to try to protect itself, and was successful!`] : [`${bug.name} used Shell Shield to try to protect themself, and failed`], bug, null)
       } else {
         bug.temp.inv = true
-        return([[`${bug.name} uses Shell Shield to protect themself`], bug])
+        return([[`${bug.name} used Shell Shield to protect themself`], bug])
       }
     break;
     case "Prevention Trap":
       if(target.temp?.wasInv) {
         target.temp.inv = Math.random() > 0.5
-        return([target.temp.inv ? [`${bug.name} uses Prevention Trap to try to protect ${target.name}, and was successful`] : [`${bug.name} uses Prevention Trap to try to protect ${target.name}, and failed`], bug, target])
+        return([target.temp.inv ? [`${bug.name} used Prevention Trap to try to protect ${target.name}, and was successful`] : [`${bug.name} used Prevention Trap to try to protect ${target.name}, and failed`], bug, target])
       } else {
         target.temp.inv = true
-        return([[`${bug.name} uses Prevention Trap to try to protect ${target.name}`], bug, target])
+        return([[`${bug.name} used Prevention Trap to try to protect ${target.name}`], bug, target])
       }
     break;
     case "Toxic Tincture":
@@ -93,13 +93,13 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       return([convo, insect, enemy])
     break;
     case "Royal Decree":
-      return([[`${bug.name} uses Royal Decree, creating an ant hill area`], null, null, 'Ant Hill'])
+      return([[`${bug.name} used Royal Decree, creating an ant hill area`], null, null, 'Ant Hill'])
     break;
     case "Crystalize":
       var insect = {...bug}
       insect.name = "Chrysalis"
       insect.moves[0] = {name: "Metamorphose", power: 0,  pryo:0, info: "Emerge into a butterfly"}
-      return([[`${bug.name} uses Crystalize, and becomes a Chrysalis!`], insect])
+      return([[`${bug.name} used Crystalize, and becomes a Chrysalis!`], insect])
     break;
     case "Metamorphose":
       var insect = {...bug}
@@ -121,7 +121,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       }
       insect.moves[0] = {name: "Flutter Fury", power: 3, pryo: 0, info: "This bugs stikes with a fast series of blows"}
       if (insect.moves.length < 4){insect.moves.push({name: "Butterfly Kiss", power: 0, pryo: 0, info: "Heals this bug and ally bug"})}
-      return([[`${bug.name} uses Metamorphose, emerging as a ${insect.name}!`], insect])
+      return([[`${bug.name} used Metamorphose, emerging as a ${insect.name}!`], insect])
     break;
     case "Luminous Burst":
       var calc = damageCal(move, bug, target)
@@ -148,7 +148,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       }
     break;
     case "Carapace Castle":
-      var convo = [`${bug.name} uses Carapace Castle`]
+      var convo = [`${bug.name} used Carapace Castle`]
       if((bug.temp?.def || 0) < 7) {
         bug.temp.def = (bug.temp?.def || 0) + 1
         convo.push(`${bug.name}'s defense rose`)
@@ -160,7 +160,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       return([convo, bug, target])
     break;
     case "Cutting Edge":
-      var convo = [`${bug.name} uses Cutting Edge`]
+      var convo = [`${bug.name} used Cutting Edge`]
       if((bug.temp?.atk || 0) < 7) {
         bug.temp.atk = (bug.temp?.atk || 0) + 1
         convo.push(`${bug.name}'s attack rose`)
@@ -241,7 +241,15 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       }
     break
     case "Sting":
-      return damageCal(move, bug, target)
+      var calc = damageCal(move, bug, target)
+      var convo = calc[0]
+      var insect = calc[1]
+      var enemy = calc[2]
+      if (!insect.temp?.ill && calc[3]){
+        insect.temp.ill = true
+        convo.push(`${insect.name} became ill`)
+      }
+      return([convo, insect, enemy])
     break
     case "Swift Strike":
       move.power = bug.spd + (bug.temp?.spd) > target.speed + (target.temp?.spd) ? 3 : 2
@@ -260,20 +268,18 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
     break
     case "Persistent":
       var insect = bug
-      var convo = [`${bug.name} uses Persistent, healing itself!`]
+      var convo = [`${bug.name} used Persistent, healing itself!`]
       insect.health = Math.min(insect.health + (insect.hp * 10 / 2), insect.hp * 10)
       return([convo, insect])
     break
-    case "Butterfly Kisses":
-      var convo = [`${bug.name} uses Cutting Edge`]
-      if((bug.temp?.atk || 0) < 7) {
-        bug.temp.atk = (bug.temp?.atk || 0) + 1
-        convo.push(`${bug.name}'s attack rose`)
-      } else {convo.push(`${bug.name}'s attack can't rise anymore`)}
-      if((target.temp?.atk || 0) < 7) {
-        target.temp.atk = (target.temp?.atk || 0) + 1
-        convo.push(`${target.name}'s attack rose`)
-      } else {convo.push(`${target.name}'s attack can't rise anymore`)}
+    case "Butterfly Kiss":
+      var convo = [`${bug.name} used Butterfly Kiss`]
+      bug.health = Math.min(bug.hp * 10, bug.health + Math.floor(bug.hp * 10 / 4))
+      convo.push(`${bug.name} was healed`)  
+      if(target.health > 0){
+        target.health = Math.min(target.hp * 10, target.health + Math.floor(target.hp * 10 / 4))
+        convo.push(`${target.name} was healed`)  
+      }
       return([convo, bug, target])
     break;
   }

@@ -1,7 +1,7 @@
 const bugs = [
   {name: 'Caterpillar', rarity: 1, hp: 5, atk: 3, def: 5, spd: 5, moves:[{name: "Crystalize", power: 0, pryo:0,  info: "This bug turns into a Chrysalis"}]},
   {name: 'Aphid', rarity: 1, hp: 8, atk: 3, def: 3, spd: 6, moves:[{name:"Bug Bash", power: 2, pryo:0,  info: "This bug rams into it's target"},{name:"Nibble", power: 1, pryo:0,  info: "Will heal ally bug when this bug runs out of hp"}]},
-  {name: 'Bee', rarity: 1, hp: 2, atk: 7, def: 3, spd: 7, moves:[{name: "Sting", power: 2, pryo:0,  info: "This bug hurts itself"},{name: "Swarm", power: 1, pryo:0,  info: "Becomes stronger the more bugs in your jar that know it"}]},
+  {name: 'Bee', rarity: 1, hp: 2, atk: 7, def: 3, spd: 7, moves:[{name: "Sting", power: 2, pryo:0,  info: "This bug becomes ill"},{name: "Swarm", power: 1, pryo:0,  info: "Becomes stronger the more bugs in your jar that know it"}]},
   {name: 'Ladybug', rarity: 1, hp: 6, atk: 4, def: 4, spd: 6, moves:[{name: "Mandible Maul", power: 2, pryo:0,  info: "This bug takes a bite out of it's target"}, {name: "Shell Shield", power: 0,  pryo:2,  info: "Before attacks, this bug tries to protect itself"}]},
   {name: 'Headlight Beetle', rarity: 1, hp: 5, atk: 5, def: 5, spd: 5, moves:[{name:"Luminous Burst", power: 1, pryo: 0, info: "Creates a bright area"}, {name: "Shell Shield", power: 0,  pryo:2,  info: "Before attacks, this bug tries to protect itself"}]},
   {name: 'Pill Bug', rarity: 1, hp: 6, atk: 4, def: 6, spd: 4, moves:[{name:"Bug Bash", power: 2, pryo:0,  info: "This bug rams into it's target"}, {name: "Shell Shield", power: 0,  pryo:2,  info: "Before attacks, this bug tries to protect itself"}]},
@@ -26,7 +26,7 @@ const bugs = [
   {name: 'Walking Stick', rarity:2, hp: 6, atk: 5, def: 6, spd: 4, moves:[{name: "Floral Feint", power: 2, pryo: 0, info: "This move can't be blocked"}, {name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs speed"}]},
   {name: 'House Fly', rarity:2, hp: 3, atk: 5, def: 4, spd: 7, moves:[{name: "Swift Strike", power: 2, pryo: 0, info:"Does more damage if this bug is faster that target"}, {name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs speed"}]},
   {name: 'Cicada', rarity:2, hp: 4, atk: 8, def: 7,  spd: 1, moves:[{name:"Chirp", power: 1, pryo:0, info: "Resets this bug's target"}, {name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs speed"}]},
-  {name: 'Wasp', rarity:2, hp: 5, atk: 9, def: 4, spd: 6, moves:[{name: "Sting", power: 2, pryo:0,  info: "This bug hurts itself"}, {name: "Persistent", power: 0, pryo: 0, info:"This bug heals itself"}]},
+  {name: 'Wasp', rarity:2, hp: 5, atk: 9, def: 4, spd: 6, moves:[{name: "Sting", power: 2, pryo:0,  info: "This bug becomes ill"}, {name: "Persistent", power: 0, pryo: 0, info:"This bug heals itself"}]},
   {name: 'Trapdoor Spider', rarity:2, hp: 8, atk: 5, def: 8, spd: 5, moves:[{name: "Toxic Tincture", power: 1, pryo: 0, info: "Makes the target ill, doing damage over time"},{name:"Prevention Trap", power: 0, pryo: 2, info: "Before attacks, this bug trys to set a trap to protect it's target"}]},
   {name: 'Cockroach', rarity:2,  hp: 10,  atk: 1, def: 9,  spd: 1, moves:[{name:"Bug Bash", power: 2, pryo:0,  info: "This bug rams into it's target"}, {name: "Persistent", power: 0, pryo: 0, info:"This bug heals itself"}]},
   {name: 'Dragonfly', rarity:2, hp: 3, atk: 8, def: 3, spd: 9, moves:[{name: "Lethal Lunge", power: 3, pryo: 0, info: "Lowers target's defence"}]},
