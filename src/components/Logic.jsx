@@ -104,7 +104,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
 },[area])
 
   const nextLine = () => {
-    if (jarReady && jugReady && areaReady){
+    if (jarReady && jugReady){
       setJarReady(false)
       setJugReady(false)
       setAreaReady(false)
