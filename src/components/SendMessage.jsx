@@ -25,8 +25,8 @@ function SendMessage({rng}) {
 
   return (
     <div>
-      <form onSubmit={(e)=>sendMsg(e)}>
-        <input type="text" value={msg}  placeholder="type message..." onChange={e => setMsg(e.target.value)}/>
+      <form onSubmit={(e)=>sendMsg(e)} style={{display: 'flex'}}>
+        <input style={{width:"90%"}} type="text" value={msg}  placeholder="type message..." onChange={e => setMsg(e.target.value)}/>
         <button type='submit'>Send</button>
       </form>
     </div>

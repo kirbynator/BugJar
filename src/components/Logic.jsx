@@ -10,6 +10,7 @@ import {
 import { db, auth } from '../firebase'
 import attackLogic from './attacks'
 import cleanUp from './cleanUp';
+import './style.css'
 
 function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}) {
   const [stage, setStage] = useState('begin')
@@ -320,9 +321,12 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     )
   } else if (convo.length > 0) {
     return (
-      <div key={area} style={{width: "100%", height: "100%", border: "double"}} onClick={() => setStep(step + 1)}>{
-        typeof convo[Math.min(step, convo.length)] === "string" ? convo[Math.min(step, convo.length)] : convo[Math.min(step, convo.length)]()
-      }</div>
+      <div key={turn} style={{width: "100%", height: "100%", border: "double", display: 'flex', flexDirection:'column', justifyContent: 'space-between'}} onClick={() => setStep(step + 1)}>{
+        typeof convo[Math.min(step, convo.length)] === "string" ? convo[Math.min(step, convo.length)] : convo[Math.min(step, convo.length)]()}
+        {convo.length > 1 && <div class="blink" style={{textAlign: 'end', width: '100%'}}>
+          {'(Proceed)'}
+        </div>}
+      </div>
     )
   }
 }

@@ -24,7 +24,7 @@ function Chat({rng}) {
         fetchedMessages.push({ ...doc.data(), id: doc.id });
       });
       const sortedMessages = fetchedMessages.sort(
-        (a, b) => a.createdAt - b.createdAt
+        (a, b) => b.createdAt - a.createdAt
       );
       setMessages(sortedMessages);
     });
@@ -32,15 +32,16 @@ function Chat({rng}) {
   }, []);
 
   return (
-    <div>
-      {messages.map(({id, text, name}) => (
-        <div key={id}>
-          <div style={{color:"white", background:"black"}}>{name}</div>
-          <div>{text}</div>
-        </div>
-      ))}
-      <div style={{margin:'3px'}}/>
-      <SendMessage rng={rng}></SendMessage>
+    <div style={{width: '100%', height:"100%", paddingTop: '1px'}}>
+      <div style={{overflow:"hidden", width: '100%', height:"92%", display:'flex', flexDirection:'column-reverse'}}>
+        {messages.map(({id, text, name}) => (
+          <div key={id} style={{paddingBottom:"5px"}}>
+            <div style={{color:"white", background:"black"}}>{name}</div>
+            <div>{text}</div>
+          </div>
+        ))}
+      </div>
+        <SendMessage rng={rng}></SendMessage>
     </div>
   )
 }

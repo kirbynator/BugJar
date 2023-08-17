@@ -168,7 +168,7 @@ function Battle(props) {
           <div style={{width:"78%", height: "100%"}}>
             <Logic jar={jar} jug={jug} area={area} rival={rival} rng={rng} setJar={setJar} setJug={setJug} setArea={setArea} returnHome={returnHome}/>
           </div>
-          <div style={{width:"20%", height: "100%"}}>
+          <div style={{width:"21%", height: "100%"}}>
             <Chat rng={rng}/>
           </div>
         </div>
