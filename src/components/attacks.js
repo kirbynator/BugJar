@@ -25,7 +25,7 @@ const attackLogic = (attacks, jar, jug, area, rival) => {
         if(outcome[0]){dialog = dialog.concat(outcome[0])}
         if(outcome[1]){outcome[1].user == rival ? localJug[localJug.findIndex(b=> b.id === outcome[1].id)] = outcome[1] : localJar[localJar.findIndex(b=> b.id === outcome[1].id)] = outcome[1] }
         if(outcome[2]){outcome[2].user == rival ? localJug[localJug.findIndex(b=> b.id === outcome[2].id)] = outcome[2] : localJar[localJar.findIndex(b=> b.id === outcome[2].id)] = outcome[2] }
-        if(outcome[3]){localArea = outcome[3]}
+        if(outcome[4]){localArea = outcome[4]}
       }
     }
   })
@@ -93,7 +93,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       return([convo, insect, enemy])
     break;
     case "Royal Decree":
-      return([[`${bug.name} used Royal Decree, creating an ant hill area`], null, null, 'Ant Hill'])
+      return([[`${bug.name} used Royal Decree, creating an ant hill area`], null, null, true, 'Ant Hill'])
     break;
     case "Crystalize":
       var insect = {...bug}
@@ -130,7 +130,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       var enemy = calc[2]
       if (calc[3]){
       convo.push("The area is glowing")
-      return([convo, insect, enemy, "Glowing"])
+      return([convo, insect, enemy, true, "Glowing"])
       }else{
         return([convo, insect, enemy])
       }
@@ -142,7 +142,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       var enemy = calc[2]
       if (calc[3]){
         convo.push(`${bug.name} clears the area`)
-        return([convo, insect, enemy, ""])
+        return([convo, insect, enemy, true, ""])
       }else{
         return([convo, insect, enemy])
       }
@@ -201,8 +201,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       var insect = calc[1]
       var enemy = calc[2]
       if (calc[3]){
-        (enemy.temp?.def || 0) > -7 ? enemy.temp.def = (enemy.temp?.def || 0) - 1 : convo.push(`${enemy.name}'s defense can't go lower`)
-        if((enemy.temp?.def || 0) < (target.temp?.def || 0)){convo.push(`${enemy.name} defense was lowered`)}
+        (enemy.temp?.def || 0) > -7 ? (enemy.temp.def = (enemy.temp?.def || 0) - 1) && convo.push(`${enemy.name} defense was lowered`) : convo.push(`${enemy.name}'s defense can't go lower`)
       }
       return([convo, insect, enemy])
     break;
@@ -212,8 +211,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       var insect = calc[1]
       var enemy = calc[2]
       if (calc[3]){
-        (enemy.temp?.atk || 0) > -7 ? enemy.temp.atk = (enemy.temp?.atk || 0) - 1 : convo.push(`${enemy.name}'s attack can't go lower`)
-        if((enemy.temp?.atk || 0) < (target.temp?.atk || 0)){convo.push(`${enemy.name} attack was lowered`)}
+        (enemy.temp?.atk || 0) > -7 ? (enemy.temp.atk = (enemy.temp?.atk || 0) - 1) && convo.push(`${enemy.name} attack was lowered`) : convo.push(`${enemy.name}'s attack can't go lower`)
       }
       return([convo, insect, enemy])
     break;
@@ -257,10 +255,9 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       return damageCal(move, bug, target)
     break
     case "Vibes":
-      var insect = {...bug}
-      var convo = [`${insect?.name} vibes`]
-      (insect.temp?.spd || 0) < 7 ? insect.temp.spd = (insect.temp?.spd || 0) + 1 : convo.push(`${insect.name}'s speed can't rise anymore`)
-      if((bug.temp?.spd || 0) < (insect.temp?.spd || 0)){convo.push(`${bug.name}'s speed rose`)}
+      var insect = {...bug};
+      var convo = [`${insect?.name} vibes`];
+      (insect.temp?.spd || 0) < 7 ? (insect.temp.spd = (insect.temp?.spd || 0) + 1) && convo.push(`${bug.name}'s speed rose`) : convo.push(`${insect.name}'s speed can't rise anymore`)
       return([convo, insect])
     break
     case "Nibble":

@@ -20,6 +20,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
   const [timeline, setTimeline] = useState([])
   const [jarReady, setJarReady] = useState(false)
   const [jugReady, setJugReady] = useState(false)
+  const [areaReady, setAreaReady] = useState(false)
   const [seeds, setSeeds] = useState([])
   const [death, setDeath] = useState([])
 
@@ -54,6 +55,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
       t.turn === turn
     );
     if(sortedSeeds.length == 2){
+      setTurn(turn + 1)
       setJarReady(true)
       setJugReady(true)
       const attacks = movesArray(sortedSeeds)
@@ -96,17 +98,22 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     setJugReady(true)
 },[jug])
 
+  useEffect(()=>{
+    setAreaReady(true)
+},[area])
+
   const nextLine = () => {
-    if (jarReady && jugReady){
+    if (jarReady && jugReady && areaReady){
       setJarReady(false)
       setJugReady(false)
+      setAreaReady(false)
       if(timeline.length === 0){ return turn % 1 != 0 ? beginTurn() : endTurn() }
       setStep(0)
       const attack = attackLogic([timeline[0]], jar, jug, area, rival.uid)
       const dialog = attack[0]
+      setArea(attack[3])
       setJar([...attack[1]])
       setJug([...attack[2]])
-      setArea(attack[3])
       dialog.push(nextLine)
       setConvo(dialog)
       const newtl = timeline
@@ -131,8 +138,6 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
   }
 
   const checkDeaths = () => {
-    const localTurn = turn
-    setTurn(localTurn + 1)
     const lose = jar.filter(b=> b.health > 0)
     const win = jug.filter(b=> b.health > 0)
     const deaths = []
@@ -150,10 +155,10 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
       setDeath(deaths)
       setConvo([])
     } else if ((jug[0].health == 0 || jug[1].health == 0) && win.length > 1) {
-      addTurn(localTurn + 1, moves)
       setStage('end')
       setDeath(['easteregg'])
       setConvo([])
+      addTurn(turn, [])
     } else {
       beginTurn()
     }
@@ -315,7 +320,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     )
   } else if (convo.length > 0) {
     return (
-      <div style={{width: "100%", height: "100%", border: "double"}} onClick={() => setStep(step + 1)}>{
+      <div key={area} style={{width: "100%", height: "100%", border: "double"}} onClick={() => setStep(step + 1)}>{
         typeof convo[Math.min(step, convo.length)] === "string" ? convo[Math.min(step, convo.length)] : convo[Math.min(step, convo.length)]()
       }</div>
     )

@@ -10,8 +10,7 @@ const cleanUp = (jar, jug, area) => {
      b.temp.wasInv = true
     }
     if(b.temp?.nbl && b.health == 0) {
-      var target = i - 1
-      if(i % 2 == 0){target = i + 1 }
+      var target = i % 2 === 0 ? i + 1 : i - 1
       var insect = [localJar[0],localJar[1],localJug[0],localJug[1]][target]
       dialog.push(`${target.name} nibbled on some remains`)
       insect.health = Math.min(insect.health + (insect.hp * 10 / 2), insect.hp * 10)
@@ -22,7 +21,7 @@ const cleanUp = (jar, jug, area) => {
       b.health = newHealth
     }
     if(b.temp?.ill && b.health > 0){
-      var newHealth = Math.max(0,b.health - Math.floor(b.hp * 10 / 16))
+      var newHealth = Math.max(0,b.health - Math.floor((b.hp * 10) / 16))
       dialog.push(`${b.name} is ill, dropping its health to ${newHealth}`)
       b.health = newHealth
       if(newHealth == 0){dialog.push(`${b.name} scampered away from the fight`)}
