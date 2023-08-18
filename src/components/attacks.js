@@ -53,6 +53,7 @@ const getTarget = (attack, jar, jug, rival) => {
 }
 
 const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) => {
+  console.log(`${bug.name} uses ${move.name} on ${target?.name}`)
   switch(move.name){
     case "Bug Bash":
     case "Mandible Maul":
@@ -66,7 +67,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
     case "Shell Shield":
       if(bug.temp?.wasInv) {
         bug.temp.inv = Math.random() > 0.5
-        return(bug.temp.inv ? [`${bug.name} used Shell Shield to try to protect itself, and was successful!`] : [`${bug.name} used Shell Shield to try to protect themself, and failed`], bug, null)
+        return([bug.temp.inv ? [`${bug.name} used Shell Shield to try to protect itself, and was successful!`] : [`${bug.name} used Shell Shield to try to protect themself, and failed`], bug])
       } else {
         bug.temp.inv = true
         return([[`${bug.name} used Shell Shield to protect themself`], bug])
@@ -293,14 +294,14 @@ const damageCal = (move, bug, target) => {
     const damage = Math.floor((Math.floor(Math.floor(Math.floor(2 * 5 / 5 + 2) * (move.power * 40) * totalAtk / totalDef) / 50) + 2) * (move?.random || 1))
     target.health = Math.max(target.health - damage, 0)
     const message = [`${bug.name} used ${move.name} on ${target.name} dealing ${damage} damage!`]
-    if (target.health === 0){message.push(`${target.name} scampered away from the fight`); target.name = null}
+    if (target.health === 0){message.push(`${target.name} scampered away from the fight`)}
     return([message, bug, target, true])
   }
 }
 
 const tempStatMulti = (i) => {
   if(!i){return (1)}
-  return (i > 0 ? ((2 + i) / 2) : (2 / (2 + i)))
+  return (i > 0 ? ((2 + i) / 2) : (2 / (2 - i)))
 }
 
 export default attackLogic

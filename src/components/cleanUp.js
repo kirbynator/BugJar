@@ -4,6 +4,7 @@ const cleanUp = (jar, jug, area) => {
   const dialog = []
 
   const modBugs = [localJar[0],localJar[1],localJug[0],localJug[1]].map((b, i)=>{
+    if (b.health === 0) {b.name = null}
     b.temp.wasInv = false
     if(b.temp?.inv){
      b.temp.inv = false
@@ -12,8 +13,10 @@ const cleanUp = (jar, jug, area) => {
     if(b.temp?.nbl && b.health == 0) {
       var target = i % 2 === 0 ? i + 1 : i - 1
       var insect = [localJar[0],localJar[1],localJug[0],localJug[1]][target]
-      dialog.push(`${target.name} nibbled on some remains`)
-      insect.health = Math.min(insect.health + (insect.hp * 10 / 2), insect.hp * 10)
+      if (insect.health > 0){
+        dialog.push(`${insect.name} nibbled on some remains`)
+        insect.health = Math.min(insect.health + (insect.hp * 10 / 2), insect.hp * 10)
+      }
     }
     if(area == 'Ant Hill' && b.name.includes("ant") && b.health > 0){
       var newHealth = Math.max(0,b.health + Math.floor(b.hp * 10 / 16))
