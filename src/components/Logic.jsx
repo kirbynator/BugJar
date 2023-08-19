@@ -191,7 +191,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     const a = moves
     a[a.length - 1].target = t
     setMoves(a)
-    setStep(step + 1)
+    setStep(jar.filter(b=> b.health > 0).length === 1 ? 2 : step + 1)
     setStage(jar.filter(b=> b.health > 0).length === 1 || step === 1  ? 'end' : 'turn')
   }
 
@@ -313,7 +313,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
         )
   } else if (stage === "end") {
     return(
-      <div style={{width: "100%", height: "100%", border: "double"}}>{step >= 2 && sendTurn()}
+      <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>{step >= 2 && sendTurn()}
         <div style={{width: "100%", height: "10%"}}>Waiting on {rival.name}'s selection...</div>
       </div>
     )
