@@ -3,6 +3,7 @@ import bugs from './bugs'
 function Jar({jar, jug, setJar, setPage, user}) {
   const [deck, setDeck] = useState([])
   const [sorted, setSorted] = useState([])
+  const [items, setItems] = useState(JSON.parse(localStorage.getItem("jar0"))?.deck || [])
 
   useEffect(()=>{
     if (deck.length === 0){
@@ -22,22 +23,36 @@ function Jar({jar, jug, setJar, setPage, user}) {
     }
   }, [])
 
+  const itemBug = (r, rarityBugs) => {
+    if ( Math.floor(Math.random()*10) < 10 - parseInt(r) ) {
+      const ratityItems = items.filter(i => i.rarity.search(r) > -1 && i.type === "a")
+      const item = ratityItems[Math.floor(Math.random()*ratityItems.length)]
+      const newItems = items.slice(items.findIndex(item), 1)
+      setItems(newItems)
+      const terms = item.search.split(' ')
+      const options = terms.map(t => rarityBugs.filter(b => b.name.search(t) > -1)).flat()
+      return options[Math.floor(Math.random()*options.length)]
+    } else {
+      return rarityBugs[Math.floor(Math.random()*rarityBugs.length)]
+    }
+  }
+
   const commonBug = (commonBugs) => {
-    const bug = commonBugs[Math.floor(Math.random()*commonBugs.length)]
+    const bug = items.length > 0 ? itemBug("1", commonBugs) : commonBugs[Math.floor(Math.random()*commonBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd)}
     if (bug.name === "Caterpillar"){bugParams["form"] = Math.floor(Math.random()*2)}
     return ({...bug, ...bugParams})
   }
 
   const rareBug = (rareBugs) => {
-    const bug = rareBugs[Math.floor(Math.random()*rareBugs.length)]
+    const bug = items.length > 0 ? itemBug("2", rareBugs) : rareBugs[Math.floor(Math.random()*rareBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd)}
     if (bug.name === "Chrysalis"){bugParams["form"] = Math.floor(Math.random()*2)}
     return ({...bug, ...bugParams})
   }
 
   const epicBug = (epicBugs) => {
-    const bug = epicBugs[Math.floor(Math.random()*epicBugs.length)]
+    const bug = items.length > 0 ? itemBug("3", epicBugs) : epicBugs[Math.floor(Math.random()*epicBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd)}
     return ({...bug, ...bugParams})
   }

@@ -9,18 +9,20 @@ function Home() {
   const [jars, setJars] = useState([])
 
   useEffect(()=>{
-    const jar1 = JSON.parse(localStorage.getItem("jar1"))
-    const jar2 = JSON.parse(localStorage.getItem("jar2"))
-    const jar3 = JSON.parse(localStorage.getItem("jar3"))
-    const jar4 = JSON.parse(localStorage.getItem("jar4"))
-    if (!jar1.name || !jar2.name || !jar3.name || !jar4.name){
-      localStorage.setItem("jar1", JSON.stringify({id:1, name: "jar 1", deck:[{},{},{},{},{},{},{},{}]}))
-      localStorage.setItem("jar2", JSON.stringify({id:2, name: "jar 2", deck:[{},{},{},{},{},{},{},{}]}))
-      localStorage.setItem("jar3", JSON.stringify({id:3, name: "jar 3", deck:[{},{},{},{},{},{},{},{}]}))
-      localStorage.setItem("jar4", JSON.stringify({id:4, name: "jar 4", deck:[{},{},{},{},{},{},{},{}]}))
+    if(!jars[0]){
+      const jar1 = JSON.parse(localStorage.getItem("jar1"))
+      const jar2 = JSON.parse(localStorage.getItem("jar2"))
+      const jar3 = JSON.parse(localStorage.getItem("jar3"))
+      const jar4 = JSON.parse(localStorage.getItem("jar4"))
+      if (!jar1?.name || !jar2?.name || !jar3?.name || !jar4?.name){
+        localStorage.setItem("jar1", JSON.stringify({id:1, name: "jar 1", deck:[{},{},{},{},{},{},{},{}]}))
+        localStorage.setItem("jar2", JSON.stringify({id:2, name: "jar 2", deck:[{},{},{},{},{},{},{},{}]}))
+        localStorage.setItem("jar3", JSON.stringify({id:3, name: "jar 3", deck:[{},{},{},{},{},{},{},{}]}))
+        localStorage.setItem("jar4", JSON.stringify({id:4, name: "jar 4", deck:[{},{},{},{},{},{},{},{}]}))
+      }
+      setJars([jar1, jar2, jar3, jar4])
     }
-    setJars([jar1, jar2, jar3, jar4])
-  },[jars.length === 0])
+  },[jars])
 
   useEffect(()=>{localStorage.setItem(`jar0`, '{}')},[])
 
@@ -48,8 +50,8 @@ function Home() {
         <br/>
         <select onChange={e =>selectedJar(e)} name="jars" id="jar-select">
           <option value={''}>Random Bugs</option>
-          {jars.map(j=>(
-            <option value={j.id}>{j.name}</option>
+          {jars.length > 0 && jars.map(j=>(
+            <option value={j?.id}>{j?.name}</option>
           ))}
         </select>
         <br/>
