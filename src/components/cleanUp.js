@@ -15,7 +15,10 @@ const cleanUp = (jar, jug, area) => {
       var insect = [localJar[0],localJar[1],localJug[0],localJug[1]][target]
       if (insect.health > 0){
         dialog.push(`${insect.name} nibbled on some remains`)
-        insect.health = Math.min(insect.health + (insect.hp * 10 / 2), insect.hp * 10)
+        dialog.push(`${insect.name} stats were rised!`)
+        (insect.temp?.atk || 0) < 7 ? insect.temp.atk  = (insect.temp?.atk || 0) + 1 : dialog.push(`${insect.name}'s attack can't rise anymore`)
+        (insect.temp?.def || 0) < 7 ? insect.temp.def  = (insect.temp?.def || 0) + 1 : dialog.push(`${insect.name}'s defense can't rise anymore`)
+        (insect.temp?.spd|| 0) < 7 ? insect.temp.spd = (insect.temp?.spd|| 0) + 1 : dialog.push(`${insect.name}'s speed can't rise anymore`)
       }
     }
     if(area == 'Ant Hill' && b.name.includes("ant") && b.health > 0){

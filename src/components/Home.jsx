@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import SignOut from './SignOut'
 import Battle from './Battle'
+import Jars from './Jars'
 
 function Home() {
   const[page, setPage] = useState('')
@@ -11,8 +12,13 @@ function Home() {
   if(page === ''){
     return (
       <div>
-        <SignOut></SignOut>
+        <SignOut/>
+        <br/>
+        <button onClick={() => setPage("jars")}>Jars</button>
+        <br/>
+        <br/>
         <button onClick={() => setPage("wait")}>Create Room</button>
+        <br/>
         <br/>
         <label>Join Room</label>
         <br/>
@@ -23,6 +29,9 @@ function Home() {
   } else if(page==='wait'){
     return(
       <Battle setPage={setPage} page={page} setCode={setCode} code={code}/>    )
+  } else if(page==='jars'){
+    return(
+      <Jars setPage={setPage}/>    )
   }
 }
 
