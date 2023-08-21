@@ -40,6 +40,7 @@ function Jar({jar, jug, setJar, setPage, user}) {
       const newItems = items
       newItems.splice(items.findIndex(i => i == item), 1)
       setItems(newItems)
+      console.log(`Using ${item.name}`)
       const terms = item.search.split(' ')
       const options = terms.map(t => rarityBugs.filter(b => b.name.search(t) > -1)).flat()
       return options[Math.floor(Math.random()*options.length)]
@@ -49,21 +50,21 @@ function Jar({jar, jug, setJar, setPage, user}) {
   }
 
   const commonBug = (commonBugs) => {
-    const bug = items.filter(i => i.type === "a" ).length > 0 ? itemBug("1", commonBugs) : commonBugs[Math.floor(Math.random()*commonBugs.length)]
+    const bug = items.filter(i => i.type === "a" && i.rarity.search("1") > -1 ).length > 0 ? itemBug("1", commonBugs) : commonBugs[Math.floor(Math.random()*commonBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd)}
     if (bug.name === "Caterpillar"){bugParams["form"] = Math.floor(Math.random()*2)}
     return ({...bug, ...bugParams})
   }
 
   const rareBug = (rareBugs) => {
-    const bug = items.filter(i => i.type === "a" ).length > 0 ? itemBug("2", rareBugs) : rareBugs[Math.floor(Math.random()*rareBugs.length)]
+    const bug = items.filter(i => i.type === "a" && i.rarity.search("2") > -1 ).length > 0 ? itemBug("2", rareBugs) : rareBugs[Math.floor(Math.random()*rareBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd)}
     if (bug.name === "Chrysalis"){bugParams["form"] = Math.floor(Math.random()*2)}
     return ({...bug, ...bugParams})
   }
 
   const epicBug = (epicBugs) => {
-    const bug = items.filter(i => i.type === "a" ).length > 0 ? itemBug("3", epicBugs) : epicBugs[Math.floor(Math.random()*epicBugs.length)]
+    const bug = items.filter(i => i.type === "a" && i.rarity.search("3") > -1 ).length > 0 ? itemBug("3", epicBugs) : epicBugs[Math.floor(Math.random()*epicBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd)}
     return ({...bug, ...bugParams})
   }
