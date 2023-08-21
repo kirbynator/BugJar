@@ -42,7 +42,6 @@ function Jar({jar, jug, setJar, setPage, user}) {
       setItems(newItems)
       const terms = item.search.split(' ')
       const options = terms.map(t => rarityBugs.filter(b => b.name.search(t) > -1)).flat()
-      debugger
       return options[Math.floor(Math.random()*options.length)]
     } else {
       return rarityBugs[Math.floor(Math.random()*rarityBugs.length)]
@@ -51,7 +50,6 @@ function Jar({jar, jug, setJar, setPage, user}) {
 
   const commonBug = (commonBugs) => {
     const bug = items.filter(i => i.type === "a" ).length > 0 ? itemBug("1", commonBugs) : commonBugs[Math.floor(Math.random()*commonBugs.length)]
-    debugger
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd)}
     if (bug.name === "Caterpillar"){bugParams["form"] = Math.floor(Math.random()*2)}
     return ({...bug, ...bugParams})
