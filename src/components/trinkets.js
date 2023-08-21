@@ -5,6 +5,8 @@ const trickets = [
   {name: "Flash Light", rarity: "13", type:"a", search: "Moth Mosquito", effect: "Attracts Moths and Mosquitoes"},
   {name: "Scat", rarity: "123", type:"a", search: "Fly", effect: "Attracts Flies"},
   {name: "Yellow Toy Sub", rarity: "123", search: "Beetle", type: "a", effect: "Attracts Beetles"},
+  {name: "Honey", rarity: "12", search: "Bee Wasp", type: "a", effect: "Attracts Bees and Wasps"},
+  {name: "Bait Worms", rarity: "2", search: "Assassin Dragonfly", type: "a", effect: "Attracts Assassin Bugs and Dragonflies"},
   {name: "Rotting Log", rarity: "12", search: "Lightning Pill", type: "a", effect: "Attracts Lightning Bugs and Pill Bugs"},
   {name: "Pyramid Shaped Rock", rarity: "12", type: "a", search: "Locus Grasshopper", effect: "Attracts Locus and Grasshoppers"},
   {name: "Pesticide", type:"m", move:{name: "Toxic Tincture", power: 1, pryo: 0, info: "Makes the target ill, doing damage over time"}, effect: "Modifies a bug to know Toxic Tincture that wouldn't normally"},
@@ -14,6 +16,7 @@ const trickets = [
   {name: "Tymbals", type:"m", move:{name:"Chirp", power: 1, pryo:0, info: "Resets this bug's target"}, effect: "Modifies a bug to know Chirp that wouldn't normally"},
   {name: "Silk Line", type:"m", move:{name:"Prevention Trap", power: 0, pryo: 2, info: "Before attacks, this bug trys to set a trap to protect it's target"}, effect: "Modifies a bug to know Prevention Trap that wouldn't normally"},
   {name: "Adrenaline", type:"m", move:{name: "Twitch", power: 1, pryo: 1, info: "This move goes first"}, effect: "Modifies a bug to know Twitch that wouldn't normally"},
+  {name: "Formication", type:"m", move:{name: "Skitter", power: 1, pryo: 0, info: "The bug attacks and keeps running, clearing the area"}, effect: "Modifies a bug to know Skitter that wouldn't normally"},
 ]
 
 export default trickets
