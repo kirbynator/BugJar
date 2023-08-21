@@ -123,7 +123,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
       setJugReady(false)
       setStep(0)
       if (death.length === 0) {
-        const clean = cleanUp(jar, jug, area)
+        const clean = cleanUp(jar, jug, area, rival.uid)
         const dialog = clean[0]
         setJar([...clean[1]])
         setJug([...clean[2]])
