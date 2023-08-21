@@ -288,10 +288,10 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
     break
     case "Butterfly Kiss":
       var convo = [`${bug.name} used Butterfly Kiss`]
-      bug.health = Math.min(bug.hp * 10, bug.health + Math.floor(bug.hp * 10 / 4))
+      bug.health = Math.min(bug.hp * 10, bug.health + Math.floor(bug.hp * 10 / 8))
       convo.push(`${bug.name} was healed`)  
       if(target && target.health > 0){
-        target.health = Math.min(target.hp * 10, target.health + Math.floor(target.hp * 10 / 4))
+        target.health = Math.min(target.hp * 10, target.health + Math.floor(target.hp * 10 / 8))
         convo.push(`${target.name} was healed`)  
       }
       return([convo, bug, target])
