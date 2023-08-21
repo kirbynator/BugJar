@@ -201,8 +201,8 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       var convo = calc[0]
       var insect = calc[1]
       var enemy = calc[2]
+      var successful = false
       if (calc[3]){
-        var successful = false 
         (enemy.temp?.def || 0) > -7 ? successful = true : convo.push(`${enemy.name}'s defense can't go lower`)
         if(successful){
           convo.push(`${enemy.name} defense was lowered`)
@@ -216,8 +216,8 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       var convo = calc[0]
       var insect = calc[1]
       var enemy = calc[2]
+      var successful = false
       if (calc[3]){
-        var successful = false
         (enemy.temp?.atk || 0) > -7 ? successful = true : convo.push(`${enemy.name}'s attack can't go lower`)
         if(successful){
           convo.push(`${enemy.name} attack was lowered`) 
