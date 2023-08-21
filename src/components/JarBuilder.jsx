@@ -35,13 +35,13 @@ const JarBuilder = props => {
         {jar.deck.length > 1 && jar.deck.map((trinket, i)=>(
           <div onClick={()=>setEditTricket(i + 1)} key={i} style={{border:'solid', width:"11%"}}>
             <div style={
-              {background:'black', color:'white'}}>Slot {i + 1}</div>
+              {background:'black', color:'white'}}>Trinket {i + 1}</div>
             <div >{trinket?.name || "Empty"}</div>
           </div>
         ))}
       </div>
       <div style={{height: "67px", display:'flex', justifyContent:"center"}}>
-        {editTrinket ? <div><h3 style={{textAlign:'center', width:'100%'}}>{`Slot ${editTrinket}`}</h3><Json data={filteredTrinkets} button='Select' buttonFuction={addButton}/></div> :
+        {editTrinket ? <div><h3 style={{textAlign:'center', width:'100%'}}>{`Trinket ${editTrinket}`}</h3><Json data={filteredTrinkets} button='Select' buttonFuction={addButton}/></div> :
          <>{!editName && <div style={{width:"100%", marginTop: "10px", display: 'flex', justifyContent: 'center'}} ><button onClick={() => props.save(jar)} style={{width:"11%", margin: "1px"}}>Save</button><button onClick={() => props.cancel({})} style={{width:"11%", margin: "1px"}}>Cancel</button></div>}</>}
       </div>
     </div>

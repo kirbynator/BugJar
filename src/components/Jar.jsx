@@ -18,6 +18,15 @@ function Jar({jar, jug, setJar, setPage, user}) {
       deck.push(rareBug(rareBugs))
       deck.push(epicBug(epicBugs))
       const swarm = deck.filter(b=> b.moves.find(m=> m.name === "Swarm"))
+      const moveItems = items.filter(i => i.type === "m")
+      moveItems.map(i=>{
+        const willing = deck.filter(b=> b.moves.findIndex(m=> m.name === i.move.name) === -1 && b.moves.length < 4)
+        if(willing.length > 0){ 
+          const willer = willing[Math.floor(Math.random()*willing.length)]
+          const deckIndex = deck.findIndex(b=> b.id == willer.id)
+          deck[deckIndex < 0 ? 0 : deckIndex].moves.push(i.move) 
+        }
+      })
       swarm.map(b=>{b.moves.map(m=>{ if(m.name === "Swarm"){ m.power = Math.min(swarm.length, 3)}})})
       setDeck(deck)
     }
@@ -25,12 +34,15 @@ function Jar({jar, jug, setJar, setPage, user}) {
 
   const itemBug = (r, rarityBugs) => {
     if ( Math.floor(Math.random()*10) < 10 - parseInt(r) ) {
-      const ratityItems = items.filter(i => i.rarity.search(r) > -1 && i.type === "a")
+      const attrackItems = items.filter(i => i.type === "a" )
+      const ratityItems = attrackItems.filter(i => i.rarity.search(r) > -1)
       const item = ratityItems[Math.floor(Math.random()*ratityItems.length)]
-      const newItems = items.slice(items.findIndex(item), 1)
+      const newItems = items
+      newItems.splice(items.findIndex(i => i == item), 1)
       setItems(newItems)
       const terms = item.search.split(' ')
       const options = terms.map(t => rarityBugs.filter(b => b.name.search(t) > -1)).flat()
+      debugger
       return options[Math.floor(Math.random()*options.length)]
     } else {
       return rarityBugs[Math.floor(Math.random()*rarityBugs.length)]
@@ -38,21 +50,22 @@ function Jar({jar, jug, setJar, setPage, user}) {
   }
 
   const commonBug = (commonBugs) => {
-    const bug = items.length > 0 ? itemBug("1", commonBugs) : commonBugs[Math.floor(Math.random()*commonBugs.length)]
+    const bug = items.filter(i => i.type === "a" ).length > 0 ? itemBug("1", commonBugs) : commonBugs[Math.floor(Math.random()*commonBugs.length)]
+    debugger
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd)}
     if (bug.name === "Caterpillar"){bugParams["form"] = Math.floor(Math.random()*2)}
     return ({...bug, ...bugParams})
   }
 
   const rareBug = (rareBugs) => {
-    const bug = items.length > 0 ? itemBug("2", rareBugs) : rareBugs[Math.floor(Math.random()*rareBugs.length)]
+    const bug = items.filter(i => i.type === "a" ).length > 0 ? itemBug("2", rareBugs) : rareBugs[Math.floor(Math.random()*rareBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd)}
     if (bug.name === "Chrysalis"){bugParams["form"] = Math.floor(Math.random()*2)}
     return ({...bug, ...bugParams})
   }
 
   const epicBug = (epicBugs) => {
-    const bug = items.length > 0 ? itemBug("3", epicBugs) : epicBugs[Math.floor(Math.random()*epicBugs.length)]
+    const bug = items.filter(i => i.type === "a" ).length > 0 ? itemBug("3", epicBugs) : epicBugs[Math.floor(Math.random()*epicBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd)}
     return ({...bug, ...bugParams})
   }

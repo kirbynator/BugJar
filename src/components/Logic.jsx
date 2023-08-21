@@ -214,6 +214,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
   }
 
   const addTurn = async (localTurn, localMoves) => {
+    console.log(`Sending turn ${localTurn}`)
     const { uid } = auth.currentUser;
     await addDoc(collection(db, `battles/${rng}/turns`), {
       moves: localMoves,
