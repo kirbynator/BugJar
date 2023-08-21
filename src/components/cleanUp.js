@@ -1,6 +1,6 @@
 const cleanUp = (jar, jug, area) => {
-  const localJar = jar
-  const localJug = jug
+  var localJar = jar
+  var localJug = jug
   const dialog = []
 
   const modBugs = [localJar[0],localJar[1],localJug[0],localJug[1]].map((b, i)=>{
@@ -34,6 +34,26 @@ const cleanUp = (jar, jug, area) => {
     }
     return b
   })
+  if(b.temp.ob){
+    b.temp.ob = false
+    dialog.push(`The Outbreak is happing!`)
+    if (b.user === rival){
+      localJug = localJug.map(d=>{
+        if(d.moves.length < 4 && !d.moves.find(m=>m.name === "Swarm")){
+          d.moves.push({name: "Swarm", power: 1, pryo:0, info: "Becomes stronger the more bugs in your jar that know it"})
+          dialog.push(`${d.name} can now use Swarm!`)
+        } else {return d}
+      })
+    } else {
+      localJar = localJar.map(d=>{
+        if(d.moves.length < 4 && !d.moves.find(m=>m.name === "Swarm")){
+          d.moves.push({name: "Swarm", power: 1, pryo:0, info: "Becomes stronger the more bugs in your jar that know it"})
+          dialog.push(`${d.name} can now use Swarm!`)
+          return d
+        } else {return d}
+      })
+    }
+  }
   const swarm = localJar.filter(b=> b.health > 0 && b.moves.find(m=> m.name === "Swarm"))
   swarm.map(b=>{b.moves.map(m=>{ if(m.name === "Swarm"){ m.power = Math.min(swarm.length, 3)}})})
 

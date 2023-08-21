@@ -188,6 +188,8 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       var convo = calc[0]
       var insect = calc[1]
       var enemy = calc[2]
+      console.log(`Area is ${localArea}`)
+      console.log(`Raise stats is ${calc[3]}`)
       if (calc[3] && localArea == "Glowing"){
         convo.push(`${insect.name} stats were rised!`)
         (insect.temp?.atk || 0) < 7 ? insect.temp.atk = (insect.temp?.atk || 0) + 1 : convo.push(`${insect.name}'s attack can't rise anymore`)
@@ -232,21 +234,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       var insect = calc[1]
       var enemy = calc[2]
       if (calc[3]){
-        if (bug.user === rival){
-          localJug.map(b=>{
-            if(b.moves.length < 4 && !b.moves.find(m=>m.name === "Swarm")){
-              b.moves.push({name: "Swarm", power: 1, pryo:0, info: "Becomes stronger the more bugs in your jar that know it"})
-              convo.push(`${b.name} can now use Swarm!`)
-            }
-          })
-        } else {
-          localJar.map(b=>{
-            if(b.moves.length < 4 && !b.moves.find(m=>m.name === "Swarm")){
-              b.moves.push({name: "Swarm", power: 1, pryo:0, info: "Becomes stronger the more bugs in your jar that know it"})
-              convo.push(`${b.name} can now use Swarm!`)
-            }
-          })
-        }
+        insect.temp.ob = true
       }
       return([convo, insect, enemy])
     break
