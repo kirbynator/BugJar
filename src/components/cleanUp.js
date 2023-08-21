@@ -21,8 +21,8 @@ const cleanUp = (jar, jug, area, rival) => {
         (insect.temp?.spd|| 0) < 7 ? insect.temp.spd = (insect.temp?.spd|| 0) + 1 : dialog.push(`${insect.name}'s speed can't rise anymore`)
       }
     }
-    if(area == 'Ant Hill' && b.name.includes("ant") && b.health > 0){
-      var newHealth = Math.max(0,b.health + Math.floor(b.hp * 10 / 16))
+    if(area == 'Ant Hill' && b.name.search("Ant") > -1 && b.health > 0){
+      var newHealth = Math.min(b.hp * 10, b.health + Math.floor(b.hp * 10 / 16))
       dialog.push(`Due to the area, ${b.name} heals to ${newHealth}`)
       b.health = newHealth
     }
@@ -40,6 +40,7 @@ const cleanUp = (jar, jug, area, rival) => {
           if(d.moves.length < 4 && !d.moves.find(m=>m.name === "Swarm")){
             d.moves.push({name: "Swarm", power: 1, pryo:0, info: "Becomes stronger the more bugs in your jar that know it"})
             dialog.push(`${d.name} can now use Swarm!`)
+            return d
           } else {return d}
         })
       } else {

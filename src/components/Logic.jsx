@@ -243,8 +243,8 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     return (
       <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>
         <div style={{width: "100%", height: "10%"}}>What attack should {jar[step]?.name} do?</div>
-        <div style={{width: "100%", height: "70%", display: 'flex'}}>
-          <div style={{width: "50%", border: "solid", justifyContent:'center', height: mount > 2 ? "50%" : "100%"}} onClick={() => selectedMove(jar[step].moves[0])}>
+        <div style={{width: "100%", height: mount > 2 ? "35%" : "70%", display: 'flex'}}>
+          <div style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => selectedMove(jar[step].moves[0])}>
             <div style={{width: "100%", display: 'flex', justifyContent:'space-around'}}>
               <div style={{width: "50%", textAlign: "center"}}>{jar[step].moves[0].name}</div>
               <div style={{width: "50%", background: "black", textAlign: "center"}}>{renderPower(jar[step].moves[0].power)}</div>
@@ -252,7 +252,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
               <br/>
             <div style={{textAlign: "center"}}>{jar[step].moves[0].info}</div>
           </div>
-          <div style={{width: "50%", border: "solid", justifyContent:'center', height: mount > 2 ? "50%" : "100%"}} onClick={() => jar[step].moves[1]?.name && selectedMove(jar[step].moves[1])}>
+          <div style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => jar[step].moves[1]?.name && selectedMove(jar[step].moves[1])}>
             <div style={{width: "100%", display: 'flex', justifyContent:'space-around'}}>
               <div style={{width: "50%", textAlign: "center"}}>{jar[step].moves[1]?.name}</div>
               <div style={{width: "50%", background: "black", textAlign: "center"}}>{renderPower(jar[step].moves[1]?.power)}</div>
@@ -261,8 +261,8 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
             <div style={{textAlign: "center"}}>{jar[step].moves[1]?.info}</div>
           </div>
         </div>
-        {mount > 2 && <div style={{width: "100%", height: "70%", display: 'flex'}}>
-          <div style={{width: "50%", border: "solid", justifyContent:'center', height: mount > 2 ? "50%" : "100%"}} onClick={() => jar[step].moves[2]?.name && selectedMove(jar[step].moves[2])}>
+        {mount > 2 && <div style={{width: "100%", height: "35%", display: 'flex'}}>
+          <div style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => jar[step].moves[2]?.name && selectedMove(jar[step].moves[2])}>
             <div style={{width: "100%", display: 'flex', justifyContent:'space-around'}}>
               <div style={{width: "50%", textAlign: "center"}}>{jar[step].moves[2]?.name}</div>
               <div style={{width: "50%", background: "black", textAlign: "center"}}>{renderPower(jar[step].moves[2]?.power)}</div>
@@ -270,7 +270,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
               <br/>
             <div style={{textAlign: "center"}}>{jar[step].moves[2]?.info}</div>
           </div>
-          <div style={{width: "50%", border: "solid", justifyContent:'center', height: mount > 2 ? "50%" : "100%"}} onClick={() => jar[step].moves[3]?.name && selectedMove(jar[step].moves[3])}>
+          <div style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => jar[step].moves[3]?.name && selectedMove(jar[step].moves[3])}>
             <div style={{width: "100%", display: 'flex', justifyContent:'space-around'}}>
               <div style={{width: "50%", textAlign: "center"}}>{jar[step].moves[3]?.name}</div>
               <div style={{width: "50%", background: "black", textAlign: "center"}}>{renderPower(jar[step].moves[3]?.power)}</div>

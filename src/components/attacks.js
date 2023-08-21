@@ -21,7 +21,7 @@ const attackLogic = (attacks, jar, jug, area, rival) => {
           dialog = dialog.concat(insect.name ? [`${insect.name} switches out for ${lead.name}`] : [`${lead.name} was sent out!`])
         }
       } else {
-        const outcome = attackEffect(attack.move, bug, getTarget(attack, localJar, localJug, rival), localJar, localJug, localArea)
+        const outcome = attackEffect(attack.move, bug, getTarget(attack, localJar, localJug, rival), localArea)
         if(outcome[0]){dialog = dialog.concat(outcome[0])}
         if(outcome[1]){outcome[1].user == rival ? localJug[localJug.findIndex(b=> b.id === outcome[1].id)] = outcome[1] : localJar[localJar.findIndex(b=> b.id === outcome[1].id)] = outcome[1] }
         if(outcome[2]){outcome[2].user == rival ? localJug[localJug.findIndex(b=> b.id === outcome[2].id)] = outcome[2] : localJar[localJar.findIndex(b=> b.id === outcome[2].id)] = outcome[2] }
@@ -52,7 +52,7 @@ const getTarget = (attack, jar, jug, rival) => {
   return target
 }
 
-const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) => {
+const attackEffect = (move, bug, target, localArea) => {
   console.log(`${bug.name} uses ${move.name} on ${target?.name}`)
   switch(move.name){
     case "Bug Bash":
@@ -94,7 +94,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       return([convo, insect, enemy])
     break;
     case "Royal Decree":
-      return([[`${bug.name} used Royal Decree, creating an ant hill area`], null, null, true, 'Ant Hill'])
+      return([[`${bug.name} used Royal Decree, creating an ant hill area`], bug, null, true, 'Ant Hill'])
     break;
     case "Crystalize":
       var insect = {...bug}
@@ -185,13 +185,11 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
     break;
     case "Infrared Impact":
       var calc = damageCal(move, bug, target)
-      var convo = calc[0]
-      var insect = calc[1]
-      var enemy = calc[2]
-      console.log(`Area is ${localArea}`)
-      console.log(`Raise stats is ${calc[3]}`)
+      var convo = calc[0];
+      var insect = calc[1];
+      var enemy = calc[2];
       if (calc[3] && localArea == "Glowing"){
-        convo.push(`${insect.name} stats were rised!`)
+        convo.push(`${insect.name} stats were rised!`);
         (insect.temp?.atk || 0) < 7 ? insect.temp.atk = (insect.temp?.atk || 0) + 1 : convo.push(`${insect.name}'s attack can't rise anymore`)
         (insect.temp?.def || 0) < 7 ? insect.temp.def = (insect.temp?.def || 0) + 1 : convo.push(`${insect.name}'s defense can't rise anymore`)
         (insect.temp?.spd|| 0) < 7 ? insect.temp.spd = (insect.temp?.spd|| 0) + 1 : convo.push(`${insect.name}'s speed can't rise anymore`)
@@ -250,7 +248,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       return([convo, insect, enemy])
     break
     case "Swift Strike":
-      move.power = bug.spd + (bug.temp?.spd) > target.speed + (target.temp?.spd) ? 3 : 2
+      move.power = bug.spd + (bug.temp?.spd) > target.speed + (target.temp?.spd) ? 4 : 2
       return damageCal(move, bug, target)
     break
     case "Vibes":
