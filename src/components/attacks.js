@@ -190,8 +190,8 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       var enemy = calc[2]
       if (calc[3] && localArea == "Glowing"){
         convo.push(`${insect.name} stats were rised!`)
-        (insect.temp?.atk || 0) < 7 ? insect.temp.atk  = (insect.temp?.atk || 0) + 1 : convo.push(`${insect.name}'s attack can't rise anymore`)
-        (insect.temp?.def || 0) < 7 ? insect.temp.def  = (insect.temp?.def || 0) + 1 : convo.push(`${insect.name}'s defense can't rise anymore`)
+        (insect.temp?.atk || 0) < 7 ? insect.temp.atk = (insect.temp?.atk || 0) + 1 : convo.push(`${insect.name}'s attack can't rise anymore`)
+        (insect.temp?.def || 0) < 7 ? insect.temp.def = (insect.temp?.def || 0) + 1 : convo.push(`${insect.name}'s defense can't rise anymore`)
         (insect.temp?.spd|| 0) < 7 ? insect.temp.spd = (insect.temp?.spd|| 0) + 1 : convo.push(`${insect.name}'s speed can't rise anymore`)
       }
       return([convo, insect, enemy])
@@ -202,7 +202,12 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       var insect = calc[1]
       var enemy = calc[2]
       if (calc[3]){
-        (enemy.temp?.def || 0) > -7 ? (enemy.temp.def = (enemy.temp?.def || 0) - 1) && convo.push(`${enemy.name} defense was lowered`) : convo.push(`${enemy.name}'s defense can't go lower`)
+        var successful = false 
+        (enemy.temp?.def || 0) > -7 ? successful = true : convo.push(`${enemy.name}'s defense can't go lower`)
+        if(successful){
+          convo.push(`${enemy.name} defense was lowered`)
+          enemy.temp.def = (enemy.temp?.def || 0) - 1
+        }
       }
       return([convo, insect, enemy])
     break;
@@ -212,7 +217,12 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       var insect = calc[1]
       var enemy = calc[2]
       if (calc[3]){
-        (enemy.temp?.atk || 0) > -7 ? (enemy.temp.atk = (enemy.temp?.atk || 0) - 1) && convo.push(`${enemy.name} attack was lowered`) : convo.push(`${enemy.name}'s attack can't go lower`)
+        var successful = false
+        (enemy.temp?.atk || 0) > -7 ? successful = true : convo.push(`${enemy.name}'s attack can't go lower`)
+        if(successful){
+          convo.push(`${enemy.name} attack was lowered`) 
+          enemy.temp.atk = (enemy.temp?.atk || 0) - 1
+        }
       }
       return([convo, insect, enemy])
     break;
@@ -224,14 +234,14 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       if (calc[3]){
         if (bug.user === rival){
           localJug.map(b=>{
-            if(b.moves < 4 && !b.moves.find(m=>m.name === "Swarm")){
+            if(b.moves.length < 4 && !b.moves.find(m=>m.name === "Swarm")){
               b.moves.push({name: "Swarm", power: 1, pryo:0, info: "Becomes stronger the more bugs in your jar that know it"})
               convo.push(`${b.name} can now use Swarm!`)
             }
           })
         } else {
           localJar.map(b=>{
-            if(b.moves < 4 && !b.moves.find(m=>m.name === "Swarm")){
+            if(b.moves.length < 4 && !b.moves.find(m=>m.name === "Swarm")){
               b.moves.push({name: "Swarm", power: 1, pryo:0, info: "Becomes stronger the more bugs in your jar that know it"})
               convo.push(`${b.name} can now use Swarm!`)
             }
@@ -258,7 +268,12 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
     case "Vibes":
       var insect = {...bug};
       var convo = [`${insect?.name} vibes`];
-      (insect.temp?.spd || 0) < 7 ? (insect.temp.spd = (insect.temp?.spd || 0) + 1) && convo.push(`${bug.name}'s speed rose`) : convo.push(`${insect.name}'s speed can't rise anymore`)
+      var successful = false
+      (insect.temp?.spd || 0) < 7 ? successful = true : convo.push(`${insect.name}'s speed can't rise anymore`)
+      if(successful){
+        convo.push(`${bug.name}'s speed rose`) 
+        insect.temp.spd = (insect.temp?.spd || 0) + 1
+      }
       return([convo, insect])
     break
     case "Nibble":
@@ -275,7 +290,7 @@ const attackEffect = (move, bug, target, rival, localJar, localJug, localArea) =
       var convo = [`${bug.name} used Butterfly Kiss`]
       bug.health = Math.min(bug.hp * 10, bug.health + Math.floor(bug.hp * 10 / 4))
       convo.push(`${bug.name} was healed`)  
-      if(target.health > 0){
+      if(target && target.health > 0){
         target.health = Math.min(target.hp * 10, target.health + Math.floor(target.hp * 10 / 4))
         convo.push(`${target.name} was healed`)  
       }
