@@ -55,7 +55,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
       t.turn === turn
     );
     if(sortedSeeds.length == 2){
-      setTurn(turn + 1)
+      setTurn(Math.floor(seeds.length / 2) + 1)
       setJarReady(true)
       setJugReady(true)
       const attacks = movesArray(sortedSeeds)
