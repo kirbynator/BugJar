@@ -254,13 +254,13 @@ const attackEffect = (move, bug, target, localArea) => {
     case "Vibes":
       var insect = {...bug};
       var convo = [`${insect?.name} vibes`];
-      var successful = false
-      (insect.temp?.spd || 0) < 7 ? successful = true : convo.push(`${insect.name}'s speed can't rise anymore`)
+      var successful = false;
+      (insect.temp?.spd || 0) < 7 ? successful = true : convo.push(`${insect.name}'s speed can't rise anymore`);
       if(successful){
-        convo.push(`${bug.name}'s speed rose`) 
-        insect.temp.spd = (insect.temp?.spd || 0) + 1
+        convo.push(`${bug.name}'s speed rose`) ;
+        insect.temp.spd = (insect.temp?.spd || 0) + 1;
       }
-      return([convo, insect])
+      return([convo, insect]);
     break
     case "Nibble":
       bug.temp.nbl = true
