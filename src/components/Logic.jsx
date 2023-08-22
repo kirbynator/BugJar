@@ -51,8 +51,12 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
   }, []);
 
   useEffect(() => {
+    let localTurn = turn
+    if (localTurn <= 1 && seeds.length > 4){
+      localTurn = seeds.filter(s => s.uid != rival.uid).length + 1
+    }
     const sortedSeeds = seeds.filter(t=>
-      t.turn === turn
+      t.turn === localTurn
     );
     if(sortedSeeds.length == 2){
       setTurn(Math.floor(seeds.length / 2) + 1)

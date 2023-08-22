@@ -10,13 +10,12 @@ function Jar({jar, jug, setJar, setPage, user}) {
       const commonBugs = bugs.filter(b => b.rarity === 1)
       const rareBugs = bugs.filter(b => b.rarity === 2)
       const epicBugs = bugs.filter(b => b.rarity === 3)
-      const deck = []
-      deck.push(commonBug(commonBugs))
-      deck.push(commonBug(commonBugs))
-      deck.push(commonBug(commonBugs))
-      deck.push(rareBug(rareBugs))
-      deck.push(rareBug(rareBugs))
-      deck.push(epicBug(epicBugs))
+      const deck = [];
+      [1,1,1,2,2,3].map(value=> ({value, sort: Math.random()}) ).sort((a,b) => a.sort - b.sort).map(v => {
+        if (v.value === 1){deck.push(commonBug(commonBugs))}
+        if (v.value === 2){deck.push(rareBug(rareBugs))}
+        if (v.value === 3){ deck.push(epicBug(epicBugs))}
+      })
       const swarm = deck.filter(b=> b.moves.find(m=> m.name === "Swarm"))
       const moveItems = items.filter(i => i.type === "m")
       moveItems.map(i=>{
