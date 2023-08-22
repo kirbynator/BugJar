@@ -34,7 +34,7 @@ const cleanUp = (jar, jug, area, rival) => {
     }
     if(b.temp.ob){
       b.temp.ob = false
-      dialog.push(`The Outbreak is happing!`)
+      dialog.push(`The Outbreak is happening!`)
       if (b.user === rival){
         localJug = localJug.map(d=>{
           if(d.moves.length < 4 && !d.moves.find(m=>m.name === "Swarm")){
