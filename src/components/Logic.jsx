@@ -149,6 +149,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
       setConvo([`You are all out of bugs! ${rival.name} wins`, returnHome])
       setStage('over')
     } else if(deaths.length > 0 && lose.length > 1 ){
+      setTurn(turn + 1)
       setStep(jar[0].health === 0 ? 0 : 1)
       setStage('switch')
       setDeath(deaths)
@@ -157,7 +158,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
       setStage('end')
       setDeath(['easteregg'])
       setConvo([])
-      addTurn(turn, [])
+      addTurn(turn + 1, [])
     } else {
       beginTurn()
     }
