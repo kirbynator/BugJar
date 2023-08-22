@@ -159,6 +159,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
       setDeath(['easteregg'])
       setConvo([])
       addTurn(turn + 1, [])
+      setTurn(turn + 1)
     } else {
       beginTurn()
     }
