@@ -32,12 +32,12 @@ const cleanUp = (jar, jug, area, rival) => {
       b.health = newHealth
       if(newHealth == 0){dialog.push(`${b.name} scampered away from the fight`)}
     }
-    if(b.temp.ob){
+    if(b.temp.ob && b.health > 0){
       b.temp.ob = false
-      dialog.push(`The Outbreak is happening!`)
+      dialog.push(`${b.name} caused an outbreak!`)
       if (b.user === rival){
         localJug = localJug.map(d=>{
-          if(d.moves.length < 4 && !d.moves.find(m=>m.name === "Swarm")){
+          if(d.health > 0 && d.moves.length < 4 && !d.moves.find(m=>m.name === "Swarm")){
             d.moves.push({name: "Swarm", power: 1, pryo:0, info: "Becomes stronger the more bugs in your jar that know it"})
             dialog.push(`${d.name} can now use Swarm!`)
             return d
@@ -45,7 +45,7 @@ const cleanUp = (jar, jug, area, rival) => {
         })
       } else {
         localJar = localJar.map(d=>{
-          if(d.moves.length < 4 && !d.moves.find(m=>m.name === "Swarm")){
+          if(d.health > 0 && d.moves.length < 4 && !d.moves.find(m=>m.name === "Swarm")){
             d.moves.push({name: "Swarm", power: 1, pryo:0, info: "Becomes stronger the more bugs in your jar that know it"})
             dialog.push(`${d.name} can now use Swarm!`)
             return d

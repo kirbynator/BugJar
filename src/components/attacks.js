@@ -177,7 +177,7 @@ const attackEffect = (move, bug, target, localArea) => {
       var convo = calc[0]
       var insect = calc[1]
       var enemy = calc[2]
-      if (calc[3]){
+      if (calc[3] && enemy.health > 0){
         enemy.temp = {}
         convo.push(`${enemy.name} was so surprised by the sudden sound it reset them`)
       }
@@ -202,7 +202,7 @@ const attackEffect = (move, bug, target, localArea) => {
       var insect = calc[1]
       var enemy = calc[2]
       var successful = false
-      if (calc[3]){
+      if (calc[3] && enemy.health > 0){
         (enemy.temp?.def || 0) > -7 ? successful = true : convo.push(`${enemy.name}'s defense can't go lower`)
         if(successful){
           convo.push(`${enemy.name} defense was lowered`)
@@ -217,7 +217,7 @@ const attackEffect = (move, bug, target, localArea) => {
       var insect = calc[1]
       var enemy = calc[2]
       var successful = false
-      if (calc[3]){
+      if (calc[3] && enemy.health > 0){
         (enemy.temp?.atk || 0) > -7 ? successful = true : convo.push(`${enemy.name}'s attack can't go lower`)
         if(successful){
           convo.push(`${enemy.name} attack was lowered`) 
@@ -232,6 +232,7 @@ const attackEffect = (move, bug, target, localArea) => {
       var insect = calc[1]
       var enemy = calc[2]
       if (calc[3]){
+        convo.push(`${insect.name} is getting rowdy`)
         insect.temp.ob = true
       }
       return([convo, insect, enemy])
@@ -292,7 +293,7 @@ const damageCal = (move, bug, target) => {
   } else {
     const totalAtk = bug.atk * 10 * tempStatMulti(bug.temp?.atk)
     const totalDef = target.def * 10 * tempStatMulti(target.temp?.def)
-    const damage = Math.floor((Math.floor(Math.floor(Math.floor(2 * 5 / 5 + 2) * (move.power * 45) * totalAtk / totalDef) / 50) + 2) * (move?.random || 1))
+    const damage = Math.floor((Math.floor(Math.floor(Math.floor(2 * 10 / 5 + 2) * (move.power * 40) * totalAtk / totalDef) / 50) + 2) * (move?.random || 1))
     target.health = Math.max(target.health - damage, 0)
     const message = [`${bug.name} used ${move.name} on ${target.name} dealing ${damage} damage!`]
     if (target.health === 0){message.push(`${target.name} scampered away from the fight`)}

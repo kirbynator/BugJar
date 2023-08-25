@@ -51,19 +51,18 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
   }, []);
 
   useEffect(() => {
-    let localTurn = turn
-    if (localTurn <= 1 && seeds.length > 4){
-      localTurn = seeds.filter(s => s.uid != rival.uid).length + 1
-    }
+    const localTurn = seeds.filter(s => s.uid != rival.uid).length - 1
     const sortedSeeds = seeds.filter(t=>
       t.turn === localTurn
     );
-    if(sortedSeeds.length == 2){
-      setTurn(Math.floor(seeds.length / 2) + 1)
+    console.log(`trying ${localTurn}`)
+    if(sortedSeeds.length === 2 && stage === "end"){
+      console.log(`success ${localTurn}`)
+      setTurn(localTurn + 1)
       setJarReady(true)
       setJugReady(true)
-      const attacks = movesArray(sortedSeeds)
       setStage('convo')
+      const attacks = movesArray(sortedSeeds)
       setStep(0)
       setTimeline(attacks)
     }
@@ -153,7 +152,6 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
       setConvo([`You are all out of bugs! ${rival.name} wins`, returnHome])
       setStage('over')
     } else if(deaths.length > 0 && lose.length > 1 ){
-      setTurn(turn + 1)
       setStep(jar[0].health === 0 ? 0 : 1)
       setStage('switch')
       setDeath(deaths)
@@ -162,8 +160,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
       setStage('end')
       setDeath(['easteregg'])
       setConvo([])
-      addTurn(turn + 1, [])
-      setTurn(turn + 1)
+      addTurn(turn, [])
     } else {
       beginTurn()
     }
