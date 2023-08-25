@@ -61,8 +61,10 @@ function Home() {
         <br/>
         <label>Join Room</label>
         <br/>
-        <input type="integer" value={code} onChange={e=>setCode(e.target.value)}/>
-        <button onClick={() => setPage("wait")}>Join Room</button>
+        <form>
+          <input type="integer" value={code} onChange={e=>setCode(e.target.value)}/>
+          <button onClick={() => setPage("wait")}>Join Room</button>
+        </form>
       </div>
     )
   } else if(page==='wait'){
