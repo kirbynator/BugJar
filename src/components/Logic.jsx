@@ -77,10 +77,10 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
   const movesArray = seed => {
     const a = seed.map(e => e.moves)
     const b = a[0].concat(a[1])
-    const rocket = b.filter(c => c.move.pryo === 3).sort((q,p) => speedcalc(p) - speedcalc(q))
-    const quick = b.filter(c => c.move.pryo === 2).sort((q,p) => speedcalc(p) - speedcalc(q))
-    const fast = b.filter(c => c.move.pryo === 1).sort((q,p) => speedcalc(p) - speedcalc(q))
-    const normal = b.filter(c => c.move.pryo === 0).sort((q,p) => speedcalc(p) - speedcalc(q))
+    const rocket = b.filter(c => c.move.pryo === 3).sort((q,p) => speedcalc(q) - speedcalc(p))
+    const quick = b.filter(c => c.move.pryo === 2).sort((q,p) => speedcalc(q) - speedcalc(p))
+    const fast = b.filter(c => c.move.pryo === 1).sort((q,p) => speedcalc(q) - speedcalc(p))
+    const normal = b.filter(c => c.move.pryo === 0).sort((q,p) => speedcalc(q) - speedcalc(p))
     return rocket.concat(quick).concat(fast).concat(normal)
   }
 
