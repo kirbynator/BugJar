@@ -52,7 +52,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
 
   useEffect(() => {
     if(seeds.length % 2 !== 0){return}
-    const localTurn = Math.max(seeds.filter(s => s.uid != rival.uid).length - 1, 0)
+    const localTurn = seeds.filter(s => s.uid != rival.uid).length
     const sortedSeeds = seeds.filter(t=>
       t.turn === localTurn
     );
@@ -153,7 +153,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
       setConvo([`You are all out of bugs! ${rival.name} wins`, returnHome])
       setStage('over')
     } else if(deaths.length > 0 && lose.length > 1 ){
-      setStep(jar[0].health === 0 ? 0 : 1)
+      setStep(jar[0].health === 0 && jar[1].health !== 0 ? 0 : 1)
       setStage('switch')
       setDeath(deaths)
       setConvo([])
@@ -212,7 +212,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     if(step === 2){
       const localTurn = turn
       const localMoves = moves
-      setStep(3)
+      setStep(30)
       addTurn(localTurn, localMoves)
     }
   }
