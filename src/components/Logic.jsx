@@ -52,14 +52,19 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
 
   useEffect(() => {
     if(seeds.length % 2 !== 0){return}
-    const localTurn = seeds.filter(s => s.uid != rival.uid).length
+    const seedsTurn = seeds.filter(s => s.uid != rival.uid).length
     const sortedSeeds = seeds.filter(t=>
-      t.turn === localTurn
+      t.turn === seedsTurn
     );
-    console.log(`trying ${localTurn}`)
-    if(sortedSeeds.length === 2 && stage === "end"){
-      console.log(`success ${localTurn}`)
-      setTurn(localTurn + 1)
+    let localTurn = turn
+    if(turn < seedsTurn){
+      setTurn(seedsTurn)
+      localTurn = seedsTurn
+    }
+    console.log(`trying ${seedsTurn}`)
+    if(sortedSeeds.length === 2 && seedsTurn === localTurn){
+      console.log(`success ${seedsTurn}`)
+      setTurn(seedsTurn + 1)
       setJarReady(true)
       setJugReady(true)
       setStage('convo')
@@ -159,9 +164,11 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
       setConvo([])
     } else if ((jug[0].health == 0 || jug[1].health == 0) && win.length > 1) {
       setStage('end')
-      setDeath(['easteregg'])
       setConvo([])
-      addTurn(turn, [])
+      if(death.length === 0){
+        addTurn(turn, [])
+      }
+      setDeath(['easteregg'])
     } else {
       beginTurn()
     }
@@ -196,7 +203,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     a[a.length - 1].target = t
     setMoves(a)
     setStep(jar.filter(b=> b.health > 0).length === 1 ? 2 : step + 1)
-    setStage(jar.filter(b=> b.health > 0).length === 1 || step === 1  ? 'end' : 'turn')
+    setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1  ? 'end' : 'turn')
   }
 
   const renderPower = (n) => {
