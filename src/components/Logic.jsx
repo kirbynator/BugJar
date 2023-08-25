@@ -17,7 +17,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
   const [convo, setConvo] = useState([])
   const [step, setStep] = useState(0)
   const [moves, setMoves] = useState([])
-  const [turn, setTurn] = useState(0)
+  const [turn, setTurn] = useState(1)
   const [timeline, setTimeline] = useState([])
   const [jarReady, setJarReady] = useState(false)
   const [jugReady, setJugReady] = useState(false)
@@ -54,12 +54,12 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     if(seeds.length % 2 !== 0){return}
     const localTurn = seeds.filter(s => s.uid != rival.uid).length
     const sortedSeeds = seeds.filter(t=>
-      t.turn === localTurn - 1 
+      t.turn === localTurn
     );
     console.log(`trying ${localTurn}`)
     if(sortedSeeds.length === 2 && stage === "end"){
       console.log(`success ${localTurn}`)
-      setTurn(localTurn)
+      setTurn(localTurn + 1)
       setJarReady(true)
       setJugReady(true)
       setStage('convo')
