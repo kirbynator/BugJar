@@ -54,12 +54,12 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     if(seeds.length % 2 !== 0){return}
     const localTurn = seeds.filter(s => s.uid != rival.uid).length
     const sortedSeeds = seeds.filter(t=>
-      t.turn === localTurn
+      t.turn === localTurn - 1 
     );
     console.log(`trying ${localTurn}`)
     if(sortedSeeds.length === 2 && stage === "end"){
       console.log(`success ${localTurn}`)
-      setTurn(localTurn + 1)
+      setTurn(localTurn)
       setJarReady(true)
       setJugReady(true)
       setStage('convo')
