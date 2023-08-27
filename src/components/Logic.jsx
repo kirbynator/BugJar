@@ -128,7 +128,6 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       setJar([...attack[1]])
       setJug([...attack[2]])
       dialog.push(nextLine)
-      debugger
       setConvo(dialog)
       const newtl = timeline
       newtl.shift()

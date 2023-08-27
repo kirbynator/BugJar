@@ -60,7 +60,6 @@ function Battle(props) {
   const updateArena = () => {
     let arena = document.getElementById('arena')
     if(!arena){return}
-    debugger
     if(area === 'glowing'){
       arena.style.background = "linear-gradient(115deg,#4fcf70,#fad648,#a767e5,#12bcfe,#44ce7b)"
     } else if(area === 'an ant hill'){
