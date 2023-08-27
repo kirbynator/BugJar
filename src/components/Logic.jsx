@@ -10,9 +10,10 @@ import {
 import { db, auth } from '../firebase'
 import attackLogic from './attacks'
 import cleanUp from './cleanUp';
+import Honeycomb from './Honeycomb';
 import './style.css'
 
-function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}) {
+function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome, updateArena}) {
   const [stage, setStage] = useState('begin')
   const [convo, setConvo] = useState([])
   const [step, setStep] = useState(0)
@@ -107,6 +108,11 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     setJugReady(true)
   },[jug])
 
+  const setArena = () => {
+    updateArena()
+    setStep(step + 1)
+  }
+
   const nextLine = () => {
     if (jarReady && jugReady){
       if(timeline.length === 0){ return endTurn() }
@@ -115,10 +121,14 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
       setStep(0)
       const attack = attackLogic([timeline[0]], jar, jug, area, rival.uid)
       const dialog = attack[0]
+      // if(attack[3] !== area){
+      //   dialog.push(setArena)
+      // }
       setArea(attack[3])
       setJar([...attack[1]])
       setJug([...attack[2]])
       dialog.push(nextLine)
+      debugger
       setConvo(dialog)
       const newtl = timeline
       newtl.shift()
@@ -251,8 +261,8 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
 
   if (stage === "turn"){
     return (
-    <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>
-      <div style={{width: "100%", height: "10%"}}>{area?.length > 0 ? `The area is ${area}, ` : '' }What should {jar[step]?.name} do?</div>
+    <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>{step > 1  && setStage('end')}
+      <div style={{width: "100%", height: "10%"}}>{area?.length > 0 ? `The arena is ${area}, ` : '' }What should {jar[step]?.name} do?</div>
       <div style={{width: "100%", height: "70%", display: 'flex'}}>
         <div style={{width: "50%", height: "100%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('attack')}><h1 style={{width: "100%", textAlign:'center'}}>{jar[step]?.temp?.move ? jar[step]?.temp?.move.name : "Attack"}</h1></div>
         <div style={{width: "50%", height: "100%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('switch')}><h1 style={{textAlign:'center', width: "100%",}}>Switch</h1></div>
@@ -338,6 +348,9 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     return(
       <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>{step >= 2 && sendTurn()}
         <div style={{width: "100%", height: "10%"}}>Waiting on {rival.name}'s selection...</div>
+        <div style={{width: "100%", height: "90%", display:'flex', alignItems:'center', justifyContent:'center'}}>
+          <Honeycomb/>
+        </div>
       </div>
     )
   } else if (convo.length > 0) {

@@ -94,7 +94,7 @@ const attackEffect = (move, bug, target, localArea) => {
       return([convo, insect, enemy])
     break;
     case "Royal Decree":
-      return([[`${bug.name} used Royal Decree, creating an ant hill area`], bug, null, true, 'Ant Hill'])
+      return([[`${bug.name} used Royal Decree, creating an ant hill arena`], bug, null, true, 'an ant hill'])
     break;
     case "Crystalize":
       var insect = {...bug}
@@ -130,8 +130,8 @@ const attackEffect = (move, bug, target, localArea) => {
       var insect = calc[1]
       var enemy = calc[2]
       if (calc[3]){
-      convo.push("The area is glowing")
-      return([convo, insect, enemy, true, "Glowing"])
+      convo.push("The arena is glowing")
+      return([convo, insect, enemy, true, "glowing"])
       }else{
         return([convo, insect, enemy])
       }
@@ -142,7 +142,7 @@ const attackEffect = (move, bug, target, localArea) => {
       var insect = calc[1]
       var enemy = calc[2]
       if (calc[3]){
-        convo.push(`${bug.name} clears the area`)
+        convo.push(`${bug.name} clears the arena`)
         return([convo, insect, enemy, true, ""])
       }else{
         return([convo, insect, enemy])
@@ -188,7 +188,7 @@ const attackEffect = (move, bug, target, localArea) => {
       var convo = calc[0];
       var insect = calc[1];
       var enemy = calc[2];
-      if (calc[3] && localArea == "Glowing"){
+      if (calc[3] && localArea == "glowing"){
         convo.push(`${insect.name} stats were rised!`);
         (insect.temp?.atk || 0) < 7 ? insect.temp.atk = (insect.temp?.atk || 0) + 1 : convo.push(`${insect.name}'s attack can't rise anymore`)
         (insect.temp?.def || 0) < 7 ? insect.temp.def = (insect.temp?.def || 0) + 1 : convo.push(`${insect.name}'s defense can't rise anymore`)

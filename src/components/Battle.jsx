@@ -57,6 +57,19 @@ function Battle(props) {
     return () => unsubscribe;
   }, []);
 
+  const updateArena = () => {
+    let arena = document.getElementById('arena')
+    if(!arena){return}
+    debugger
+    if(area === 'glowing'){
+      arena.style.background = "linear-gradient(115deg,#4fcf70,#fad648,#a767e5,#12bcfe,#44ce7b)"
+    } else if(area === 'an ant hill'){
+      arena.style.background = "black"
+    } else {
+      arena.style.background = "white"
+    }
+  }
+
   const sendPlayer = async () => {
     const { uid, displayName, photoURL } = auth.currentUser;
 
@@ -115,7 +128,7 @@ function Battle(props) {
             <img src={rival.avatar} alt="" />
           </div>
         </div>
-        <div style={{width:"100%",  height: "30%", display:'flex', justifyContent:'space-between', alignItems:"center"}}>
+        <div id='arena' style={{width:"100%",  height: "30%", display:'flex', justifyContent:'space-between', alignItems:"center"}}>
           <div style={{display: 'flex',  width:"40%"}}>
             <img src="" alt={jar[0].name} />
             <img src="" alt={jar[1].name} />
@@ -165,7 +178,7 @@ function Battle(props) {
         </div>
         <div key={area} style={{width:"100%",  height: "30%", display:'flex', justifyContent:'space-between'}}>
           <div style={{width:"78%", height: "100%"}}>
-            <Logic jar={jar} jug={jug} area={area} rival={rival} rng={rng} setJar={setJar} setJug={setJug} setArea={setArea} returnHome={returnHome}/>
+            <Logic jar={jar} jug={jug} area={area} rival={rival} rng={rng} setJar={setJar} setJug={setJug} setArea={setArea} returnHome={returnHome} updateArena={updateArena}/>
           </div>
           <div style={{width:"21%", height: "100%"}}>
             <Chat rng={rng}/>

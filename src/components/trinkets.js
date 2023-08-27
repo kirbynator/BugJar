@@ -16,9 +16,9 @@ const trickets = [
   {name: "Tymbals", type:"m", move:{name:"Chirp", power: 1, pryo:0, info: "Resets this bug's target"}, effect: "Modifies a bug to know Chirp that wouldn't normally"},
   {name: "Silk Line", type:"m", move:{name:"Prevention Trap", power: 0, pryo: 2, info: "Before attacks, this bug trys to set a trap to protect it's target"}, effect: "Modifies a bug to know Prevention Trap that wouldn't normally"},
   {name: "Adrenaline", type:"m", move:{name: "Twitch", power: 1, pryo: 1, info: "This move goes first"}, effect: "Modifies a bug to know Twitch that wouldn't normally"},
-  {name: "Formication", type:"m", move:{name: "Skitter", power: 1, pryo: 0, info: "The bug attacks and keeps running, clearing the area"}, effect: "Modifies a bug to know Skitter that wouldn't normally"},
+  {name: "Formication", type:"m", move:{name: "Skitter", power: 2, pryo: 0, info: "The bug attacks and keeps running, clearing the arena"}, effect: "Modifies a bug to know Skitter that wouldn't normally"},
   {name: "Cordyceps", type:"i", inft: 1, effect: "Infect a bug, eventually making it a zombie"},
-  {name: "Hair Worm", type:"i", inft: 2, effect: "Infect a bug, making it stronger but locking it into one move"},
+  {name: "Hair Worm", type:"i", inft: 2, effect: "Infect a bug, making it stronger but locking into one move"},
 ]
 
 export default trickets

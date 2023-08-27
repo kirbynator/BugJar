@@ -32,9 +32,9 @@ const cleanUp = (jar, jug, area, rival) => {
         (insect.temp?.spd|| 0) < 7 ? insect.temp.spd = (insect.temp?.spd|| 0) + 1 : dialog.push(`${insect.name}'s speed can't rise anymore`)
       }
     }
-    if(area == 'Ant Hill' && b.health > 0 && b.name.search("Ant") > -1){
+    if(area == 'an ant hill' && b.health > 0 && b.name.search("Ant") > -1){
       var newHealth = Math.min(b.hp * 10, b.health + Math.floor(b.hp * 10 / 16))
-      dialog.push(`Due to the area, ${b.name} heals to ${newHealth}`)
+      dialog.push(`Due to the arena, ${b.name} heals to ${newHealth}`)
       b.health = newHealth
     }
     if(b.temp?.ill && b.health > 0){
