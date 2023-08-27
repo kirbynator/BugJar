@@ -296,7 +296,7 @@ const damageCal = (move, bug, target) => {
     const damage = Math.floor((Math.floor(Math.floor(Math.floor(2 * 10 / 5 + 2) * (move.power * 40) * totalAtk / totalDef) / 50) + 2) * (move?.random || 1))
     target.health = Math.max(target.health - damage, 0)
     const message = [`${bug.name} used ${move.name} on ${target.name} dealing ${damage} damage!`]
-    if (target.health === 0){message.push(`${target.name} scampered away from the fight`)}
+    if (target.health === 0 && target.inft != 1){message.push(`${target.name} scampered away from the fight`)}
     return([message, bug, target, true])
   }
 }

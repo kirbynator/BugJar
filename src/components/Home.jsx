@@ -3,10 +3,11 @@ import SignOut from './SignOut'
 import Battle from './Battle'
 import Jars from './Jars'
 import { auth } from '../firebase'
+import ant from '../media/ant.png'
 
 
 function Home() {
-  const[page, setPage] = useState('')
+  const[page, setPage] = useState('start')
   const[code, setCode] = useState(null)
   const [jars, setJars] = useState([])
   const [player, setPlayers] = useState(auth.currentUser)
@@ -27,12 +28,15 @@ function Home() {
     }
   },[jars])
 
-  useEffect(()=>{localStorage.setItem(`jar0`, '{}')},[])
+  useEffect(()=>{if(page === 'start'){
+    localStorage.setItem(`jar0`, '{}')
+    setPage('')
+  }},[])
 
   useEffect(()=>{
     if(page === ""){
-      // let element = document.getElementById("jar-select");
-      // element.value = (localStorage.getItem("jar0")[6] || '')
+      let element = document.getElementById("jar-select");
+      element.value = (localStorage.getItem("jar0")[6] || '')
     }
   },[page])
 
@@ -53,7 +57,6 @@ function Home() {
             <img src={player.photoURL} alt="" />
           </div>
         </div>
-
         <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center'}}>
           <div style={{width: "50%", height:"100%"}}>
             <div style={{width: "100%", height:"50px", borderBottom: 'solid', display:'flex', alignItems:'center', justifyContent:'center', }}>
@@ -77,9 +80,10 @@ function Home() {
           </div>
           <div style={{width: "50%", height:"100%"}}>
             <div style={{width: "100%", height:"50px", borderBottom: 'solid', display:'flex', alignItems:'center', justifyContent:'center'}}>
-              <form onSubmit={() => setPage("wait")}><input type="integer" placeholder="Battle code..." value={code} onChange={e=>setCode(e.target.value)}/></form>
+              <img style={{height: '102%'}} src={ant}></img>
             </div> 
-            <div style={{width: "100%", height:"50px", borderTop: 'solid'}}>
+            <div style={{width: "100%", height:"50px", borderTop: 'solid', display:'flex', alignItems:'center', justifyContent:'center'}}>
+              <form onSubmit={() => setPage("wait")}><input type="integer" placeholder="Battle code..." value={code} onChange={e=>setCode(e.target.value)}/></form>
             </div>
           </div>
           

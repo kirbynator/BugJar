@@ -77,16 +77,16 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
   const movesArray = seed => {
     const a = seed.map(e => e.moves)
     const b = a[0].concat(a[1])
-    const rocket = b.filter(c => c.move.pryo === 3).sort((q,p) => speedcalc(q) - speedcalc(p))
-    const quick = b.filter(c => c.move.pryo === 2).sort((q,p) => speedcalc(q) - speedcalc(p))
-    const fast = b.filter(c => c.move.pryo === 1).sort((q,p) => speedcalc(q) - speedcalc(p))
-    const normal = b.filter(c => c.move.pryo === 0).sort((q,p) => speedcalc(q) - speedcalc(p))
-    return rocket.concat(quick).concat(fast).concat(normal)
+    const rocket = b.filter(c => c.move.pryo === 3).sort((a,b) => {return speedcalc(a) < speedcalc(b) ? -1 : 1}).reverse();
+    const quick = b.filter(c => c.move.pryo === 2).sort((a,b) => {return speedcalc(a) < speedcalc(b) ? -1 : 1}).reverse();
+    const fast = b.filter(c => c.move.pryo === 1).sort((a,b) => {return speedcalc(a) < speedcalc(b) ? -1 : 1}).reverse();
+    const normal = b.filter(c => c.move.pryo === 0).sort((a,b) => {return speedcalc(a) < speedcalc(b) ? -1 : 1}).reverse();
+    return [...rocket, ...quick, ...fast, ...normal]
   }
 
   const speedcalc = (b) => {
-    let speed = b.bug.speed
-    let i = b.bug.temp?.speed
+    let speed = b.bug.spd
+    let i = b.bug.temp?.spd
     if(!i){return speed * 10}
     return speed * 10 * (i > 0 ? ((2 + i) / 2) : (2 / (2 - i)))
   }
@@ -181,8 +181,18 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     setStage('attack')
   }
 
+  const lockMove = () => {
+    const b = jar[step]
+    if(b.inft === 2 && b.temp?.move){
+      selectedMove(b.temp.move)
+    }
+  }
+
   const selectedMove = m => {
     const b = jar[step]
+    if(b.inft === 2 && !b.temp?.move && m.name != "Crystalize" && m.name != "Metamorphose"){
+      b.temp.move = m
+    }
     if (m.power || m.name === "Prevention Trap"){
       const a = moves
       const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) /100)}
@@ -225,8 +235,9 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
   }
 
   const addTurn = async (localTurn, localMoves) => {
-    console.log(`Sending turn ${localTurn}`)
     const { uid } = auth.currentUser;
+    if (seeds.findIndex(i => i.uid === uid && i.turn === localTurn) > 0){return}
+    console.log(`Sending turn ${localTurn}`)
     await addDoc(collection(db, `battles/${rng}/turns`), {
       moves: localMoves,
       createdAt: serverTimestamp(),
@@ -243,7 +254,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
     <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>
       <div style={{width: "100%", height: "10%"}}>{area?.length > 0 ? `The area is ${area}, ` : '' }What should {jar[step]?.name} do?</div>
       <div style={{width: "100%", height: "70%", display: 'flex'}}>
-        <div style={{width: "50%", height: "100%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('attack')}><h1 style={{width: "100%", textAlign:'center'}}>Attack</h1></div>
+        <div style={{width: "50%", height: "100%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('attack')}><h1 style={{width: "100%", textAlign:'center'}}>{jar[step]?.temp?.move ? jar[step]?.temp?.move.name : "Attack"}</h1></div>
         <div style={{width: "50%", height: "100%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('switch')}><h1 style={{textAlign:'center', width: "100%",}}>Switch</h1></div>
       </div>
       <div style={{width: "100%", height: "20%", border: "solid", display: 'flex', alignItems:"center"}}>Surrender</div>
@@ -252,7 +263,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome}
   } else if(stage === 'attack'){
     let mount = jar[step].moves.length
     return (
-      <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>
+      <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>{lockMove()}
         <div style={{width: "100%", height: "10%"}}>What attack should {jar[step]?.name} do?</div>
         <div style={{width: "100%", height: mount > 2 ? "35%" : "70%", display: 'flex'}}>
           <div style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => selectedMove(jar[step].moves[0])}>

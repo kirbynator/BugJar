@@ -4,7 +4,18 @@ const cleanUp = (jar, jug, area, rival) => {
   const dialog = []
 
   const modBugs = [localJar[0],localJar[1],localJug[0],localJug[1]].map((b, i)=>{
-    if (b.health === 0) {b.name = null}
+    if (b.health === 0) {
+      if(b.inft == 1){
+        dialog.push(`${b.name} was infected with a parasitic fungus`)
+        b.name = "Zombie " + b.name
+        b.hp = 0.1
+        b.health = 1
+        b.inft = 0
+        b.temp.ill = false
+      } else {
+        b.name = null
+      }
+    }
     b.temp.wasInv = false
     if(b.temp?.inv){
      b.temp.inv = false
