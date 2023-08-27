@@ -9,9 +9,9 @@ function SignIn() {
   }
 
   return (
-    <div>
+    <div style={{display: 'flex', justifyContent:'space-between'}}>
       <h1>Bug Jar Battles</h1>
-        <button onClick={signInWithGoogle}>Sign In With Google</button>
+      <button onClick={signInWithGoogle}>Sign In With Google</button>
     </div>
   )
 }

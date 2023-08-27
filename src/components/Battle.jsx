@@ -35,8 +35,7 @@ function Battle(props) {
       QuerySnapshot.forEach((doc) => {
         fetchedPlayers.push({ ...doc.data(), id: doc.id });
       });
-      if (fetchedPlayers.length >= 2){
-        const { uid } = auth.currentUser;
+      if (fetchedPlayers.filter((v,i,a)=>a.indexOf(v)==i).length === 2){
         setPage('ready')
       }
       setPlayers(fetchedPlayers);
@@ -95,12 +94,12 @@ function Battle(props) {
 
   if (page === 'wait' || page === 'ready' ){
     return(
-      <Wait rng={rng} page={page} setPage={setPage} players={players}/>
+      <Wait rng={rng} page={page} returnHome={returnHome} setPage={setPage} players={players}/>
     )
   } else if (page === 'jar'){
-  return (
-    <Jar jar={jar} jug={jug} user={user} setJar={setDeck} setPage={setPage}/>
-  )
+    return (
+      <Jar jar={jar} jug={jug} user={user} setJar={setDeck} setPage={setPage}/>
+    )
   } else if (page === 'battle'){
     const player = players.find(p=> p.uid === user)
     const rival = players.find(p=> p.uid !== user)

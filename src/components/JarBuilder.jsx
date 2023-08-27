@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Json from './Json'
 import trinkets from './trinkets'
+import write from '../media/write.png'
 
 const JarBuilder = props => {
   const [jar, setJar] = useState(props.jar)
@@ -30,7 +31,7 @@ const JarBuilder = props => {
 
   return (
     <div key={editTrinket} style={{width:"100%", height:"100%"}}>
-       {editName ? renderEditName() : <h2 onClick={() => {setEditName(true)}} style={{textAlign:'center', width:'100%'}}>{name}</h2>}
+       {editName ? renderEditName() : <h2 onClick={() => {setEditName(true)}} style={{textAlign:'center', width:'100%'}}>{name}<img style={{maxWidth:'20px', marginLeft:'8px'}} src={write} /></h2>}
       <div style={{width:"100%", height:"50%", display: "flex", justifyContent:"space-around"}}>       
         {jar.deck.length > 1 && jar.deck.map((trinket, i)=>(
           <div onClick={()=>setEditTricket(i + 1)} key={i} style={{border:'solid', width:"11%"}}>

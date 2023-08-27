@@ -2,11 +2,14 @@ import React, {useState, useEffect} from 'react'
 import SignOut from './SignOut'
 import Battle from './Battle'
 import Jars from './Jars'
+import { auth } from '../firebase'
+
 
 function Home() {
   const[page, setPage] = useState('')
   const[code, setCode] = useState(null)
   const [jars, setJars] = useState([])
+  const [player, setPlayers] = useState(auth.currentUser)
 
   useEffect(()=>{
     if(!jars[0]){
@@ -28,8 +31,8 @@ function Home() {
 
   useEffect(()=>{
     if(page === ""){
-      let element = document.getElementById("jar-select");
-      element.value = (localStorage.getItem("jar0")[6] || '')
+      // let element = document.getElementById("jar-select");
+      // element.value = (localStorage.getItem("jar0")[6] || '')
     }
   },[page])
 
@@ -39,32 +42,46 @@ function Home() {
   
   if(page === ''){
     return (
-      <div>
-        <h1>Bug Jar Battles</h1>
-        <SignOut/>
-        <br/>
-        <button onClick={() => setPage("jars")}>Jars</button>
-        <br/>
-        <br/>
-        <label for="jar-select">Choose a jar to take into battle</label>
-        <br/>
-        <select onChange={e =>selectedJar(e)} name="jars" id="jar-select">
-          <option value={''}>Random Bugs</option>
-          {jars.length > 0 && jars.map(j=>(
-            <option value={j?.id}>{j?.name}</option>
-          ))}
-        </select>
-        <br/>
-        <br/>
-        <button onClick={() => setPage("wait")}>Create Room</button>
-        <br/>
-        <br/>
-        <label>Join Room</label>
-        <br/>
-        <form>
-          <input type="integer" value={code} onChange={e=>setCode(e.target.value)}/>
-          <button onClick={() => setPage("wait")}>Join Room</button>
-        </form>
+      <div style={{width: '100%', height:'100%'}}>
+        <div style={{display: 'flex', justifyContent:'space-between'}}>
+          <h1>Bug Jar Battles</h1>
+          <div style={{display:'flex', justifyContent:'flex-start'}}>
+            <div style={{display:'flex', flexDirection:'column', alignItems:'space-around', justifyContent:'space-around', padding:'3px', textAlign:'right'}}>
+            <div style={{padding: "3%"}}>{player.displayName}</div>
+            <SignOut/>
+            </div>
+            <img src={player.photoURL} alt="" />
+          </div>
+        </div>
+
+        <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center'}}>
+          <div style={{width: "50%", height:"100%"}}>
+            <div style={{width: "100%", height:"50px", borderBottom: 'solid', display:'flex', alignItems:'center', justifyContent:'center', }}>
+              <select onChange={e =>selectedJar(e)} name="jars" id="jar-select">
+                <option value={''}>Random Bugs</option>
+                {jars.length > 0 && jars.map(j=>(
+                  <option value={j?.id}>{j?.name}</option>
+                ))}
+              </select>
+            </div>
+            <div style={{width: "100%", height:"50px", borderTop: 'solid', display:'flex', alignItems:'center', justifyContent:'center',}}>
+              <button onClick={() => setPage("jars")}>Jars</button>
+            </div>
+          </div>
+          <div style={{display:'flex', flexDirection:'column', marginTop:'18px'}} onClick={() => setPage("wait")}>
+            <div style={{color: "black", fontSize: "1000%", marginLeft:"-35px", transform: 'rotate(-90deg)', cursor:'default'}}>⬢</div>
+            <div style={{color:'white', position:'relative', top: "-117px", right:'3px', zIndex:2, cursor:'default'}}>{code ? "Join Room" : "Create Room"}</div>
+          </div>
+          <div style={{width: "50%", height:"100%"}}>
+            <div style={{width: "100%", height:"50px", borderBottom: 'solid', display:'flex', alignItems:'center', justifyContent:'center'}}>
+              <form onSubmit={() => setPage("wait")}><input type="integer" placeholder="Battle code..." value={code} onChange={e=>setCode(e.target.value)}/></form>
+            </div> 
+            <div style={{width: "100%", height:"50px", borderTop: 'solid'}}>
+            </div>
+          </div>
+          
+        </div>
+
       </div>
     )
   } else if(page==='wait'){
