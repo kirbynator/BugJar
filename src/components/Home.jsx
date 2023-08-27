@@ -70,7 +70,7 @@ function Home() {
           </div>
           <div style={{display:'flex', flexDirection:'column', marginTop:'37px'}} onClick={() => setPage("wait")}>
             <div style={{color: "black", fontSize: "1000%", marginLeft:"-35px", transform: 'rotate(-90deg)', cursor:'default'}}>⬢</div>
-            <div style={{color:'white', position:'relative', top: "-125px", right:'10px', zIndex:2, cursor:'default', textAlign: 'center'}}>
+            <div style={{color:'white', position:'relative', top: "-125px", paddingRight:'16px', zIndex:2, cursor:'default', textAlign: 'center'}}>
               <>{code ? "Join" : "Create"}</>
               <div>Battle</div>
             </div>
