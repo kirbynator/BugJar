@@ -68,9 +68,12 @@ function Home() {
               <button onClick={() => setPage("jars")}>Jars</button>
             </div>
           </div>
-          <div style={{display:'flex', flexDirection:'column', marginTop:'18px'}} onClick={() => setPage("wait")}>
+          <div style={{display:'flex', flexDirection:'column', marginTop:'37px'}} onClick={() => setPage("wait")}>
             <div style={{color: "black", fontSize: "1000%", marginLeft:"-35px", transform: 'rotate(-90deg)', cursor:'default'}}>⬢</div>
-            <div style={{color:'white', position:'relative', top: "-117px", right:'3px', zIndex:2, cursor:'default'}}>{code ? "Join Room" : "Create Room"}</div>
+            <div style={{color:'white', position:'relative', top: "-125px", right:'10px', zIndex:2, cursor:'default', textAlign: 'center'}}>
+              <>{code ? "Join" : "Create"}</>
+              <div>Battle</div>
+            </div>
           </div>
           <div style={{width: "50%", height:"100%"}}>
             <div style={{width: "100%", height:"50px", borderBottom: 'solid', display:'flex', alignItems:'center', justifyContent:'center'}}>

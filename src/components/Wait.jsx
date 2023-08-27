@@ -25,7 +25,7 @@ function Wait({rng, page, setPage, players, returnHome}) {
         </div>
       </div>
       {!players[1]?.name && <div id="parent" style={{width:'100%', height: "100%", paddingTop:'90px', display: 'flex', justifyContent: "space-around"}}>
-        <div style={{width:'30%', display: 'flex', justifyContent: "space-around"}}>
+        <div style={{width:'50%', display: 'flex', justifyContent: "space-around"}}>
         <div>
           <button onClick={()=>returnHome()}> Return Home </button>
         </div>
