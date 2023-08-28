@@ -12,7 +12,7 @@ const cleanUp = (jar, jug, area, rival) => {
         b.health = 1
         b.inft = 0
         b.temp.ill = false
-      } else {
+      } else if(!b.temp?.nbl){
         b.name = null
       }
     }
@@ -25,8 +25,9 @@ const cleanUp = (jar, jug, area, rival) => {
       var target = i % 2 === 0 ? i + 1 : i - 1
       var insect = [localJar[0],localJar[1],localJug[0],localJug[1]][target]
       if (insect.health > 0){
-        dialog.push(`${insect.name} nibbled on some remains`)
+        dialog.push(`${insect.name} nibbled on the remains of ${b.name}`)
         dialog.push(`${insect.name} stats were rised!`)
+        b.name = null
         (insect.temp?.atk || 0) < 7 ? insect.temp.atk  = (insect.temp?.atk || 0) + 1 : dialog.push(`${insect.name}'s attack can't rise anymore`)
         (insect.temp?.def || 0) < 7 ? insect.temp.def  = (insect.temp?.def || 0) + 1 : dialog.push(`${insect.name}'s defense can't rise anymore`)
         (insect.temp?.spd|| 0) < 7 ? insect.temp.spd = (insect.temp?.spd|| 0) + 1 : dialog.push(`${insect.name}'s speed can't rise anymore`)
@@ -36,6 +37,11 @@ const cleanUp = (jar, jug, area, rival) => {
       var newHealth = Math.min(b.hp * 10, b.health + Math.floor(b.hp * 10 / 16))
       dialog.push(`Due to the arena, ${b.name} heals to ${newHealth}`)
       b.health = newHealth
+    }
+    if(area == 'a pond' && b.inft === 2){
+      b.inft = 0
+      b.temp.move = null
+      dialog.push(`Due to the arena, a Hair Worm slips out of ${b.name}`)
     }
     if(b.temp?.ill && b.health > 0){
       var newHealth = Math.max(0,b.health - Math.floor((b.hp * 10) / 16))

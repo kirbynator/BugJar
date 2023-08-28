@@ -13,7 +13,7 @@ import cleanUp from './cleanUp';
 import Honeycomb from './Honeycomb';
 import './style.css'
 
-function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome, updateArena}) {
+function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,}) {
   const [stage, setStage] = useState('begin')
   const [convo, setConvo] = useState([])
   const [step, setStep] = useState(0)
@@ -63,7 +63,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       localTurn = seedsTurn
     }
     console.log(`trying ${seedsTurn}`)
-    if(sortedSeeds.length === 2 && seedsTurn === localTurn){
+    if(sortedSeeds.length === 2 && seedsTurn === localTurn && timeline.length === 0){
       console.log(`success ${seedsTurn}`)
       setTurn(seedsTurn + 1)
       setJarReady(true)
@@ -108,10 +108,22 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     setJugReady(true)
   },[jug])
 
-  const setArena = () => {
-    updateArena()
-    setStep(step + 1)
-  }
+  
+  useEffect(() => {
+    if(stage === 'convo' && convo.length > 0 && convo[step].search('arena') > 0){
+      const arena = document.getElementById('arena')
+      if(!arena){return}
+      if(area === 'glowing'){
+        arena.className("glowing")
+      } else if(area === 'an ant hill'){
+        arena.className("anthill")
+      } else if(area === 'a pond'){
+        arena.className("pond")
+      } else {
+        arena.className("")
+      }
+    }
+  },[step])
 
   const nextLine = () => {
     if (jarReady && jugReady){
@@ -121,9 +133,6 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       setStep(0)
       const attack = attackLogic([timeline[0]], jar, jug, area, rival.uid)
       const dialog = attack[0]
-      // if(attack[3] !== area){
-      //   dialog.push(setArena)
-      // }
       setArea(attack[3])
       setJar([...attack[1]])
       setJug([...attack[2]])
@@ -201,6 +210,9 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     const b = jar[step]
     if(b.inft === 2 && !b.temp?.move && m.name != "Crystalize" && m.name != "Metamorphose"){
       b.temp.move = m
+    }
+    if(m.name = "Domain Drop" && area === "a pond"){
+      m.pryo = 1
     }
     if (m.power || m.name === "Prevention Trap"){
       const a = moves
@@ -354,7 +366,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     )
   } else if (convo.length > 0) {
     return (
-      <div key={turn} style={{width: "100%", height: "100%", border: "double", display: 'flex', flexDirection:'column', justifyContent: 'space-between'}} onClick={() => setStep(step + 1)}>{
+      <div key={turn} style={{width: "100%", height: "100%", border: "double", display: 'flex', flexDirection:'column', justifyContent: 'space-between'}} onClick={() => setStep(Number(`${step + 1}`))}>{
         typeof convo[Math.min(step, convo.length)] === "string" ? convo[Math.min(step, convo.length)] : convo[Math.min(step, convo.length)]()}
         {convo.length > 1 && <div class="blink" style={{textAlign: 'end', width: '100%'}}>
           {'(Proceed)'}

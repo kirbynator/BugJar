@@ -62,6 +62,7 @@ const attackEffect = (move, bug, target, localArea) => {
     case "Flutter Fury":
     case "Twitch":
     case "Swarm":
+    case "Domain Drop":
       return damageCal(move, bug, target)
     break;
     case "Shell Shield":
@@ -283,6 +284,18 @@ const attackEffect = (move, bug, target, localArea) => {
       }
       return([convo, bug, target])
     break;
+    case "Water Walk":
+      var insect = {...bug};
+      var convo = [`${insect?.name} uses Water Walk`];
+      var successful = false;
+      (insect.temp?.atk || 0) < 7 ? successful = true : convo.push(`${insect.name}'s attack can't rise anymore`);
+      if(successful){
+        convo.push(`${bug.name}'s speed rose`);
+        insect.temp.atk = (insect.temp?.atk || 0) + 1;
+        convo.push("The arena is now a pond!")
+      }
+      return([convo, insect, null, true, "a pond"]);
+    break
   }
 }
 
@@ -296,7 +309,7 @@ const damageCal = (move, bug, target) => {
     const damage = Math.floor((Math.floor(Math.floor(Math.floor(2 * 10 / 5 + 2) * (move.power * 40) * totalAtk / totalDef) / 50) + 2) * (move?.random || 1))
     target.health = Math.max(target.health - damage, 0)
     const message = [`${bug.name} used ${move.name} on ${target.name} dealing ${damage} damage!`]
-    if (target.health === 0 && target.inft != 1){message.push(`${target.name} scampered away from the fight`)}
+    if (target.health === 0 && target.inft != 1 && !target.temp?.nbl){message.push(`${target.name} scampered away from the fight`)}
     return([message, bug, target, true])
   }
 }
