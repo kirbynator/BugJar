@@ -57,7 +57,7 @@ function Home() {
             <img src={player.photoURL} alt="" />
           </div>
         </div>
-        <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center'}}>
+        <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center', marginTop:'37px'}}>
           <div style={{width: "50%", height:"100%"}}>
             <div style={{width: "100%", height:"50px", borderBottom: 'solid', display:'flex', alignItems:'center', justifyContent:'center', }}>
               <select style={{zIndex:1}} onChange={e =>selectedJar(e)} name="jars" id="jar-select">
@@ -71,9 +71,9 @@ function Home() {
               <button style={{zIndex:1}} onClick={() => setPage("jars")}>Jars</button>
             </div>
           </div>
-          <div style={{display:'flex', flexDirection:'column', marginTop:'37px'}}>
-            <div style={{color: "black", fontSize: "1000%", marginLeft:"-.23em", transform: 'rotate(-90deg)', cursor:'default'}}>⬢</div>
-            <div onClick={() => setPage("wait")} style={{color:'white', position:'relative', top: "-8em", paddingRight:'1em', zIndex:2, cursor:'default', textAlign: 'center'}}>
+          <div style={{position:'relative', width: '7em', backgroundColor: 'purple'}}>
+            <div style={{color: "black", fontSize: "1000%", position:'absolute', right: "0.03em", top: "-.66em", transform: 'rotate(-90deg)', cursor:'default'}}>⬢</div>
+            <div onClick={() => setPage("wait")} style={{color:'white', position: "absolute", bottom: "-1em", right: "2.3em", zIndex:2, cursor:'default', textAlign: 'center'}}>
               <>{code ? "Join" : "Create"}</>
               <div>Battle</div>
             </div>
