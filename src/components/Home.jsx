@@ -60,7 +60,7 @@ function Home() {
         <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center'}}>
           <div style={{width: "50%", height:"100%"}}>
             <div style={{width: "100%", height:"50px", borderBottom: 'solid', display:'flex', alignItems:'center', justifyContent:'center', }}>
-              <select onChange={e =>selectedJar(e)} name="jars" id="jar-select">
+              <select style={{zIndex:1}} onChange={e =>selectedJar(e)} name="jars" id="jar-select">
                 <option value={''}>Random Bugs</option>
                 {jars.length > 0 && jars.map(j=>(
                   <option value={j?.id}>{j?.name}</option>
@@ -68,12 +68,12 @@ function Home() {
               </select>
             </div>
             <div style={{width: "100%", height:"50px", borderTop: 'solid', display:'flex', alignItems:'center', justifyContent:'center',}}>
-              <button onClick={() => setPage("jars")}>Jars</button>
+              <button style={{zIndex:1}} onClick={() => setPage("jars")}>Jars</button>
             </div>
           </div>
           <div style={{display:'flex', flexDirection:'column', marginTop:'37px'}}>
             <div style={{color: "black", fontSize: "1000%", marginLeft:"-35px", transform: 'rotate(-90deg)', cursor:'default'}}>⬢</div>
-            <div onClick={() => setPage("wait")} style={{color:'white', position:'relative', top: "-125px", paddingRight:'16px', zIndex:2, cursor:'default', textAlign: 'center'}}>
+            <div onClick={() => setPage("wait")} style={{color:'white', position:'relative', top: "-8em", paddingRight:'1em', zIndex:2, cursor:'default', textAlign: 'center'}}>
               <>{code ? "Join" : "Create"}</>
               <div>Battle</div>
             </div>
@@ -83,7 +83,7 @@ function Home() {
               <img style={{height: '102%'}} src={ant}></img>
             </div> 
             <div style={{width: "100%", height:"50px", borderTop: 'solid', display:'flex', alignItems:'center', justifyContent:'center'}}>
-              <form onSubmit={() => setPage("wait")}><input type="integer" placeholder="Battle code..." value={code} onChange={e=>setCode(e.target.value)}/></form>
+              <form style={{zIndex:1}} onSubmit={() => setPage("wait")}><input type="integer" placeholder="Battle code..." value={code} onChange={e=>setCode(e.target.value)}/></form>
             </div>
           </div>
           
