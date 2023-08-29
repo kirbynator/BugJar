@@ -55,7 +55,7 @@ function Home() {
             <div style={{padding: "3%"}}>{player.displayName}</div>
             <SignOut/>
             </div>
-            <img src={player.photoURL} alt="" />
+            <img style={{filter: "grayscale(1)"}} src={player.photoURL} alt="" />
           </div>
         </div>
         <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center', marginTop:'37px'}}>

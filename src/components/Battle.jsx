@@ -106,12 +106,12 @@ function Battle(props) {
       <div style={{width: "100%", height: window.screen.height, display:'flex', flexDirection: 'column'}}>
         <div style={{width:"100%", height: "5%", display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
           <div style={{width:"40%", display:'flex', justifyContent:'flex-start'}}>
-            <img src={player.avatar} alt="" />
+            <img style={{filter: "grayscale(1)"}} src={player.avatar} alt="" />
             <div style={{padding: "3%"}}>{player.name}</div>
           </div>
           <div style={{width:"30%", display:'flex', justifyContent:'flex-end'}}>
             <div style={{padding: "3%"}}>{rival.name}</div>
-            <img src={rival.avatar} alt="" />
+            <img style={{filter: "grayscale(1)"}} src={rival.avatar} alt="" />
           </div>
         </div>
         <div id='arena' style={{width:"100%",  height: "30%", display:'flex', justifyContent:'space-between', alignItems:"center"}}>
