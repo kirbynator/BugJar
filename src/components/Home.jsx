@@ -72,7 +72,7 @@ function Home() {
             </div>
           </div>
           <div style={{display:'flex', flexDirection:'column', marginTop:'37px'}}>
-            <div style={{color: "black", fontSize: "1000%", marginLeft:"-35px", transform: 'rotate(-90deg)', cursor:'default'}}>⬢</div>
+            <div style={{color: "black", fontSize: "1000%", marginLeft:"-.23em", transform: 'rotate(-90deg)', cursor:'default'}}>⬢</div>
             <div onClick={() => setPage("wait")} style={{color:'white', position:'relative', top: "-8em", paddingRight:'1em', zIndex:2, cursor:'default', textAlign: 'center'}}>
               <>{code ? "Join" : "Create"}</>
               <div>Battle</div>
@@ -92,11 +92,9 @@ function Home() {
       </div>
     )
   } else if(page==='wait'){
-    return(
-      <Battle setPage={setPage} page={page} setCode={setCode} code={code}/>    )
+    return(<Battle setPage={setPage} page={page} setCode={setCode} code={code}/>)
   } else if(page==='jars'){
-    return(
-      <Jars jars={jars} setPage={setPage} setJars={setJars}/>    )
+    return(<Jars jars={jars} setPage={setPage} setJars={setJars}/>)
   }
 }
 
