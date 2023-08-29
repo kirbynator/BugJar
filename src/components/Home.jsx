@@ -4,6 +4,7 @@ import Battle from './Battle'
 import Jars from './Jars'
 import { auth } from '../firebase'
 import ant from '../media/ant.png'
+import './style.css'
 
 
 function Home() {
@@ -58,7 +59,7 @@ function Home() {
           </div>
         </div>
         <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center', marginTop:'37px'}}>
-          <div style={{width: "50%", height:"100%"}}>
+          <div style={{width: "40%", height:"100%"}}>
             <div style={{width: "100%", height:"50px", borderBottom: 'solid', display:'flex', alignItems:'center', justifyContent:'center', }}>
               <select style={{zIndex:1}} onChange={e =>selectedJar(e)} name="jars" id="jar-select">
                 <option value={''}>Random Bugs</option>
@@ -71,14 +72,13 @@ function Home() {
               <button style={{zIndex:1}} onClick={() => setPage("jars")}>Jars</button>
             </div>
           </div>
-          <div style={{position:'relative', width: '7em', backgroundColor: 'purple'}}>
-            <div style={{color: "black", fontSize: "1000%", position:'absolute', right: "0.03em", top: "-.66em", transform: 'rotate(-90deg)', cursor:'default'}}>⬢</div>
-            <div onClick={() => setPage("wait")} style={{color:'white', position: "absolute", bottom: "-1em", right: "2.3em", zIndex:2, cursor:'default', textAlign: 'center'}}>
+          <div class="hexagon">
+            <div style={{fontSize: "4vw",  zIndex:2, cursor:'default'}} onClick={() => setPage("wait")}>
               <>{code ? "Join" : "Create"}</>
               <div>Battle</div>
             </div>
           </div>
-          <div style={{width: "50%", height:"100%"}}>
+          <div style={{width: "40%", height:"100%"}}>
             <div style={{width: "100%", height:"50px", borderBottom: 'solid', display:'flex', alignItems:'center', justifyContent:'center'}}>
               <img style={{height: '102%'}} src={ant}></img>
             </div> 
