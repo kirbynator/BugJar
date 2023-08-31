@@ -162,7 +162,7 @@ function Battle(props) {
             </div>
           </div>
         </div>
-        <div key={area} style={{width:"100%",  height: "30%", display:'flex', justifyContent:'space-between'}}>
+        <div style={{width:"100%",  height: "30%", display:'flex', justifyContent:'space-between'}}>
           <div style={{width:"78%", height: "100%"}}>
             <Logic jar={jar} jug={jug} area={area} rival={rival} rng={rng} setJar={setJar} setJug={setJug} setArea={setArea} returnHome={returnHome}/>
           </div>

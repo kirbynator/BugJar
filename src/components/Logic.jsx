@@ -4,7 +4,6 @@ import {
   collection,
   orderBy,
   addDoc,
-  serverTimestamp,
   onSnapshot,
 } from "firebase/firestore";
 import { db, auth } from '../firebase'
@@ -37,16 +36,13 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
   },[])
 
   useEffect(() => {
-    const q = query(
-      collection(db, `battles/${rng}/turns`),
-      orderBy("createdAt", "desc")
-    );
+    const q = query(collection(db, `battles/${rng}/turns`));
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
       const fetchedMoves = [];
       QuerySnapshot.forEach((doc) => {
         fetchedMoves.push({ ...doc.data(), id: doc.id });
       });
-      setSeeds(fetchedMoves)
+        setSeeds(fetchedMoves)
     });
     return () => unsubscribe;
   }, []);
@@ -63,7 +59,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       localTurn = seedsTurn
     }
     console.log(`trying ${seedsTurn}`)
-    if(sortedSeeds.length === 2 && seedsTurn === localTurn && timeline.length === 0){
+    if(sortedSeeds.length === 2 && seedsTurn === localTurn && timeline.length === 0 && stage !== 'convo'){
       console.log(`success ${seedsTurn}`)
       setTurn(seedsTurn + 1)
       setJarReady(true)
@@ -114,16 +110,33 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       const arena = document.getElementById('arena')
       if(!arena){return}
       if(area === 'glowing'){
-        arena.className("glowing")
+        arena.className = "glowing";
       } else if(area === 'an ant hill'){
-        arena.className("anthill")
+        arena.className = "anthill";
       } else if(area === 'a pond'){
-        arena.className("pond")
+        arena.className = "pond";
       } else {
-        arena.className("")
+        arena.className = "clear";
       }
     }
   },[step])
+
+  const getArena = () => {
+    const arena = document.getElementById('arena')
+    switch (arena.className) {
+      case 'glowing':
+        return('glowing')
+      break;
+      case 'anthill':
+        return('an ant hill')
+      break;
+      case 'pond':
+        return('a pond')
+      break;
+      default:
+        return('')
+    }
+  }
 
   const nextLine = () => {
     if (jarReady && jugReady){
@@ -131,7 +144,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       setJarReady(false)
       setJugReady(false)
       setStep(0)
-      const attack = attackLogic([timeline[0]], jar, jug, area, rival.uid)
+      const attack = attackLogic([timeline[0]], jar, jug, getArena(), rival.uid)
       const dialog = attack[0]
       setArea(attack[3])
       setJar([...attack[1]])
@@ -184,6 +197,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       setStage('end')
       setConvo([])
       if(death.length === 0){
+        console.log("Empty Turn")
         addTurn(turn, [])
       }
       setDeath(['easteregg'])
@@ -211,7 +225,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     if(b.inft === 2 && !b.temp?.move && m.name != "Crystalize" && m.name != "Metamorphose"){
       b.temp.move = m
     }
-    if(m.name = "Domain Drop" && area === "a pond"){
+    if(m.name === "Domain Drop" && area === "a pond"){
       m.pryo = 1
     }
     if (m.power || m.name === "Prevention Trap"){
@@ -261,7 +275,6 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     console.log(`Sending turn ${localTurn}`)
     await addDoc(collection(db, `battles/${rng}/turns`), {
       moves: localMoves,
-      createdAt: serverTimestamp(),
       turn: localTurn,
       area,
       uid,

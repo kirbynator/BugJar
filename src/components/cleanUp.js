@@ -4,7 +4,7 @@ const cleanUp = (jar, jug, area, rival) => {
   const dialog = []
 
   const modBugs = [localJar[0],localJar[1],localJug[0],localJug[1]].map((b, i)=>{
-    if (b.health === 0) {
+    if (b.health <= 0) {
       if(b.inft == 1){
         dialog.push(`${b.name} was infected with a parasitic fungus`)
         b.name = "Zombie " + b.name
@@ -13,7 +13,7 @@ const cleanUp = (jar, jug, area, rival) => {
         b.inft = 0
         b.temp.ill = false
       } else if(!b.temp?.nbl){
-        b.name = null
+        b.name = null;
       }
     }
     b.temp.wasInv = false
@@ -25,12 +25,12 @@ const cleanUp = (jar, jug, area, rival) => {
       var target = i % 2 === 0 ? i + 1 : i - 1
       var insect = [localJar[0],localJar[1],localJug[0],localJug[1]][target]
       if (insect.health > 0){
-        dialog.push(`${insect.name} nibbled on the remains of ${b.name}`)
-        dialog.push(`${insect.name} stats were rised!`)
-        b.name = null
-        (insect.temp?.atk || 0) < 7 ? insect.temp.atk  = (insect.temp?.atk || 0) + 1 : dialog.push(`${insect.name}'s attack can't rise anymore`)
-        (insect.temp?.def || 0) < 7 ? insect.temp.def  = (insect.temp?.def || 0) + 1 : dialog.push(`${insect.name}'s defense can't rise anymore`)
-        (insect.temp?.spd|| 0) < 7 ? insect.temp.spd = (insect.temp?.spd|| 0) + 1 : dialog.push(`${insect.name}'s speed can't rise anymore`)
+        dialog.push(`${insect.name} nibbled on the remains of ${b.name}`);
+        dialog.push(`${insect.name} stats were rised!`);
+        b.name = null;
+        (insect.temp?.atk || 0) < 7 ? insect.temp.atk  = (insect.temp?.atk || 0) + 1 : dialog.push(`${insect.name}'s attack can't rise anymore`);
+        (insect.temp?.def || 0) < 7 ? insect.temp.def  = (insect.temp?.def || 0) + 1 : dialog.push(`${insect.name}'s defense can't rise anymore`);
+        (insect.temp?.spd|| 0) < 7 ? insect.temp.spd = (insect.temp?.spd|| 0) + 1 : dialog.push(`${insect.name}'s speed can't rise anymore`);
       }
     }
     if(area == 'an ant hill' && b.health > 0 && b.name.search("Ant") > -1){

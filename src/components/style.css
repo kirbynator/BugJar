@@ -37,7 +37,12 @@
   background-repeat: repeat-x;
   background-position-y: bottom;
   animation: wave-animation 4s steps(25, start) infinite;
-  
+}
+
+.clear{
+  box-shadow: none;
+  background-color: white;
+  background-image: none;
 }
 
 @keyframes wave-animation {
