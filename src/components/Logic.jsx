@@ -207,10 +207,11 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
   }
 
   const undoMove = () => {
+    const b = jar[step]
     const new_moves = moves
     moves.pop()
     setMoves(new_moves)
-    setStage('attack')
+    setStage(b.inft === 2 && b.temp?.move ? 'turn' : 'attack')
   }
 
   const lockMove = () => {
@@ -286,12 +287,12 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
   if (stage === "turn"){
     return (
     <div style={{width: "100%", height: "100%", border: "double"}}>{step > 1  && setStage('end')}
-      <div style={{width: "100%", height: "10%"}}>{area?.length > 0 ? `The arena is ${area}, ` : '' }What should {jar[step]?.name} do?</div>
-      <div style={{width: "100%", height: "70%", display: 'flex'}}>
-        <div style={{width: "50%", height: "100%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('attack')}><h1 style={{width: "100%", textAlign:'center'}}>{jar[step]?.temp?.move ? jar[step]?.temp?.move.name : "Attack"}</h1></div>
-        <div style={{width: "50%", height: "100%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('switch')}><h1 style={{textAlign:'center', width: "100%",}}>Switch</h1></div>
+      <div style={{width: "100%", height: "10%"}}>{area?.length > 0 ? `The arena is ${area}. ` : '' }What should {jar[step]?.name} do?</div>
+      <div style={{width: "100%", height: "70%", display: 'flex', justifyContent:'space-between'}}>
+        <div class="choice" style={{width: "49.8%", height: "100%", border: "solid", display: 'flex', alignItems:"center", background: jar[step]?.temp?.move ? "darkgray": "white"}} onClick={()=>setStage('attack')}><h1 style={{width: "100%", textAlign:'center'}}>{jar[step]?.temp?.move ? jar[step]?.temp?.move.name : "Attack"}</h1></div>
+        <div class="choice" style={{width: "49.8%", height: "100%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('switch')}><h1 style={{textAlign:'center', width: "100%",}}>Switch</h1></div>
       </div>
-      <div style={{width: "100%", height: "20%", border: "solid", display: 'flex', alignItems:"center"}}>Surrender</div>
+      <div class="choice" style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center", textAlign: 'center'}}><div style={{width:'100%', textAlign: 'center'}}>Surrender</div></div>
     </div>
     )
   } else if(stage === 'attack'){
@@ -299,8 +300,8 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     return (
       <div style={{width: "100%", height: "100%", border: "double"}}>{lockMove()}
         <div style={{width: "100%", height: "10%"}}>What attack should {jar[step]?.name} do?</div>
-        <div style={{width: "100%", height: mount > 2 ? "35%" : "70%", display: 'flex'}}>
-          <div style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => selectedMove(jar[step].moves[0])}>
+        <div style={{width: "100%", height: mount > 2 ? "35%" : "70%", display: 'flex', justifyContent:'space-between'}}>
+          <div class="choice" style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => selectedMove(jar[step].moves[0])}>
             <div style={{width: "100%", display: 'flex', justifyContent:'space-around'}}>
               <div style={{width: "50%", textAlign: "center"}}>{jar[step].moves[0].name}</div>
               <div style={{width: "50%", background: "black", textAlign: "center"}}>{renderPower(jar[step].moves[0].power)}</div>
@@ -308,7 +309,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
               <br/>
             <div style={{textAlign: "center"}}>{jar[step].moves[0].info}</div>
           </div>
-          <div style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => jar[step].moves[1]?.name && selectedMove(jar[step].moves[1])}>
+          <div class="choice" style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => jar[step].moves[1]?.name && selectedMove(jar[step].moves[1])}>
             <div style={{width: "100%", display: 'flex', justifyContent:'space-around'}}>
               <div style={{width: "50%", textAlign: "center"}}>{jar[step].moves[1]?.name}</div>
               <div style={{width: "50%", background: "black", textAlign: "center"}}>{renderPower(jar[step].moves[1]?.power)}</div>
@@ -318,7 +319,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
           </div>
         </div>
         {mount > 2 && <div style={{width: "100%", height: "35%", display: 'flex'}}>
-          <div style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => jar[step].moves[2]?.name && selectedMove(jar[step].moves[2])}>
+          <div class="choice" style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => jar[step].moves[2]?.name && selectedMove(jar[step].moves[2])}>
             <div style={{width: "100%", display: 'flex', justifyContent:'space-around'}}>
               <div style={{width: "50%", textAlign: "center"}}>{jar[step].moves[2]?.name}</div>
               <div style={{width: "50%", background: "black", textAlign: "center"}}>{renderPower(jar[step].moves[2]?.power)}</div>
@@ -326,7 +327,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
               <br/>
             <div style={{textAlign: "center"}}>{jar[step].moves[2]?.info}</div>
           </div>
-          <div style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => jar[step].moves[3]?.name && selectedMove(jar[step].moves[3])}>
+          <div class="choice" style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => jar[step].moves[3]?.name && selectedMove(jar[step].moves[3])}>
             <div style={{width: "100%", display: 'flex', justifyContent:'space-around'}}>
               <div style={{width: "50%", textAlign: "center"}}>{jar[step].moves[3]?.name}</div>
               <div style={{width: "50%", background: "black", textAlign: "center"}}>{renderPower(jar[step].moves[3]?.power)}</div>
@@ -335,7 +336,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
             <div style={{textAlign: "center"}}>{jar[step].moves[3]?.info}</div>
           </div>
         </div>}
-        <div style={{width: "100%", height: "20%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('turn')}><div style={{textAlign: "center"}}>Back</div></div>
+        <div class="choice" style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center", textAlign: 'center'}} onClick={()=>setStage('turn')}><div style={{textAlign: "center", width:'100%'}}>Back</div></div>
       </div>
       )
   }else if(stage =="switch"){
@@ -343,14 +344,14 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       <div style={{width: "100%", height: "100%", border: "double"}}>
         <div style={{width: "100%", height: "10%"}}>{death.length == 0 ? `Who should ${jar[step]?.name} switch into?` : 'Who would you like to send out' }</div>
         <div style={{width: "100%", height: "35%", display: 'flex'}}>
-            <div style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[2]?.name && selectedMove({name: 'switch', target: 2, power: 0, pryo: 3})}>{jar[2]?.name}</div>
-            <div style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[3]?.name && selectedMove({name: 'switch', target: 3, power: 0, pryo: 3})}>{jar[3]?.name}</div>
+            <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[2]?.name && selectedMove({name: 'switch', target: 2, power: 0, pryo: 3})}>{jar[2]?.name}</div>
+            <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[3]?.name && selectedMove({name: 'switch', target: 3, power: 0, pryo: 3})}>{jar[3]?.name}</div>
         </div>
         <div style={{width: "100%", height: "35%", display: 'flex'}}>
-            <div style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[4]?.name && selectedMove({name: 'switch', target:4, power: 0, pryo: 3})}>{jar[4]?.name}</div>
-            <div style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[5]?.name && selectedMove({name: 'switch', target:5, power: 0, pryo: 3})}>{jar[5]?.name}</div>
+            <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[4]?.name && selectedMove({name: 'switch', target:4, power: 0, pryo: 3})}>{jar[4]?.name}</div>
+            <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[5]?.name && selectedMove({name: 'switch', target:5, power: 0, pryo: 3})}>{jar[5]?.name}</div>
         </div>
-        {death.length == 0 && <div style={{width: "100%", height: "20%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('turn')}><div style={{textAlign: "center"}}>Back</div></div>}
+        {death.length == 0 && <div class="choice" style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('turn')}><div style={{textAlign: "center", width:'100%'}}>Back</div></div>}
       </div>
     )
   } else if(stage === "target") {
@@ -358,14 +359,14 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
         <div style={{width: "100%", height: "100%", border: "double"}}>
           <div style={{width: "100%", height: "10%"}}>Who should {jar[step]?.name} target?</div>
           <div style={{width: "100%", height: "35%", display: 'flex'}}>
-            <div style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[0]?.name && step === 1 && selectedTarget(-1)}>{step === 1 && jar[0].name}</div>
-            <div style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jug[0]?.name && selectedTarget(1)}>{jug[0].name}</div>
+            <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[0]?.name && step === 1 && selectedTarget(-1)}>{step === 1 && jar[0].name}</div>
+            <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jug[0]?.name && selectedTarget(1)}>{jug[0].name}</div>
           </div>
           <div style={{width: "100%", height: "35%", display: 'flex'}}>
-            <div style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[1]?.name && step === 0 && selectedTarget(-2)}>{step === 0 && jar[1].name}</div>
-            <div style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jug[1]?.name && selectedTarget(2)}>{jug[1].name}</div>
+            <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[1]?.name && step === 0 && selectedTarget(-2)}>{step === 0 && jar[1].name}</div>
+            <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jug[1]?.name && selectedTarget(2)}>{jug[1].name}</div>
           </div>
-          <div style={{width: "100%", height: "20%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>undoMove()}><div style={{textAlign: "center"}}>Back</div></div>
+          <div class="choice" style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>undoMove()}><div style={{textAlign: "center", width:'100%'}}>Back</div></div>
         </div>
         )
   } else if (stage === "end") {

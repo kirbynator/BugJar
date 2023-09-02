@@ -35,13 +35,13 @@ const cleanUp = (jar, jug, area, rival) => {
     }
     if(area == 'an ant hill' && b.health > 0 && b.name.search("Ant") > -1){
       var newHealth = Math.min(b.hp * 10, b.health + Math.floor(b.hp * 10 / 16))
-      dialog.push(`Due to the arena, ${b.name} heals to ${newHealth}`)
+      dialog.push(`Thanks to the ant hill, ${b.name} heals to ${newHealth}`)
       b.health = newHealth
     }
     if(area == 'a pond' && b.inft === 2){
       b.inft = 0
       b.temp.move = null
-      dialog.push(`Due to the arena, a Hair Worm slips out of ${b.name}`)
+      dialog.push(`Thanks to the pond, a Hair Worm slips out of ${b.name}`)
     }
     if(b.temp?.ill && b.health > 0){
       var newHealth = Math.max(0,b.health - Math.floor((b.hp * 10) / 16))

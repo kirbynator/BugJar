@@ -95,7 +95,7 @@ const attackEffect = (move, bug, target, localArea) => {
       return([convo, insect, enemy])
     break;
     case "Royal Decree":
-      return([[`${bug.name} used Royal Decree, creating an ant hill arena`], bug, null, true, 'an ant hill'])
+      return([[`${bug.name} used Royal Decree`, `${bug.name} created an ant hill arena`], bug, null, true, 'an ant hill'])
     break;
     case "Crystalize":
       var insect = {...bug}
@@ -290,7 +290,7 @@ const attackEffect = (move, bug, target, localArea) => {
       var successful = false;
       (insect.temp?.atk || 0) < 7 ? successful = true : convo.push(`${insect.name}'s attack can't rise anymore`);
       if(successful){
-        convo.push(`${bug.name}'s speed rose`);
+        convo.push(`${bug.name}'s attack rose`);
         insect.temp.atk = (insect.temp?.atk || 0) + 1;
         convo.push("The arena is now a pond!")
       }

@@ -15,7 +15,7 @@ import './style.css'
 
 
 function Battle(props) {
-  const [rng, setRng] = useState(props?.code || Math.floor(Math.random()*100000))
+  const [rng, setRng] = useState(props?.code || Math.floor(Math.random()*10000))
   const [players, setPlayers] = useState([])
   const [page, setPage] = useState(props.page)
   const [jar, setJar] = useState([])
@@ -114,7 +114,7 @@ function Battle(props) {
             <img style={{filter: "grayscale(1)"}} src={rival.avatar} alt="" />
           </div>
         </div>
-        <div id='arena' style={{width:"100%",  height: "30%", display:'flex', justifyContent:'space-between', alignItems:"center"}}>
+        <div id='arena' class='clear' style={{width:"100%",  height: "30%", display:'flex', justifyContent:'space-between', alignItems:"center"}}>
           <div style={{display: 'flex',  width:"40%"}}>
             <img src="" alt={jar[0].name} />
             <img src="" alt={jar[1].name} />

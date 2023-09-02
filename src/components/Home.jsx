@@ -34,30 +34,6 @@ function Home() {
     setPage('')
   }},[])
 
-  useEffect(()=>{
-    if(page === 'decks'){
-      const hex = document.getElementsByClassName('hexagon')
-      let i = 0
-      while(i < hex.length){
-        hex.item(i).style.transform = "rotate(90deg)"
-        i++
-      }
-      const decks = document.getElementsByClassName('deck')
-      i = 0
-      while(i < decks.length){
-        decks.item(i).style.transform = "rotate(-90deg)"
-        i++
-      }
-    } else {
-      const hex = document.getElementsByClassName('hexagon')
-      let i = 0
-      while(i < hex.length){
-        hex.item(i).style.transform = "rotate(0deg)"
-        i++
-      }
-    }
-  },[page])
-
   const selectedJar = e => {
     localStorage.setItem(`jar0`, localStorage.getItem(`jar${e}`))
     setPage("")
@@ -84,19 +60,18 @@ function Home() {
         </div>
         <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center', flexDirection:"column"}}>
           <div style={{display: 'flex', justifyContent:"center", width: '100%', marginBottom: '-10%'}}>
-            <div class='hexagon' onClick={() => setPage('decks')}>
+            <div class='laying hexagon' onClick={() => setPage('decks')}>
               <div style={{flexDirection:"column", transform: "rotate(0deg)"}}>
-                <div style={{color: "white", fontSize: "3vw", textDecoration: "underline"}}>
+                <div style={{fontSize: "3vw", textDecoration: "underline"}}>
                   {JSON.parse(localStorage.getItem("jar0"))?.name || "Random Bugs"}
                 </div>
-                <div style={{color: "white", fontSize: "1vw", margin:'2%'}} onClick={() => setPage('decks')}>
+                <div style={{fontSize: "1vw", margin:'2%'}} onClick={() => setPage('decks')}>
                   Select Jar
                 </div>
-                
               </div>
             </div>
             <div style={{width: '20%'}}/>
-            <div style={{justifyContent:"center"}}class='hexagon'>
+            <div style={{justifyContent:"center"}}class='laying hexagon'>
               <div style={{heightMin:"30em", transform: "rotate(0deg)"}}>
                <div style={{fontSize: "3vw", cursor:'default'}}>Battle Code</div>
                 <div style={{width: "10%"}}></div>
@@ -119,25 +94,25 @@ function Home() {
               </div>
             </div>
           </div>
-          <div class="hexagon">
-            <div style={{fontSize: "4vw",  zIndex:2, cursor:'default', position: "relative", transform: "rotate(0deg)"}} onClick={() => setPage("wait")}>  
+          <div class="laying hexagon" onClick={() => setPage("wait")}>
+            <div style={{fontSize: "4vw",  zIndex:2, cursor:'default', position: "relative", transform: "rotate(0deg)"}}>  
               <>{code ? "Join" : "Create"}</>
               <div>Battle</div>
             </div>
           </div>
         <div style={{display: 'flex', justifyContent:"center", width: '100%', marginTop: '-10%'}} >
-            <div class='hexagon' onClick={() => setPage("jars")}>
-              <div style={{color: "white", fontSize: "3vw", transform: "rotate(0deg)"}}>
+            <div class='laying hexagon' onClick={() => setPage("jars")}>
+              <div style={{fontSize: "3vw", transform: "rotate(0deg)"}}>
                 Edit Jars
               </div>
             </div>
             <div style={{width: '20%', fontSize: "3vw"}}/>
-            <div class='hexagon'>Made by Zach Kirby</div>
+            <div class='laying hexagon'>Made by Zach Kirby</div>
           </div>
         </div>
       </div>
     )
-  }else if(page=== 'decks'){
+  }else if(page === 'decks'){
     return (
       <div style={{width: '100%', height:'100%'}}>
         <div style={{display: 'flex', justifyContent:'space-between'}}>
@@ -152,24 +127,24 @@ function Home() {
         </div>
         <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center', flexDirection:"column"}}>
           <div style={{display: 'flex', justifyContent:"center", width: '100%', marginBottom: '-10%'}}>
-            <div class='hexagon' onClick={() =>selectedJar(1)}>
-              <div class="deck" style={{wordWrap:'normal', margin:"1e,", color: "white", fontSize: "3vw", textDecoration: "underline"}}>{jars[0].name}</div>
+            <div class='upright hexagon' onClick={() =>selectedJar(1)}>
+              <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1em", fontSize: "3vw", textDecoration: "underline"}}>{jars[0].name}</div>
             </div>
             <div style={{width: '20%'}}/>
-            <div style={{justifyContent:"center"}} class='hexagon' onClick={() =>selectedJar(2)}>
-              <div class="deck" style={{wordWrap:'normal', margin:"1em", color: "white", fontSize: "3vw", textDecoration: "underline"}}>{jars[1].name}</div>
+            <div class='upright hexagon' onClick={() =>selectedJar(2)}>
+              <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1em", fontSize: "3vw", textDecoration: "underline"}}>{jars[1].name}</div>
             </div>
           </div>
-          <div class="hexagon" onClick={() =>selectedJar('')}>
-            <div class="deck" style={{wordWrap:'normal', margin:"1em", color: "white", fontSize: "3vw", textDecoration: "underline"}}>Random Bugs</div>
+          <div class="upright hexagon" onClick={() =>selectedJar('')}>
+            <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1em", fontSize: "3vw", textDecoration: "underline"}}>Random Bugs</div>
           </div>
         <div style={{display: 'flex', justifyContent:"center", width: '100%', marginTop: '-10%'}}>
-            <div class='hexagon' onClick={() =>selectedJar(3)}>
-              <div class="deck" style={{wordWrap:'normal', margin:"1em", color: "white", fontSize: "3vw", textDecoration: "underline"}}>{jars[2].name}</div>
+            <div class='upright hexagon' onClick={() =>selectedJar(3)}>
+              <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1em", fontSize: "3vw", textDecoration: "underline"}}>{jars[2].name}</div>
             </div>
             <div style={{width: '20%'}}/>
-            <div class='hexagon' onClick={() =>selectedJar(4)}>
-              <div class="deck" style={{wordWrap:'normal', margin:"1em", color: "white", fontSize: "3vw", textDecoration: "underline"}}>{jars[3].name}</div>
+            <div class='upright hexagon' onClick={() =>selectedJar(4)}>
+              <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1em", fontSize: "3vw", textDecoration: "underline"}}>{jars[3].name}</div>
             </div>
           </div>
         </div>
