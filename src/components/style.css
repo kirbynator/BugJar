@@ -50,12 +50,33 @@
 }
 
 .hexagon {
-  width: 20%;
-  padding-top: 5%;
-  padding-bottom: 5%;
+  width: 40%;
+  padding-top: 7%;
+  padding-bottom: 7%;
+  max-width: 350px;
+  min-width: 150px;
+  max-height: 400px;
+  min-height: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   background: black;
   color: white;
   -webkit-clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
   clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+}
+
+.input {
+  width: 30%;
+  height: 2.4em;
+  border-radius: 0.75em;
+  border: none;
+  outline: none;
+  background-color: #212121;
+  color: #e8e8e8;
+  font-weight: bold;
+  text-align: justify;
+  box-shadow: inset 2px 2px 5px #000000, inset -2px -2px 5px #676767;
+  padding-left: 20%;
 }

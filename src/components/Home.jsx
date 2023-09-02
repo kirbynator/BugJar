@@ -9,7 +9,7 @@ import './style.css'
 
 function Home() {
   const[page, setPage] = useState('start')
-  const[code, setCode] = useState(null)
+  const[code, setCode] = useState('')
   const [jars, setJars] = useState([])
   const [player, setPlayers] = useState(auth.currentUser)
 
@@ -35,14 +35,38 @@ function Home() {
   }},[])
 
   useEffect(()=>{
-    if(page === ""){
-      let element = document.getElementById("jar-select");
-      element.value = (localStorage.getItem("jar0")[6] || '')
+    if(page === 'decks'){
+      const hex = document.getElementsByClassName('hexagon')
+      let i = 0
+      while(i < hex.length){
+        hex.item(i).style.transform = "rotate(90deg)"
+        i++
+      }
+      const decks = document.getElementsByClassName('deck')
+      i = 0
+      while(i < decks.length){
+        decks.item(i).style.transform = "rotate(-90deg)"
+        i++
+      }
+    } else {
+      const hex = document.getElementsByClassName('hexagon')
+      let i = 0
+      while(i < hex.length){
+        hex.item(i).style.transform = "rotate(0deg)"
+        i++
+      }
     }
   },[page])
 
   const selectedJar = e => {
-    localStorage.setItem(`jar0`, localStorage.getItem(`jar${e.target.value}`))
+    localStorage.setItem(`jar0`, localStorage.getItem(`jar${e}`))
+    setPage("")
+  }
+
+  const typeCode = e => {
+    const lol = document.getElementById("input1").value + document.getElementById("input2").value + document.getElementById("input3").value + document.getElementById("input4").value
+    setCode(lol)
+    if(e.target.id !== "input4"){ document.getElementById(`input${1 + parseInt(e.target.id[5])}`).focus() }
   }
   
   if(page === ''){
@@ -58,37 +82,97 @@ function Home() {
             <img style={{filter: "grayscale(1)"}} src={player.photoURL} alt="" />
           </div>
         </div>
-        <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center', marginTop:'37px'}}>
-          <div style={{width: "40%", height:"100%"}}>
-            <div style={{width: "100%", height:"50px", borderBottom: 'solid', display:'flex', alignItems:'center', justifyContent:'center', }}>
-              <select style={{zIndex:1}} onChange={e =>selectedJar(e)} name="jars" id="jar-select">
-                <option value={''}>Random Bugs</option>
-                {jars.length > 0 && jars.map(j=>(
-                  <option value={j?.id}>{j?.name}</option>
-                ))}
-              </select>
+        <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center', flexDirection:"column"}}>
+          <div style={{display: 'flex', justifyContent:"center", width: '100%', marginBottom: '-10%'}}>
+            <div class='hexagon' onClick={() => setPage('decks')}>
+              <div style={{flexDirection:"column", transform: "rotate(0deg)"}}>
+                <div style={{color: "white", fontSize: "3vw", textDecoration: "underline"}}>
+                  {JSON.parse(localStorage.getItem("jar0"))?.name || "Random Bugs"}
+                </div>
+                <div style={{color: "white", fontSize: "1vw", margin:'2%'}} onClick={() => setPage('decks')}>
+                  Select Jar
+                </div>
+                
+              </div>
             </div>
-            <div style={{width: "100%", height:"50px", borderTop: 'solid', display:'flex', alignItems:'center', justifyContent:'center',}}>
-              <button style={{zIndex:1}} onClick={() => setPage("jars")}>Jars</button>
+            <div style={{width: '20%'}}/>
+            <div style={{justifyContent:"center"}}class='hexagon'>
+              <div style={{heightMin:"30em", transform: "rotate(0deg)"}}>
+               <div style={{fontSize: "3vw", cursor:'default'}}>Battle Code</div>
+                <div style={{width: "10%"}}></div>
+                <div style={{display: 'flex', justifyContent:"space-around", width: '100%', marginTop:"2%", marginBottom:"10%"}}>
+                  <div style={{width: "20%"}}></div>
+                  <div style={{width: "20%"}}>
+                    <input maxlength="1" id='input1' class="input" value={code[0]} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
+                  </div>
+                  <div style={{width: "20%"}}>
+                    <input maxlength="1" id='input2' class="input" value={code[1]} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/> 
+                  </div>
+                  <div style={{width: "20%"}}>
+                    <input maxlength="1" id='input3' class="input" value={code[2]} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
+                  </div>
+                  <div style={{width: "20%"}}>
+                    <input maxlength="1" id='input4' class="input" value={code[3]} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
+                  </div>
+                  <div style={{width: "20%"}}></div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="hexagon">
-            <div style={{fontSize: "4vw",  zIndex:2, cursor:'default'}} onClick={() => setPage("wait")}>
+            <div style={{fontSize: "4vw",  zIndex:2, cursor:'default', position: "relative", transform: "rotate(0deg)"}} onClick={() => setPage("wait")}>  
               <>{code ? "Join" : "Create"}</>
               <div>Battle</div>
             </div>
           </div>
-          <div style={{width: "40%", height:"100%"}}>
-            <div style={{width: "100%", height:"50px", borderBottom: 'solid', display:'flex', alignItems:'center', justifyContent:'center'}}>
-              <img style={{height: '102%'}} src={ant}></img>
-            </div> 
-            <div style={{width: "100%", height:"50px", borderTop: 'solid', display:'flex', alignItems:'center', justifyContent:'center'}}>
-              <form style={{zIndex:1}} onSubmit={() => setPage("wait")}><input type="integer" placeholder="Battle code..." value={code} onChange={e=>setCode(e.target.value)}/></form>
+        <div style={{display: 'flex', justifyContent:"center", width: '100%', marginTop: '-10%'}} >
+            <div class='hexagon' onClick={() => setPage("jars")}>
+              <div style={{color: "white", fontSize: "3vw", transform: "rotate(0deg)"}}>
+                Edit Jars
+              </div>
+            </div>
+            <div style={{width: '20%', fontSize: "3vw"}}/>
+            <div class='hexagon'>Made by Zach Kirby</div>
+          </div>
+        </div>
+      </div>
+    )
+  }else if(page=== 'decks'){
+    return (
+      <div style={{width: '100%', height:'100%'}}>
+        <div style={{display: 'flex', justifyContent:'space-between'}}>
+          <h1>Bug Jar Battles</h1>
+          <div style={{display:'flex', justifyContent:'flex-start'}}>
+            <div style={{display:'flex', flexDirection:'column', alignItems:'space-around', justifyContent:'space-around', padding:'3px', textAlign:'right'}}>
+            <div style={{padding: "3%"}}>{player.displayName}</div>
+            <SignOut/>
+            </div>
+            <img style={{filter: "grayscale(1)"}} src={player.photoURL} alt="" />
+          </div>
+        </div>
+        <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center', flexDirection:"column"}}>
+          <div style={{display: 'flex', justifyContent:"center", width: '100%', marginBottom: '-10%'}}>
+            <div class='hexagon' onClick={() =>selectedJar(1)}>
+              <div class="deck" style={{wordWrap:'normal', margin:"1e,", color: "white", fontSize: "3vw", textDecoration: "underline"}}>{jars[0].name}</div>
+            </div>
+            <div style={{width: '20%'}}/>
+            <div style={{justifyContent:"center"}} class='hexagon' onClick={() =>selectedJar(2)}>
+              <div class="deck" style={{wordWrap:'normal', margin:"1em", color: "white", fontSize: "3vw", textDecoration: "underline"}}>{jars[1].name}</div>
             </div>
           </div>
-          
+          <div class="hexagon" onClick={() =>selectedJar('')}>
+            <div class="deck" style={{wordWrap:'normal', margin:"1em", color: "white", fontSize: "3vw", textDecoration: "underline"}}>Random Bugs</div>
+          </div>
+        <div style={{display: 'flex', justifyContent:"center", width: '100%', marginTop: '-10%'}}>
+            <div class='hexagon' onClick={() =>selectedJar(3)}>
+              <div class="deck" style={{wordWrap:'normal', margin:"1em", color: "white", fontSize: "3vw", textDecoration: "underline"}}>{jars[2].name}</div>
+            </div>
+            <div style={{width: '20%'}}/>
+            <div class='hexagon' onClick={() =>selectedJar(4)}>
+              <div class="deck" style={{wordWrap:'normal', margin:"1em", color: "white", fontSize: "3vw", textDecoration: "underline"}}>{jars[3].name}</div>
+            </div>
+          </div>
         </div>
-
       </div>
     )
   } else if(page==='wait'){

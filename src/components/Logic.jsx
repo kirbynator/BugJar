@@ -109,11 +109,11 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     if(stage === 'convo' && convo.length > 0 && convo[step].search('arena') > 0){
       const arena = document.getElementById('arena')
       if(!arena){return}
-      if(area === 'glowing'){
+      if(convo[step].search('glowing') > 0){
         arena.className = "glowing";
-      } else if(area === 'an ant hill'){
+      } else if(convo[step].search('an ant hill') > 0){
         arena.className = "anthill";
-      } else if(area === 'a pond'){
+      } else if(convo[step].search('a pond') > 0){
         arena.className = "pond";
       } else {
         arena.className = "clear";
@@ -163,7 +163,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       setJugReady(false)
       setStep(0)
       if (death.length === 0) {
-        const clean = cleanUp(jar, jug, area, rival.uid)
+        const clean = cleanUp(jar, jug, getArena(), rival.uid)
         const dialog = clean[0]
         setJar([...clean[1]])
         setJug([...clean[2]])
@@ -285,7 +285,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
 
   if (stage === "turn"){
     return (
-    <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>{step > 1  && setStage('end')}
+    <div style={{width: "100%", height: "100%", border: "double"}}>{step > 1  && setStage('end')}
       <div style={{width: "100%", height: "10%"}}>{area?.length > 0 ? `The arena is ${area}, ` : '' }What should {jar[step]?.name} do?</div>
       <div style={{width: "100%", height: "70%", display: 'flex'}}>
         <div style={{width: "50%", height: "100%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('attack')}><h1 style={{width: "100%", textAlign:'center'}}>{jar[step]?.temp?.move ? jar[step]?.temp?.move.name : "Attack"}</h1></div>
@@ -297,7 +297,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
   } else if(stage === 'attack'){
     let mount = jar[step].moves.length
     return (
-      <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>{lockMove()}
+      <div style={{width: "100%", height: "100%", border: "double"}}>{lockMove()}
         <div style={{width: "100%", height: "10%"}}>What attack should {jar[step]?.name} do?</div>
         <div style={{width: "100%", height: mount > 2 ? "35%" : "70%", display: 'flex'}}>
           <div style={{width: "50%", border: "solid", justifyContent:'center', height: "100%"}} onClick={() => selectedMove(jar[step].moves[0])}>
@@ -340,7 +340,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       )
   }else if(stage =="switch"){
     return(
-      <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>
+      <div style={{width: "100%", height: "100%", border: "double"}}>
         <div style={{width: "100%", height: "10%"}}>{death.length == 0 ? `Who should ${jar[step]?.name} switch into?` : 'Who would you like to send out' }</div>
         <div style={{width: "100%", height: "35%", display: 'flex'}}>
             <div style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[2]?.name && selectedMove({name: 'switch', target: 2, power: 0, pryo: 3})}>{jar[2]?.name}</div>
@@ -355,7 +355,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     )
   } else if(stage === "target") {
       return (
-        <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>
+        <div style={{width: "100%", height: "100%", border: "double"}}>
           <div style={{width: "100%", height: "10%"}}>Who should {jar[step]?.name} target?</div>
           <div style={{width: "100%", height: "35%", display: 'flex'}}>
             <div style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[0]?.name && step === 1 && selectedTarget(-1)}>{step === 1 && jar[0].name}</div>
@@ -370,7 +370,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
         )
   } else if (stage === "end") {
     return(
-      <div key={turn} style={{width: "100%", height: "100%", border: "double"}}>{step >= 2 && sendTurn()}
+      <div style={{width: "100%", height: "100%", border: "double"}}>{step >= 2 && sendTurn()}
         <div style={{width: "100%", height: "10%"}}>Waiting on {rival.name}'s selection...</div>
         <div style={{width: "100%", height: "90%", display:'flex', alignItems:'center', justifyContent:'center'}}>
           <Honeycomb/>
@@ -379,7 +379,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     )
   } else if (convo.length > 0) {
     return (
-      <div key={turn} style={{width: "100%", height: "100%", border: "double", display: 'flex', flexDirection:'column', justifyContent: 'space-between'}} onClick={() => setStep(Number(`${step + 1}`))}>{
+      <div style={{width: "100%", height: "100%", border: "double", display: 'flex', flexDirection:'column', justifyContent: 'space-between'}} onClick={() => setStep(Number(`${step + 1}`))}>{
         typeof convo[Math.min(step, convo.length)] === "string" ? convo[Math.min(step, convo.length)] : convo[Math.min(step, convo.length)]()}
         {convo.length > 1 && <div class="blink" style={{textAlign: 'end', width: '100%'}}>
           {'(Proceed)'}

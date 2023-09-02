@@ -16,7 +16,7 @@ const Jars = props => {
 
   return(
     <div key={selectedJar?.name} style={{width:"100%", height:"100%"}}>
-      <div style={{width:"100%", height:"30%", display: "flex", justifyContent:"space-around"}}>
+      <div style={{width:"100%", height:"30%", display: "flex", justifyContent:"space-around", flexWrap: 'wrap'}}>
         {props.jars.map(jar=>{
           return(<div key={jar.id} style={{width:"20%", height:"20%", textAlign:'center', border: 'solid', minHeight: '7em', borderRadius: "0 0 25% 25%"}} onClick={()=>setSelectedJar(jar)}>
             <div style={{backgroundColor:"black", color: "white"}}>{jar.name}</div>
