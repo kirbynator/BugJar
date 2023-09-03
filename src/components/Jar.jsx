@@ -68,20 +68,34 @@ function Jar({jar, jug, setJar, setPage, user}) {
     const bug = items.filter(i => i.type === "a" && i.rarity.search("1") > -1 ).length > 0 ? itemBug("1", commonBugs) : commonBugs[Math.floor(Math.random()*commonBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd), inft: 0}
     if (bug.name === "Caterpillar"){bugParams["form"] = Math.floor(Math.random()*2)}
-    return ({...bug, ...bugParams})
+    return randomInfect({...bug, ...bugParams})
   }
 
   const rareBug = (rareBugs) => {
     const bug = items.filter(i => i.type === "a" && i.rarity.search("2") > -1 ).length > 0 ? itemBug("2", rareBugs) : rareBugs[Math.floor(Math.random()*rareBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd), inft: 0}
     if (bug.name === "Chrysalis"){bugParams["form"] = Math.floor(Math.random()*2)}
-    return ({...bug, ...bugParams})
+    return randomInfect({...bug, ...bugParams})
   }
 
   const epicBug = (epicBugs) => {
     const bug = items.filter(i => i.type === "a" && i.rarity.search("3") > -1 ).length > 0 ? itemBug("3", epicBugs) : epicBugs[Math.floor(Math.random()*epicBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd), inft: 0}
-    return ({...bug, ...bugParams})
+    return randomInfect({...bug, ...bugParams})
+  }
+
+  const randomInfect = bug => {
+    if (1 === Math.floor(Math.random() * 20)){
+      bug.inft = Math.floor(Math.random() * 2) + 1
+      if(bug.inft === 2){
+        bug.atk = bug.atk * 1.5
+        bug.spd = bug.spd * 1.5
+      }
+      return bug
+    }else{
+      return bug
+    }
+
   }
 
   const uuid = () =>{

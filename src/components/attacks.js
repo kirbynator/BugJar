@@ -100,7 +100,11 @@ const attackEffect = (move, bug, target, localArea) => {
     case "Crystalize":
       var insect = {...bug}
       insect.name = "Chrysalis"
+      insect.atk = 1
+      insect.def = 10
+      insect.spd = 3
       insect.moves[0] = {name: "Metamorphose", power: 0,  pryo:0, info: "Emerge into a butterfly"}
+      insect.moves[1] = {name: "Shell Shield", power: 0,  pryo:2, info: "Before attacks, this bug tries to protect itself"}
       return([[`${bug.name} used Crystalize, and becomes a Chrysalis!`], insect])
     break;
     case "Metamorphose":
@@ -122,7 +126,7 @@ const attackEffect = (move, bug, target, localArea) => {
         insect.spd = 5
       }
       insect.moves[0] = {name: "Flutter Fury", power: 3, pryo: 0, info: "This bugs stikes with a fast series of blows"}
-      if (insect.moves.length < 4){insect.moves.push({name: "Butterfly Kiss", power: 0, pryo: 0, info: "Heals this bug and ally bug"})}
+      insect.moves[1] = {name: "Butterfly Kiss", power: 0, pryo: 0, info: "Heals this bug and ally bug"}
       return([[`${bug.name} used Metamorphose, emerging as a ${insect.name}!`], insect])
     break;
     case "Luminous Burst":
