@@ -87,7 +87,7 @@ function Battle(props) {
   }
 
   const returnHome = () => {
-    props.setCode(null)
+    props.setCode('')
     props.setPage('')
   }  
 
@@ -124,7 +124,7 @@ function Battle(props) {
             <img style={{transform: 'scaleX(-1)'}} src="" alt={jug[1].name} />
           </div>
         </div>
-        <div style={{width:"100%",  height: "15%", display:'flex', justifyContent:'space-between', border: 'solid' }}>
+        <div style={{width: "99.6%",  height: "15%", display:'flex', justifyContent:'space-between', border: 'solid' }}>
           <div style={{display: 'flex',  width:"40%", flexDirection: 'column', justifyContent:'space-around', margin: '1em'}}>
             <div style={{width:"100%", height: "100%"}}>
               <div style={{display: 'flex',  width:"100%", justifyContent:'space-between'}}>

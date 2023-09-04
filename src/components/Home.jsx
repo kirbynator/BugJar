@@ -40,9 +40,11 @@ function Home() {
   }
 
   const typeCode = e => {
+    if(e?.nativeEvent && e.type === 'keydown' && e.keyCode === 8 && e.target.value === ""){return document.getElementById(`input${parseInt(e.target.id[5]) - 1}`).focus()}
+    if(e?.nativeEvent && (e.type === 'click' || e.type === 'keydown')){return e.stopPropagation()}
     const lol = document.getElementById("input1").value + document.getElementById("input2").value + document.getElementById("input3").value + document.getElementById("input4").value
     setCode(lol)
-    if(e.target.id !== "input4"){ document.getElementById(`input${1 + parseInt(e.target.id[5])}`).focus() }
+    if(e.target.id !== "input4" && e.target.value !== "" ){ document.getElementById(`input${1 + parseInt(e.target.id[5])}`).focus() }
   }
   
   if(page === ''){
@@ -61,33 +63,31 @@ function Home() {
         <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center', flexDirection:"column"}}>
           <div style={{display: 'flex', justifyContent:"center", width: '100%', marginBottom: '-10%'}}>
             <div class='laying hexagon' onClick={() => setPage('decks')}>
-              <div style={{flexDirection:"column", transform: "rotate(0deg)"}}>
-                <div style={{fontSize: "3vw", textDecoration: "underline"}}>
-                  {JSON.parse(localStorage.getItem("jar0"))?.name || "Random Bugs"}
-                </div>
-                <div style={{fontSize: "1vw", margin:'2%'}} onClick={() => setPage('decks')}>
-                  Select Jar
+              <div style={{flexDirection:"column", justifyContent:'center', alignItems:'center', transform: "rotate(0deg)"}}>
+                <div style={{fontSize: "3vw"}}>Selected Jar</div>
+                <div style={{fontWeight: 'bold', maxWidth:'7.5em', marginTop:"2%", marginBottom:"10%", textAlign: 'center', paddingLeft: "1em", paddingRight: "1em", fontSize: "2vw", borderRadius: ".75em", border: "none", outline: "none", backgroundColor: "#212121", boxShadow: "inset 2px 2px 5px #000000, inset -2px -2px 5px #676767"}}>
+                  {JSON.parse(localStorage.getItem("jar0"))?.name || "Empty Jar"}
                 </div>
               </div>
             </div>
             <div style={{width: '20%'}}/>
-            <div style={{justifyContent:"center"}}class='laying hexagon'>
+            <div style={{justifyContent:"center"}} class='laying hexagon' onClick={()=>typeCode({target:{id: `01234${code.length}`}})}>
               <div style={{heightMin:"30em", transform: "rotate(0deg)"}}>
-               <div style={{fontSize: "3vw", cursor:'default'}}>Battle Code</div>
+               <div style={{fontSize: "3vw"}}>Battle Code</div>
                 <div style={{width: "10%"}}></div>
                 <div style={{display: 'flex', justifyContent:"space-around", width: '100%', marginTop:"2%", marginBottom:"10%"}}>
-                  <div style={{width: "20%"}}></div>
+                  <div style={{width: "20%", pointerEvents:'none'}}></div>
                   <div style={{width: "20%"}}>
-                    <input maxlength="1" id='input1' class="input" value={code[0]} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
+                    <input maxlength="1" id='input1' class="input" value={code[0]} onClick={(e)=>typeCode(e)} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
                   </div>
                   <div style={{width: "20%"}}>
-                    <input maxlength="1" id='input2' class="input" value={code[1]} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/> 
+                    <input maxlength="1" id='input2' class="input" value={code[1]} onKeyDown={(e)=>typeCode(e)} onClick={(e)=>typeCode(e)} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/> 
                   </div>
                   <div style={{width: "20%"}}>
-                    <input maxlength="1" id='input3' class="input" value={code[2]} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
+                    <input maxlength="1" id='input3' class="input" value={code[2]} onKeyDown={(e)=>typeCode(e)} onClick={(e)=>typeCode(e)} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
                   </div>
                   <div style={{width: "20%"}}>
-                    <input maxlength="1" id='input4' class="input" value={code[3]} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
+                    <input maxlength="1" id='input4' class="input" value={code[3]} onKeyDown={(e)=>typeCode(e)} onClick={(e)=>typeCode(e)} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
                   </div>
                   <div style={{width: "20%"}}></div>
                 </div>
@@ -128,23 +128,23 @@ function Home() {
         <div style={{display: 'flex', justifyContent:"center", height:'100%', alignItems:'center', flexDirection:"column"}}>
           <div style={{display: 'flex', justifyContent:"center", width: '100%', marginBottom: '-10%'}}>
             <div class='upright hexagon' onClick={() =>selectedJar(1)}>
-              <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1em", fontSize: "3vw", textDecoration: "underline"}}>{jars[0].name}</div>
+              <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1.8em", fontSize: "3vw"}}>{jars[0].name}</div>
             </div>
             <div style={{width: '20%'}}/>
             <div class='upright hexagon' onClick={() =>selectedJar(2)}>
-              <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1em", fontSize: "3vw", textDecoration: "underline"}}>{jars[1].name}</div>
+              <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1.8em", fontSize: "3vw"}}>{jars[1].name}</div>
             </div>
           </div>
           <div class="upright hexagon" onClick={() =>selectedJar('')}>
-            <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1em", fontSize: "3vw", textDecoration: "underline"}}>Random Bugs</div>
+            <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1.8em", fontSize: "3vw"}}>Empty Jar</div>
           </div>
         <div style={{display: 'flex', justifyContent:"center", width: '100%', marginTop: '-10%'}}>
             <div class='upright hexagon' onClick={() =>selectedJar(3)}>
-              <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1em", fontSize: "3vw", textDecoration: "underline"}}>{jars[2].name}</div>
+              <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1.8em", fontSize: "3vw"}}>{jars[2].name}</div>
             </div>
             <div style={{width: '20%'}}/>
             <div class='upright hexagon' onClick={() =>selectedJar(4)}>
-              <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1em", fontSize: "3vw", textDecoration: "underline"}}>{jars[3].name}</div>
+              <div class="deck" style={{transform: "rotate(-90deg)", wordWrap:'normal', margin:"1.8em", fontSize: "3vw"}}>{jars[3].name}</div>
             </div>
           </div>
         </div>

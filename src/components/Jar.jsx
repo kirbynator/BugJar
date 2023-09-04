@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import bugs from './bugs'
+import ant from '../media/ant.png'
 function Jar({jar, jug, setJar, setPage, user}) {
   const [deck, setDeck] = useState([])
-  const [sorted, setSorted] = useState([])
   const [items, setItems] = useState(JSON.parse(localStorage.getItem("jar0"))?.deck || [])
 
   useEffect(()=>{
@@ -95,7 +95,6 @@ function Jar({jar, jug, setJar, setPage, user}) {
     }else{
       return bug
     }
-
   }
 
   const uuid = () =>{
@@ -106,62 +105,45 @@ function Jar({jar, jug, setJar, setPage, user}) {
     return s + Math.random()
   }
 
-
   const lead = b => {
-    const a = sorted
-    a.push(b)
-    if(a.length === 6){
-      setJar(a)
-    }
-    setSorted(a)
-    setDeck(deck.filter(f=>f.id !== b.id))
+    setDeck([b, ...deck.filter(f=>f.id !== b.id)])
   }
 
-  const unlead = b => {
-    if (sorted.length < 6){
-      const a = deck
-      a.push(b)
-      setDeck(a)
-      setSorted(sorted.filter(f=>f.id !== b.id))
+  const renderInft = inft => {
+    if(inft === 1){
+      return "Infected with Cordyceps"
+    } else if(inft === 2){
+      return "Infected with Hair Worm"
+    } else {
+      return "Not Infected"
     }
   }
-
-  const shuffleArray = () =>  {
-    let array = deck
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-    const together = sorted.concat(array)
-    setSorted(together)
-    setJar(together)
-    setDeck([])
-}
   
-  if (deck.length < 6 && sorted.length < 1){
+  if (deck.length < 6){
     return <h1>Your Bug Jar</h1>
   }else{
   return (
-    <div style={{width: "100%", display: 'flex', flexDirection:'column', alignItems: 'center'}}>
+    <div style={{width: "100%", display: 'flex', flexWrap:'wrap', alignItems: 'center', flexDirection:'column'}}>
       <h1>Your Bug Jar</h1>
-      <div style={{display:'flex', justifyContent: 'center', marginLeft: '10%'}}>
-        <div style={{display:'grid', grid: "auto / auto auto", gridRowGap: "30px", width:"100%"}}>{sorted.map((b, i)=>(<div key={i}>
-          <div style={{display:'flex', width:"50%"}} onClick={()=>{unlead(b)}}>
-            <div style={{fontSize: '2em'}}>{i + 1}</div>
-            <img src="" alt={b.name} />
+      {jar.length === 0 && <div style={{display:"flex", width: '80%', flexDirection:'row', justifyContent:'space-between', margin: '1em'}}>
+        <div style={{display:"flex", width: '50%', flexDirection:'row', justifyContent:'space-around'}}><button onClick={()=>{setJar(deck)}}>Confirm Order</button></div>
+        <div style={{width: '50%', textAlign:"center"}}>Click a bug to move it to the front of the order</div>
+      </div>}
+      <div style={{width: "80%", maxWidth:"50em", display: 'flex', flexWrap:'wrap', justifyContent:'space-around'}}>{
+        deck.map((b,i)=>(<div class="card" style={{marginBottom: '3%', height:'100%', width:'40%', borderRadius: '5px', border: 'solid', boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.5)'}} onClick={() => lead(b)}>
+          <div style={{height: '20%', textAlign:'center', background: 'black', color: 'white'}}>{i + 1}</div>
+          <div style={{display:'flex', height: '40%', justifyContent:'space-around', alignItems:'center', marginTop:'3px'}}>
+            <div style={{width:"30%", height:'100%'}}>
+              <img style={{width:"100%", height:"100%"}} src={ant} alt={b.name} />
+            </div>
+            <div style={{width:"60%", textAlign: 'justify', fontSize: '3vw', textAlign: "center"}}>{b.name}</div>
           </div>
-          {b.name}
-        </div>))}</div>
-      </div>
-        <br/>
-      {deck.length > 0 &&  <div style={{display:'flex'}}><div>{"Select Order | "}</div><button onClick={() => shuffleArray()}>Randomize Remaining</button></div>}
-      <div>{
-        deck.map(b=>(<div style={{marginBottom: '3px'}}>
-          <button style={{width:"11em"}}key={b.id} onClick={() => lead(b)}>{b.name}</button>
-          Attacks: | 
-          {b.moves.map(m => (<> {m.name} |</>))}
+          <div style={{height: '20%', textAlign:'center', background: 'black', color: 'white'}}>
+            <div style={{color: b.inft > 0 ? "white" : "black"}}>{renderInft(b.inft)}</div>
+          </div>
+          <div style={{height: '40%', display: 'flex', flexWrap:"wrap", justifyContent:'space-around'}}>
+            {b.moves.map(m => (<div style={{maxWidth: '10em', minWidth:'4em', textAlign:'center'}}>{m.name}</div>))}
+          </div>
         </div>))
       }</div>
       {jar.length >= 6 && jug.length >= 6 && setPage('battle')}

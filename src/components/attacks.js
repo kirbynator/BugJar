@@ -255,6 +255,7 @@ const attackEffect = (move, bug, target, localArea) => {
     break
     case "Swift Strike":
       move.power = bug.spd + (bug.temp?.spd) > target.speed + (target.temp?.spd) ? 4 : 2
+      console.log(`Swift Strikes power is ${move.power}`)
       return damageCal(move, bug, target)
     break
     case "Vibes":
@@ -310,7 +311,7 @@ const damageCal = (move, bug, target) => {
   } else {
     const totalAtk = bug.atk * 10 * tempStatMulti(bug.temp?.atk)
     const totalDef = target.def * 10 * tempStatMulti(target.temp?.def)
-    const damage = Math.floor((Math.floor(Math.floor(Math.floor(2 * 10 / 5 + 2) * (move.power * 40) * totalAtk / totalDef) / 50) + 2) * (move?.random || 1))
+    const damage = Math.floor((Math.floor(Math.floor(Math.floor(2 * 20 / 5 + 2) * (move.power * 40) * totalAtk / totalDef) / 50) + 2) * (move?.random || 1))
     target.health = Math.max(target.health - damage, 0)
     const message = [`${bug.name} used ${move.name} on ${target.name} dealing ${damage} damage!`]
     if (target.health === 0 && target.inft != 1 && !target.temp?.nbl){message.push(`${target.name} scampered away from the fight`)}

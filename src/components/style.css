@@ -71,6 +71,11 @@
   animation-name: rotate;
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
+  cursor: pointer;
+}
+
+.upright:hover{
+  text-decoration: underline;
 }
 
 @keyframes rotate {
@@ -99,6 +104,13 @@
   animation-name: etator;
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
+  cursor: pointer;
+}
+
+.laying div{
+  animation-name: fade;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
 }
 
 @keyframes etator {
@@ -115,6 +127,18 @@
   }
 }
 
+@keyframes fade {
+  0%{
+    opacity: 0;
+  }
+  75%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
 .input {
   width: 30%;
   height: 2.4em;
@@ -127,8 +151,13 @@
   text-align: justify;
   box-shadow: inset 2px 2px 5px #000000, inset -2px -2px 5px #676767;
   padding-left: 20%;
+  z-index: 3;
 }
 
 .choice:hover{
   box-shadow: inset 2px 2px 5px #000000, inset -2px -2px 5px #676767;
+}
+
+.card:hover{
+  transform: scale(1.1, 1.1);
 }

@@ -189,7 +189,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       setConvo([`You are all out of bugs! ${rival.name} wins`, returnHome])
       setStage('over')
     } else if(deaths.length > 0 && lose.length > 1 ){
-      setStep(jar[0].health === 0 && jar[1].health !== 0 ? 0 : 1)
+      setStep(jar[0].health === 0 ? 0 : 1)
       setStage('switch')
       setDeath(deaths)
       setConvo([])
@@ -239,8 +239,8 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       const a = moves
       a.push({bug: b, move: m, target: m.name == 'switch' ? m.target : step - 2, dead: death.length > 0}) 
       setMoves(a)
-      setStep(jar.filter(b=> b.health === 0).length > 1 || death.length === 1 ? 2 : step + 1)
-      setStage(step === 1 || death.length == 1  ? 'end' : 'turn') 
+      setStep(jar.filter(b=> b.health > 0).length === 1 || death.length === 1 ? 2 : step + 1)
+      setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1 || death.length == 1  ? 'end' : 'turn') 
     }
   }
 
@@ -249,7 +249,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     a[a.length - 1].target = t
     setMoves(a)
     setStep(jar.filter(b=> b.health > 0).length === 1 ? 2 : step + 1)
-    setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1  ? 'end' : 'turn')
+    setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1 || death.length == 1  ? 'end' : 'turn')
   }
 
   const renderPower = (n) => {
@@ -371,7 +371,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
         )
   } else if (stage === "end") {
     return(
-      <div style={{width: "100%", height: "100%", border: "double"}}>{step >= 2 && sendTurn()}
+      <div style={{width: "100%", height: "100%", border: "double"}}>{step == 2 && sendTurn()}
         <div style={{width: "100%", height: "10%"}}>Waiting on {rival.name}'s selection...</div>
         <div style={{width: "100%", height: "90%", display:'flex', alignItems:'center', justifyContent:'center'}}>
           <Honeycomb/>
