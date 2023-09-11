@@ -125,18 +125,18 @@ function Jar({jar, jug, setJar, setPage, user}) {
   return (
     <div style={{width: "100%", display: 'flex', flexWrap:'wrap', alignItems: 'center', flexDirection:'column'}}>
       <h1>Your Bug Jar</h1>
-      {jar.length === 0 && <div style={{display:"flex", width: '80%', flexDirection:'row', justifyContent:'space-between', margin: '1em'}}>
+      {jar.length === 0 && <div style={{display:"flex", width: '80%', maxWidth:"50em", flexDirection:'row', justifyContent:'space-between', margin: '1em'}}>
         <div style={{display:"flex", width: '50%', flexDirection:'row', justifyContent:'space-around'}}><button onClick={()=>{setJar(deck)}}>Confirm Order</button></div>
         <div style={{width: '50%', textAlign:"center"}}>Click a bug to move it to the front of the order</div>
       </div>}
-      <div style={{width: "80%", maxWidth:"50em", display: 'flex', flexWrap:'wrap', justifyContent:'space-around'}}>{
+      <div style={{width: "80%", maxWidth:"50em", display: 'flex', flexWrap:'wrap', justifyContent:'space-between', margin: '1em'}}>{
         deck.map((b,i)=>(<div class="card" style={{marginBottom: '3%', height:'100%', width:'40%', borderRadius: '5px', border: 'solid', boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.5)'}} onClick={() => lead(b)}>
           <div style={{height: '20%', textAlign:'center', background: 'black', color: 'white'}}>{i + 1}</div>
           <div style={{display:'flex', height: '40%', justifyContent:'space-around', alignItems:'center', marginTop:'3px'}}>
             <div style={{width:"30%", height:'100%'}}>
-              <img style={{width:"100%", height:"100%"}} src={ant} alt={b.name} />
+              <img style={{width:"100%", height:"100%"}} src={`bugs/${b.name.toLowerCase().replace(' ', '')}.png`} alt={ant} />
             </div>
-            <div style={{width:"60%", textAlign: 'justify', fontSize: '3vw', textAlign: "center"}}>{b.name}</div>
+            <div style={{width:"60%", textAlign: 'justify', fontSize: '2.5vw', textAlign: "center"}}>{b.name}</div>
           </div>
           <div style={{height: '20%', textAlign:'center', background: 'black', color: 'white'}}>
             <div style={{color: b.inft > 0 ? "white" : "black"}}>{renderInft(b.inft)}</div>
