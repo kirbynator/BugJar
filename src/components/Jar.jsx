@@ -134,7 +134,7 @@ function Jar({jar, jug, setJar, setPage, user}) {
           <div style={{height: '20%', textAlign:'center', background: 'black', color: 'white'}}>{i + 1}</div>
           <div style={{display:'flex', height: '40%', justifyContent:'space-around', alignItems:'center', marginTop:'3px'}}>
             <div style={{width:"30%", height:'100%'}}>
-              <img style={{width:"100%", height:"100%"}} src={`bugs/${b.name.toLowerCase().replace(' ', '')}.png`} alt={ant} />
+              <img style={{width:"100%", height:"100%"}} src={`bugs/${b.name.toLowerCase().replaceAll(' ', '')}.png`} alt={ant} />
             </div>
             <div style={{width:"60%", textAlign: 'justify', fontSize: '2.5vw', textAlign: "center"}}>{b.name}</div>
           </div>

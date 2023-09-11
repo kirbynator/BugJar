@@ -89,7 +89,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
   }
 
   useEffect(()=>{
-    if (timeline?.length == Math.min(jar.filter(b=> b.health > 0).length, 2) + Math.min(jug.filter(b=> b.health > 0).length, 2) || death.length > 0 ){
+    if (timeline?.length >= Math.min(jar.filter(b=> b.health > 0).length, 2) + Math.min(jug.filter(b=> b.health > 0).length, 2) || death.length > 0 ){
       setDeath([])
       const line = [nextLine]
       setConvo(line)
@@ -229,7 +229,14 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     if(m.name === "Domain Drop" && area === "a pond"){
       m.pryo = 1
     }
-    if (m.power || m.name === "Prevention Trap"){
+    if(m.name === "Vicious Vibrations"){
+      const a = moves
+      const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) /100)}
+      if(jug[0].health > 0){a.push({bug: b, move: rm, target: 1})}
+      if(jug[1].health > 0){a.push({bug: b, move: rm, target: 2})}
+      setStep(jar.filter(b=> b.health > 0).length === 1 || death.length === 1 ? 2 : step + 1)
+      setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1 || death.length == 1  ? 'end' : 'turn') 
+    } else if (m.power || m.name === "Prevention Trap"){
       const a = moves
       const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) /100)}
       a.push({bug: b, move: rm, target: null})

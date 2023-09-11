@@ -116,20 +116,28 @@ function Battle(props) {
         </div>
         <div id='arena' class='clear' style={{width:"100%",  height: "30%", display:'flex', justifyContent:'space-around', alignItems:"center"}}>
           <div style={{display: 'flex', height:'100%', width:"40%"}}>
-            <div style={{height:'100%', width:'20%', display:'flex', flexDirection:'column'}}>
-              <img src={`bugs/${jar[0].name.toLowerCase().replace(' ', '')}.png`} style={{width: '100%'}} alt={jar[0].name} />
+            <div style={{height:'100%', display:'flex', flexDirection:'column'}}>
+              <div style={{height:'45%'}}>
+                <img src={`bugs/${jar[0].name.toLowerCase().replaceAll(' ', '')}.png`} style={{height:'100%'}} alt={jar[0].name} />
+              </div> 
             </div>
-            <div style={{height:'100%', width:'20%', display:'flex', flexDirection:'column-reverse'}}>
-              <img src={`bugs/${jar[1].name.toLowerCase().replace(' ', '')}.png`} style={{width: '100%'}} alt={jar[0].name} />
+            <div style={{height:'100%', display:'flex', flexDirection:'column-reverse'}}>
+              <div style={{height:'45%'}}>
+                <img src={`bugs/${jar[1].name.toLowerCase().replaceAll(' ', '')}.png`} style={{height:'100%'}} alt={jar[0].name} />
+              </div>
             </div>
           </div>
           <div style={{display: 'flex',  height:'100%', width:"40%", justifyContent:'flex-end'}}>
-            <div style={{height:'100%', width:'20%', display:'flex', flexDirection:'column-reverse'}}>
-              <img src={`bugs/${jug[0].name.toLowerCase().replace(' ', '')}.png`} style={{width: '100%', transform: 'scaleX(-1)'}} alt={jug[0].name} />
-            </div>
-            <div style={{height:'100%', width:'20%', display:'flex', flexDirection:'column'}}>
-              <img src={`bugs/${jug[1].name.toLowerCase().replace(' ', '')}.png`} style={{width: '100%', transform: 'scaleX(-1)'}} alt={jug[1].name} />
+            <div style={{height:'100%', display:'flex', flexDirection:'column-reverse'}}>
+              <div style={{height:'45%'}}>
+                <img src={`bugs/${jug[0].name.toLowerCase().replaceAll(' ', '')}.png`} style={{height:'100%', transform: 'scaleX(-1)'}} alt={jug[0].name} />
               </div>
+            </div>
+            <div style={{height:'100%', display:'flex', flexDirection:'column'}}>
+              <div style={{height:'45%'}}>
+                <img src={`bugs/${jug[1].name.toLowerCase().replaceAll(' ', '')}.png`} style={{height:'100%', transform: 'scaleX(-1)'}} alt={jug[1].name} />
+              </div>
+            </div>
           </div>
         </div>
         <div style={{width: "99.6%",  height: "15%", display:'flex', justifyContent:'space-between', border: 'solid' }}>

@@ -63,6 +63,7 @@ const attackEffect = (move, bug, target, localArea) => {
     case "Twitch":
     case "Swarm":
     case "Domain Drop":
+    case "Vicious Vibrations":
       return damageCal(move, bug, target)
     break;
     case "Shell Shield":
