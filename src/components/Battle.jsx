@@ -130,12 +130,12 @@ function Battle(props) {
           <div style={{display: 'flex',  height:'100%', width:"40%", justifyContent:'flex-end'}}>
             <div style={{height:'100%', display:'flex', flexDirection:'column-reverse'}}>
               <div style={{height:'45%'}}>
-                {jug[0].name && <img src={`bugs/${jug[0].name.toLowerCase().replaceAll(' ', '')}.png`} style={{height:'100%', transform: 'scaleX(-1)'}} alt={jug[0].name} />}
+                {jug[1].name && <img src={`bugs/${jug[1].name.toLowerCase().replaceAll(' ', '')}.png`} style={{height:'100%', transform: 'scaleX(-1)'}} alt={jug[1].name} />}
               </div>
             </div>
             <div style={{height:'100%', display:'flex', flexDirection:'column'}}>
               <div style={{height:'45%'}}>
-                {jug[1].name && <img src={`bugs/${jug[1].name.toLowerCase().replaceAll(' ', '')}.png`} style={{height:'100%', transform: 'scaleX(-1)'}} alt={jug[1].name} />}
+                {jug[0].name && <img src={`bugs/${jug[0].name.toLowerCase().replaceAll(' ', '')}.png`} style={{height:'100%', transform: 'scaleX(-1)'}} alt={jug[0].name} />}
               </div>
             </div>
           </div>
