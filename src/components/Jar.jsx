@@ -14,8 +14,9 @@ function Jar({jar, jug, setJar, setPage, user}) {
       [1,1,1,2,2,3].map(value=> ({value, sort: Math.random()}) ).sort((a,b) => a.sort - b.sort).map(v => {
         if (v.value === 1){deck.push(commonBug(commonBugs))}
         if (v.value === 2){deck.push(rareBug(rareBugs))}
-        if (v.value === 3){ deck.push(epicBug(epicBugs))}
+        if (v.value === 3){deck.push(epicBug(epicBugs))}
       })
+
       const moveItems = items.filter(i => i.type === "m")
       moveItems.map(i=>{
         const willing = deck.filter(b=> b.moves.findIndex(m=> m.name === i.move.name) === -1 && b.moves.length < 4)
@@ -25,6 +26,7 @@ function Jar({jar, jug, setJar, setPage, user}) {
           deck[deckIndex < 0 ? 0 : deckIndex].moves.push(i.move) 
         }
       })
+
       const infectItems = items.filter(i => i.type === "i")
       infectItems.map(i=>{
         const healthy = deck.filter(b=> b.inft === 0);
@@ -37,10 +39,9 @@ function Jar({jar, jug, setJar, setPage, user}) {
           }
           sick.inft = i.inft
           deck[deckIndex < 0 ? 0 : deckIndex] = sick
-        }
-        
-          
+        } 
       })
+
       const swarm = deck.filter(b=> b.moves.find(m=> m.name === "Swarm"))
       swarm.map(b=>{b.moves.map(m=>{ if(m.name === "Swarm"){ m.power = Math.min(swarm.length, 3)}})})
       setDeck(deck)

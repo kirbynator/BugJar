@@ -107,7 +107,7 @@ function Home() {
               </div>
             </div>
             <div style={{width: '20%', fontSize: "3vw"}}/>
-            <div class='laying hexagon'>Made by Zach Kirby</div>
+            <div class='laying hexagon' onClick={() => window.open("https://github.com/kirbynator/BugJar/blob/main/src/components/bugs.js", "_blank")}>Made by Zach Kirby</div>
           </div>
         </div>
       </div>

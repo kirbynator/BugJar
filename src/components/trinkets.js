@@ -9,7 +9,7 @@ const trickets = [
   {name: "Honey", rarity: "12", search: "Bee Wasp", type: "a", effect: "Attracts Bees and Wasps"},
   {name: "Bait Worms", rarity: "2", search: "Assassin Dragonfly", type: "a", effect: "Attracts Assassin Bugs and Dragonflies"},
   {name: "Rotting Log", rarity: "12", search: "Lightning Pill", type: "a", effect: "Attracts Lightning Bugs and Pill Bugs"},
-  {name: "Pyramid Shaped Rock", rarity: "12", type: "a", search: "Locus Grasshopper", effect: "Attracts Locus and Grasshoppers"},
+  {name: "Pyramid Shaped Rock", rarity: "123", type: "a", search: "Locus Grasshopper Scarab", effect: "Attracts Locus, Scarabs and Grasshoppers"},
   {name: "Pesticide", type:"m", move:{name: "Toxic Tincture", power: 1, pryo: 0, info: "Makes the target ill, doing damage over time"}, effect: "Modifies a bug to know Toxic Tincture that wouldn't normally"},
   {name: "Vinylanisole", type:"m", move:{name: "Swarm", power: 1, pryo:0,  info: "Becomes stronger the more bugs in your jar that know it"}, effect: "Modifies a bug to know Swarm that wouldn't normally"},
   {name: "Growth Hormone", type:"m", move:{name: "Apex Assault", power: 3, pryo: 0, info:"This bug attacks, backed up with a sense of dread"}, effect: "Modifies a bug to know Apex Assult that wouldn't normally"},

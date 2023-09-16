@@ -27,6 +27,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
   const beginTurn = () => {
     setStage("turn")
     setStep(jar[0].health === 0 ? 1 : 0)
+    setMoves([])
     setConvo([])
   }
 
@@ -300,7 +301,10 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
         <div class="choice" style={{width: "49.8%", height: "100%", border: "solid", display: 'flex', alignItems:"center", background: jar[step]?.temp?.move ? "darkgray": "white"}} onClick={()=>setStage('attack')}><h1 style={{width: "100%", textAlign:'center'}}>{jar[step]?.temp?.move ? jar[step]?.temp?.move.name : "Attack"}</h1></div>
         <div class="choice" style={{width: "49.8%", height: "100%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('switch')}><h1 style={{textAlign:'center', width: "100%",}}>Switch</h1></div>
       </div>
-      <div class="choice" style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center", textAlign: 'center'}}><div style={{width:'100%', textAlign: 'center'}}>Surrender</div></div>
+      {step === 1 && jar[0].health !== 0 ?
+        <div class="choice" onClick={() => beginTurn()} style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center", textAlign: 'center'}}><div style={{width:'100%', textAlign: 'center'}}>Back</div></div> :
+        <div class="choice" style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center", textAlign: 'center'}}><div style={{width:'100%', textAlign: 'center'}}>Surrender</div></div>
+      }
     </div>
     )
   } else if(stage === 'attack'){
