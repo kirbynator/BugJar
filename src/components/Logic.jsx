@@ -49,7 +49,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
 
   useEffect(() => {
     if(seeds.length % 2 !== 0){return}
-    const seedsTurn = seeds.filter(s => s.uid != rival.uid).length
+    const seedsTurn = seeds.filter(s => s.uid !== rival.uid).length
     const sortedSeeds = seeds.filter(t=>
       t.turn === seedsTurn
     );
@@ -180,8 +180,8 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     const lose = jar.filter(b=> b.health > 0)
     const win = jug.filter(b=> b.health > 0)
     const deaths = []
-    if(jar[0].health == 0){deaths.push(0)}
-    if(jar[1].health == 0){deaths.push(1)}
+    if(jar[0].health === 0){deaths.push(0)}
+    if(jar[1].health === 0){deaths.push(1)}
     if(win.length === 0){
       setConvo([`${rival.name} is all out of bugs! You win!`, returnHome])
       setStage('over')
@@ -193,14 +193,11 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       setStage('switch')
       setDeath(deaths)
       setConvo([])
-    } else if ((jug[0].health == 0 || jug[1].health == 0) && win.length > 1) {
+    } else if ((jug[0].health === 0 || jug[1].health === 0) && win.length > 1) {
+      setDeath(['easteregg'])
+      setStep(2)
       setStage('end')
       setConvo([])
-      if(death.length === 0){
-        console.log("Empty Turn")
-        addTurn(turn, [])
-      }
-      setDeath(['easteregg'])
     } else {
       beginTurn()
     }
@@ -223,19 +220,19 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
 
   const selectedMove = m => {
     const b = jar[step]
-    if(b.inft === 2 && !b.temp?.move && m.name != "Crystalize" && m.name != "Metamorphose"){
+    if(b.inft === 2 && !b.temp?.move && m.name !== "Crystalize" && m.name !== "Metamorphose"){
       b.temp.move = m
     }
     if(m.name === "Domain Drop" && area === "a pond"){
       m.pryo = 1
     }
-    if(m.name === "Vicious Vibrations"){
+    if(m.name === "Saltatorial Stomps"){
       const a = moves
-      const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) /100)}
+      const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) / 100)}
       if(jug[0].health > 0){a.push({bug: b, move: rm, target: 1})}
       if(jug[1].health > 0){a.push({bug: b, move: rm, target: 2})}
       setStep(jar.filter(b=> b.health > 0).length === 1 || death.length === 1 ? 2 : step + 1)
-      setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1 || death.length == 1  ? 'end' : 'turn') 
+      setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1 || death.length === 1  ? 'end' : 'turn') 
     } else if (m.power || m.name === "Prevention Trap"){
       const a = moves
       const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) /100)}
@@ -244,10 +241,14 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       setStage('target')
     } else {
       const a = moves
-      a.push({bug: b, move: m, target: m.name == 'switch' ? m.target : step - 2, dead: death.length > 0}) 
+      a.push({bug: b, move: m, target: m.name === 'switch' ? m.target : step - 2, dead: death.length > 0}) 
       setMoves(a)
       setStep(jar.filter(b=> b.health > 0).length === 1 || death.length === 1 ? 2 : step + 1)
-      setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1 || death.length == 1  ? 'end' : 'turn') 
+      if(death.length === 2 && step === 0){
+        setStage('switch')
+      } else {
+        setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1 || death.length === 1  ? 'end' : 'turn') 
+      }
     }
   }
 
@@ -256,7 +257,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     a[a.length - 1].target = t
     setMoves(a)
     setStep(jar.filter(b=> b.health > 0).length === 1 ? 2 : step + 1)
-    setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1 || death.length == 1  ? 'end' : 'turn')
+    setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1 || death.length === 1  ? 'end' : 'turn')
   }
 
   const renderPower = (n) => {
@@ -349,7 +350,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
   }else if(stage =="switch"){
     return(
       <div style={{width: "100%", height: "100%", border: "double"}}>
-        <div style={{width: "100%", height: "10%"}}>{death.length == 0 ? `Who should ${jar[step]?.name} switch into?` : 'Who would you like to send out' }</div>
+        <div style={{width: "100%", height: "10%"}}>{death.length === 0 ? `Who should ${jar[step]?.name} switch into?` : 'Who would you like to send out' }</div>
         <div style={{width: "100%", height: "35%", display: 'flex'}}>
             <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[2]?.name && selectedMove({name: 'switch', target: 2, power: 0, pryo: 3})}>{jar[2]?.name}</div>
             <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[3]?.name && selectedMove({name: 'switch', target: 3, power: 0, pryo: 3})}>{jar[3]?.name}</div>
@@ -358,7 +359,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
             <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[4]?.name && selectedMove({name: 'switch', target:4, power: 0, pryo: 3})}>{jar[4]?.name}</div>
             <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[5]?.name && selectedMove({name: 'switch', target:5, power: 0, pryo: 3})}>{jar[5]?.name}</div>
         </div>
-        {death.length == 0 && <div class="choice" style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('turn')}><div style={{textAlign: "center", width:'100%'}}>Back</div></div>}
+        {death.length === 0 && <div class="choice" style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('turn')}><div style={{textAlign: "center", width:'100%'}}>Back</div></div>}
       </div>
     )
   } else if(stage === "target") {
@@ -378,7 +379,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
         )
   } else if (stage === "end") {
     return(
-      <div style={{width: "100%", height: "100%", border: "double"}}>{step == 2 && sendTurn()}
+      <div style={{width: "100%", height: "100%", border: "double"}}>{step === 2 && sendTurn()}
         <div style={{width: "100%", height: "10%"}}>Waiting on {rival.name}'s selection...</div>
         <div style={{width: "100%", height: "90%", display:'flex', alignItems:'center', justifyContent:'center'}}>
           <Honeycomb/>

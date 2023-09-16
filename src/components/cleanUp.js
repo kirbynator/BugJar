@@ -4,8 +4,13 @@ const cleanUp = (jar, jug, area, rival) => {
   const dialog = []
 
   const modBugs = [localJar[0],localJar[1],localJug[0],localJug[1]].map((b, i)=>{
+    if(b.temp?.ill && b.health > 0){
+      var newHealth = Math.max(0,b.health - Math.floor((b.hp * 10) / 16))
+      dialog.push(`${b.name} is ill, dropping its health to ${newHealth}`)
+      b.health = newHealth
+    }
     if (b.health <= 0) {
-      if(b.inft == 1){
+      if(b.inft === 1){
         dialog.push(`${b.name} was infected with a parasitic fungus`)
         b.name = "Zombie " + b.name
         b.hp = 0.1
@@ -21,7 +26,7 @@ const cleanUp = (jar, jug, area, rival) => {
      b.temp.inv = false
      b.temp.wasInv = true
     }
-    if(b.temp?.nbl && b.health == 0) {
+    if(b.temp?.nbl && b.health === 0) {
       var target = i % 2 === 0 ? i + 1 : i - 1
       var insect = [localJar[0],localJar[1],localJug[0],localJug[1]][target]
       if (insect.health > 0){
@@ -33,22 +38,17 @@ const cleanUp = (jar, jug, area, rival) => {
         (insect.temp?.spd|| 0) < 7 ? insect.temp.spd = (insect.temp?.spd|| 0) + 1 : dialog.push(`${insect.name}'s speed can't rise anymore`);
       }
     }
-    if(area == 'an ant hill' && b.health > 0 && b.name.search("Ant") > -1){
+    if(area === 'an ant hill' && b.health > 0 && b.name.search("Ant") > -1){
       var newHealth = Math.min(b.hp * 10, b.health + Math.floor(b.hp * 10 / 16))
       dialog.push(`Thanks to the ant hill, ${b.name} heals to ${newHealth}`)
       b.health = newHealth
     }
-    if(area == 'a pond' && b.inft === 2){
+    if(area === 'a pond' && b.inft === 2){
       b.inft = 0
       b.temp.move = null
       dialog.push(`Thanks to the pond, a Hair Worm slips out of ${b.name}`)
     }
-    if(b.temp?.ill && b.health > 0){
-      var newHealth = Math.max(0,b.health - Math.floor((b.hp * 10) / 16))
-      dialog.push(`${b.name} is ill, dropping its health to ${newHealth}`)
-      b.health = newHealth
-      if(newHealth == 0){dialog.push(`${b.name} scampered away from the fight`)}
-    }
+    
     if(b.temp.ob && b.health > 0){
       b.temp.ob = false
       dialog.push(`${b.name} caused an outbreak!`)

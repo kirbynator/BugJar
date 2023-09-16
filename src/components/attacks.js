@@ -9,7 +9,7 @@ const attackLogic = (attacks, jar, jug, area, rival) => {
       if(attack.move.name === "switch"){
         bug.temp = {}
         const insect = {...bug}
-        if (insect.user == rival){
+        if (insect.user === rival){
           const lead = localJug[(attack.move.target)]
           localJug[localJug.findIndex(b=> b.id === insect.id)] = lead
           localJug[(attack.move.target)] = insect
@@ -23,8 +23,8 @@ const attackLogic = (attacks, jar, jug, area, rival) => {
       } else {
         const outcome = attackEffect(attack.move, bug, getTarget(attack, localJar, localJug, rival), localArea)
         if(outcome[0]){dialog = dialog.concat(outcome[0])}
-        if(outcome[1]){outcome[1].user == rival ? localJug[localJug.findIndex(b=> b.id === outcome[1].id)] = outcome[1] : localJar[localJar.findIndex(b=> b.id === outcome[1].id)] = outcome[1] }
-        if(outcome[2]){outcome[2].user == rival ? localJug[localJug.findIndex(b=> b.id === outcome[2].id)] = outcome[2] : localJar[localJar.findIndex(b=> b.id === outcome[2].id)] = outcome[2] }
+        if(outcome[1]){outcome[1].user === rival ? localJug[localJug.findIndex(b=> b.id === outcome[1].id)] = outcome[1] : localJar[localJar.findIndex(b=> b.id === outcome[1].id)] = outcome[1] }
+        if(outcome[2]){outcome[2].user === rival ? localJug[localJug.findIndex(b=> b.id === outcome[2].id)] = outcome[2] : localJar[localJar.findIndex(b=> b.id === outcome[2].id)] = outcome[2] }
         if(outcome[4]){localArea = outcome[4]}
       }
     }
@@ -37,14 +37,14 @@ const getTarget = (attack, jar, jug, rival) => {
   if (!attack.target){return}
   var target = null
   if (attack.target > 0){
-    target = attack.bug.user == rival ? jar[Math.abs(attack.target) - 1] : jug[Math.abs(attack.target) - 1]
+    target = attack.bug.user === rival ? jar[Math.abs(attack.target) - 1] : jug[Math.abs(attack.target) - 1]
   }else{
-    target = attack.bug.user == rival ? jug[Math.abs(attack.target) - 1] : jar[Math.abs(attack.target) - 1]
+    target = attack.bug.user === rival ? jug[Math.abs(attack.target) - 1] : jar[Math.abs(attack.target) - 1]
   }
-  if(target.health == 0){ 
+  if(target.health === 0){ 
     if (attack.target > 0){
       attack.target = Math.abs(attack.target - 3) 
-      target = attack.bug.user == rival ? jar[Math.abs(attack.target) - 1] : jug[Math.abs(attack.target) - 1]
+      target = attack.bug.user === rival ? jar[Math.abs(attack.target) - 1] : jug[Math.abs(attack.target) - 1]
     }else{
       return null
     }
@@ -63,7 +63,7 @@ const attackEffect = (move, bug, target, localArea) => {
     case "Twitch":
     case "Swarm":
     case "Domain Drop":
-    case "Vicious Vibrations":
+    case "Saltatorial Stomps":
       return damageCal(move, bug, target)
     break;
     case "Shell Shield":
@@ -110,12 +110,12 @@ const attackEffect = (move, bug, target, localArea) => {
     break;
     case "Metamorphose":
       var insect = {...bug}
-      if (insect.form == 1){
+      if (insect.form === 1){
         insect.name = "Skipper Butterfly"
         insect.atk = 5
         insect.def = 5
         insect.spd = 10
-      } else if (insect.form == 2){
+      } else if (insect.form === 2){
         insect.name = "Birdwing Butterfly"
         insect.atk = 5
         insect.def = 10
@@ -194,7 +194,7 @@ const attackEffect = (move, bug, target, localArea) => {
       var convo = calc[0];
       var insect = calc[1];
       var enemy = calc[2];
-      if (calc[3] && localArea == "glowing"){
+      if (calc[3] && localArea === "glowing"){
         convo.push(`${insect.name} stats were rised!`);
         (insect.temp?.atk || 0) < 7 ? insect.temp.atk = (insect.temp?.atk || 0) + 1 : convo.push(`${insect.name}'s attack can't rise anymore`)
         (insect.temp?.def || 0) < 7 ? insect.temp.def = (insect.temp?.def || 0) + 1 : convo.push(`${insect.name}'s defense can't rise anymore`)
@@ -302,12 +302,33 @@ const attackEffect = (move, bug, target, localArea) => {
       }
       return([convo, insect, null, true, "a pond"]);
     break
+    case "Visceral Violate":
+      var calc = damageCal(move, bug, target)
+      var convo = calc[0]
+      var insect = calc[1]
+      var enemy = calc[2]
+      var successful = false
+      if (calc[3]){
+        (insect.temp?.def || 0) > -7 ? successful = true : convo.push(`${insect.name}'s defense can't go lower`)
+        if(successful){
+          convo.push(`${insect.name} defense was lowered`) 
+          insect.temp.atk = (insect.temp?.def || 0) - 1
+        }
+        (insect.temp?.atk || 0) < 7 ? successful = true : convo.push(`${insect.name}'s attack can't rise anymore`)
+        if(successful){
+          convo.push(`${bug.name}'s attack rose`);
+          insect.temp.atk = (insect.temp?.atk || 0) + 1;
+          convo.push("The arena is now a pond!")
+        }
+      }
+      return([convo, insect, enemy])
+    break;
   }
 }
 
 const damageCal = (move, bug, target) => {
-  if(!target || target.health == 0){return([`${bug.name} used ${move.name} but it failed`, bug, target, false])}
-  if (target.temp?.inv && move.name != "Floral Feint"){
+  if(!target || target.health === 0){return([`${bug.name} used ${move.name} but it failed`, bug, target, false])}
+  if (target.temp?.inv && move.name !== "Floral Feint"){
     return([[`${bug.name} used ${move.name} on ${target.name}, but ${target.name} was protected`], bug, target, false])
   } else {
     const totalAtk = bug.atk * 10 * tempStatMulti(bug.temp?.atk)
@@ -315,7 +336,7 @@ const damageCal = (move, bug, target) => {
     const damage = Math.floor((Math.floor(Math.floor(Math.floor(2 * 20 / 5 + 2) * (move.power * 40) * totalAtk / totalDef) / 50) + 2) * (move?.random || 1))
     target.health = Math.max(target.health - damage, 0)
     const message = [`${bug.name} used ${move.name} on ${target.name} dealing ${damage} damage!`]
-    if (target.health === 0 && target.inft != 1 && !target.temp?.nbl){message.push(`${target.name} scampered away from the fight`)}
+    if (target.health === 0 && target.inft !== 1 && !target.temp?.nbl){message.push(`${target.name} scampered away from the fight`)}
     return([message, bug, target, true])
   }
 }

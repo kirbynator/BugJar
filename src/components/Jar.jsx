@@ -21,7 +21,7 @@ function Jar({jar, jug, setJar, setPage, user}) {
         const willing = deck.filter(b=> b.moves.findIndex(m=> m.name === i.move.name) === -1 && b.moves.length < 4)
         if(willing.length > 0){ 
           const willer = willing[Math.floor(Math.random()*willing.length)]
-          const deckIndex = deck.findIndex(b=> b.id == willer.id)
+          const deckIndex = deck.findIndex(b=> b.id === willer.id)
           deck[deckIndex < 0 ? 0 : deckIndex].moves.push(i.move) 
         }
       })
@@ -30,8 +30,8 @@ function Jar({jar, jug, setJar, setPage, user}) {
         const healthy = deck.filter(b=> b.inft === 0);
         if(healthy.length > 0){ 
           const sick = healthy[Math.floor(Math.random()*healthy.length)]
-          const deckIndex = deck.findIndex(b=> b.id == sick.id)
-          if(i.inft == 2){
+          const deckIndex = deck.findIndex(b=> b.id === sick.id)
+          if(i.inft === 2){
             sick.atk = sick.atk * 1.5
             sick.spd = sick.spd * 1.5
           }
@@ -53,7 +53,7 @@ function Jar({jar, jug, setJar, setPage, user}) {
       const ratityItems = attrackItems.filter(i => i.rarity.search(r) > -1)
       const item = ratityItems[Math.floor(Math.random()*ratityItems.length)]
       const newItems = items
-      newItems.splice(items.findIndex(i => i == item), 1)
+      newItems.splice(items.findIndex(i => i === item), 1)
       setItems(newItems)
       console.log(`Using ${item.name}`)
       const terms = item.search.split(' ')
