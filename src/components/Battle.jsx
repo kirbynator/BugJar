@@ -114,27 +114,23 @@ function Battle(props) {
             <img style={{filter: "grayscale(1)"}} src={rival.avatar} alt="" />
           </div>
         </div>
-        <div id='arena' class='clear' style={{width:"100%",  height: "30%", display:'flex', justifyContent:'space-around', alignItems:"center"}}>
-          <div style={{display: 'flex', height:'100%', width:"40%"}}>
-            <div style={{height:'100%', display:'flex', flexDirection:'column'}}>
+        <div id='arena' class='clear' style={{width:"98%",  height: "30%", display:'flex', justifyContent:'space-between', alignItems:"center", paddingLeft:'1%', paddingRight:'1%'}}>
+          <div style={{display: 'flex', height:'100%', width:"33%"}}>
+            <div style={{height:'100%', width:"100%", display:'flex', flexDirection:'column', justifyContent:"space-around"}}>
               <div style={{height:'45%'}}>
-               {jar[0].name && <img src={`bugs/${jar[0].name.toLowerCase().replaceAll(' ', '').replace(/zombie/g,'')}.png`} style={{height:'100%', filter: jar[0].name.search("Zombie") >= 0 ? "hue-rotate(90deg)" : "none"}} alt={jar[0].name} />}
+                {jar[0].name && <img src={`bugs/${jar[0].name.toLowerCase().replaceAll(' ', '').replace(/zombie/g,'')}.png`} style={{height:'100%', filter: jar[0].name.search("Zombie") >= 0 ? "hue-rotate(90deg)" : "none"}} alt={jar[0].name} />}
               </div> 
-            </div>
-            <div style={{height:'100%', display:'flex', flexDirection:'column-reverse'}}>
-              <div style={{height:'45%'}}>
+              <div style={{height:'45%', textAlign:'end'}}>
                 {jar[1].name && <img src={`bugs/${jar[1].name.toLowerCase().replaceAll(' ', '').replace(/zombie/g,'')}.png`} style={{height:'100%', filter: jar[1].name.search("Zombie") >= 0 ? "hue-rotate(90deg)" : "none"}} alt={jar[1].name} />}
               </div>
             </div>
           </div>
-          <div style={{display: 'flex',  height:'100%', width:"40%", justifyContent:'flex-end'}}>
-            <div style={{height:'100%', display:'flex', flexDirection:'column-reverse'}}>
+          <div style={{display: 'flex',  height:'100%', width:"33%", justifyContent:'flex-end' }}>
+            <div style={{height:'100%', width:"100%", display:'flex', flexDirection:'column-reverse', justifyContent:"space-around"}}>
               <div style={{height:'45%'}}>
                 {jug[1].name && <img src={`bugs/${jug[1].name.toLowerCase().replaceAll(' ', '').replace(/zombie/g,'')}.png`} style={{height:'100%', transform: 'scaleX(-1)', filter: jug[1].name.search("Zombie") >= 0 ? "hue-rotate(90deg)" : "none"}} alt={jug[1].name} />}
               </div>
-            </div>
-            <div style={{height:'100%', display:'flex', flexDirection:'column'}}>
-              <div style={{height:'45%'}}>
+              <div style={{height:'45%', textAlign:'end'}}>
                 {jug[0].name && <img src={`bugs/${jug[0].name.toLowerCase().replaceAll(' ', '').replace(/zombie/g,'')}.png`} style={{height:'100%', transform: 'scaleX(-1)', filter: jug[0].name.search("Zombie") >= 0 ? "hue-rotate(90deg)" : "none"}} alt={jug[0].name} />}
               </div>
             </div>
