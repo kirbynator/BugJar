@@ -90,7 +90,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
   }
 
   useEffect(()=>{
-    if (timeline?.length >= Math.min(jar.filter(b=> b.health > 0).length, 2) + Math.min(jug.filter(b=> b.health > 0).length, 2) || death.length > 0 ){
+    if (timeline?.length >= Math.min(jar.filter(b=> b.health > 0).length, 2) + Math.min(jug.filter(b=> b.health > 0).length, 2) || death.length > 0 || timeline[0]?.move?.name === 'surrender'){
       setDeath([])
       const line = [nextLine]
       setConvo(line)
@@ -303,7 +303,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       </div>
       {step === 1 && jar[0].health !== 0 ?
         <div class="choice" onClick={() => beginTurn()} style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center", textAlign: 'center'}}><div style={{width:'100%', textAlign: 'center'}}>Back</div></div> :
-        <div class="choice" style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center", textAlign: 'center'}}><div style={{width:'100%', textAlign: 'center'}}>Surrender</div></div>
+        <div class="choice" onClick={()=>{setMoves([{bug: {name: 'surrender', spd: 100}, move:{name: 'surrender', pryo:3, user:rival.uid}}]); setStep(2); setStage('end')}} style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center", textAlign: 'center'}}><div style={{width:'100%', textAlign: 'center'}}>Surrender</div></div>
       }
     </div>
     )

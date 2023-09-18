@@ -4,6 +4,21 @@ const attackLogic = (attacks, jar, jug, area, rival) => {
   let localArea = area
   let dialog = []
   attacks.map(attack => {
+    if(attack.move.name === "surrender"){
+      if (attack.user === rival){
+        localJar.map(b=>{
+          b.health = 0;
+          b.name = null
+        })
+        dialog.push(`You smushed all your bugs`)
+      } else {
+        localJug.map(b=>{
+          b.health = 0;
+          b.name = null
+        })
+        dialog.push(`Your opponent smushed all their bugs`)
+      }
+    }
     let bug = localJar.concat(localJug).find(i => i.id === attack.bug.id)
     if(bug?.health > 0 || attack.dead){
       if(attack.move.name === "switch"){
