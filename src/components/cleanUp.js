@@ -43,7 +43,7 @@ const cleanUp = (jar, jug, area, rival) => {
       dialog.push(`Thanks to the ant hill, ${b.name} heals to ${newHealth}`)
       b.health = newHealth
     }
-    if(area === 'a pond' && b.inft === 2){
+    if(area === 'a pond' && b.inft === 2 && b.health > 0 ){
       b.inft = 0
       b.temp.move = null
       dialog.push(`Thanks to the pond, a Hair Worm slips out of ${b.name}`)

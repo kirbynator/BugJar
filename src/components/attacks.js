@@ -163,7 +163,7 @@ const attackEffect = (move, bug, target, localArea) => {
       if(target && ((target.temp?.def || 0) < 7)) {
         target.temp.def = (target.temp?.def || 0) + 1
         convo.push(`${target.name}'s defense rose`)
-      } else {convo.push(`${target.name}'s defense can't rise anymore`)}
+      } else if(target){convo.push(`${target.name}'s defense can't rise anymore`)}
       return([convo, bug, target])
     break;
     case "Cutting Edge":
@@ -175,7 +175,7 @@ const attackEffect = (move, bug, target, localArea) => {
       if(target && ((target.temp?.atk || 0) < 7)) {
         target.temp.atk = (target.temp?.atk || 0) + 1
         convo.push(`${target.name}'s attack rose`)
-      } else {convo.push(`${target.name}'s attack can't rise anymore`)}
+      } else if(target){convo.push(`${target.name}'s attack can't rise anymore`)}
       return([convo, bug, target])
     break;
     case "Chirp":
@@ -318,7 +318,6 @@ const attackEffect = (move, bug, target, localArea) => {
         if(successful){
           convo.push(`${bug.name}'s attack rose`);
           insect.temp.atk = (insect.temp?.atk || 0) + 1;
-          convo.push("The arena is now a pond!")
         }
       }
       return([convo, insect, enemy])
