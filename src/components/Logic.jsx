@@ -293,6 +293,10 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     setMoves([])
   }
 
+  const switching = i => {
+    return moves.filter(m => m.move.name === 'switch' && m.move.target === i).length > 0
+  }
+
   if (stage === "turn"){
     return (
     <div style={{width: "100%", height: "100%", border: "double"}}>{step > 1  && setStage('end')}
@@ -356,12 +360,12 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       <div style={{width: "100%", height: "100%", border: "double"}}>
         <div style={{width: "100%", height: "10%"}}>{death.length === 0 ? `Who should ${jar[step]?.name} switch into?` : 'Who would you like to send out' }</div>
         <div style={{width: "100%", height: "35%", display: 'flex'}}>
-            <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[2]?.name && selectedMove({name: 'switch', target: 2, power: 0, pryo: 3})}>{jar[2]?.name}</div>
-            <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[3]?.name && selectedMove({name: 'switch', target: 3, power: 0, pryo: 3})}>{jar[3]?.name}</div>
+            <div class={switching(2) || jar[2].health === 0 ? "" : "choice"} style={{width: "50%", height: "100%", border: "solid", backgroundColor: switching(2) ? 'darkgray' : 'transparent'}} onClick={() => jar[2]?.name && !switching(2) && selectedMove({name: 'switch', target: 2, power: 0, pryo: 3})}>{jar[2]?.name}</div>
+            <div class={switching(3) || jar[3].health === 0 ? "" : "choice"} style={{width: "50%", height: "100%", border: "solid", backgroundColor: switching(3) ? 'darkgray' : 'transparent'}} onClick={() => jar[3]?.name && !switching(3) && selectedMove({name: 'switch', target: 3, power: 0, pryo: 3})}>{jar[3]?.name}</div>
         </div>
         <div style={{width: "100%", height: "35%", display: 'flex'}}>
-            <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[4]?.name && selectedMove({name: 'switch', target:4, power: 0, pryo: 3})}>{jar[4]?.name}</div>
-            <div class="choice" style={{width: "50%", height: "100%", border: "solid"}} onClick={() => jar[5]?.name && selectedMove({name: 'switch', target:5, power: 0, pryo: 3})}>{jar[5]?.name}</div>
+            <div class={switching(4) || jar[4].health === 0 ? "" : "choice"} style={{width: "50%", height: "100%", border: "solid", backgroundColor: switching(4) ? 'darkgray' : 'transparent'}} onClick={() => jar[4]?.name && !switching(4) && selectedMove({name: 'switch', target:4, power: 0, pryo: 3})}>{jar[4]?.name}</div>
+            <div class={switching(5) || jar[5].health === 0 ? "" : "choice"} style={{width: "50%", height: "100%", border: "solid", backgroundColor: switching(5) ? 'darkgray' : 'transparent'}} onClick={() => jar[5]?.name && !switching(5) && selectedMove({name: 'switch', target:5, power: 0, pryo: 3})}>{jar[5]?.name}</div>
         </div>
         {death.length === 0 && <div class="choice" style={{width: "99.6%", height: "18%", marginTop:"0.2%", border: "solid", display: 'flex', alignItems:"center"}} onClick={()=>setStage('turn')}><div style={{textAlign: "center", width:'100%'}}>Back</div></div>}
       </div>
