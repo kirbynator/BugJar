@@ -2,8 +2,12 @@ import React, {useState, useEffect} from 'react'
 import SignOut from './SignOut'
 import Battle from './Battle'
 import Jars from './Jars'
-import { auth } from '../firebase'
-import ant from '../media/ant.png'
+import { auth, db } from '../firebase'
+import {
+  query,
+  collectionGroup,
+  getDocs
+} from "firebase/firestore";
 import './style.css'
 
 
@@ -37,6 +41,20 @@ function Home() {
   const selectedJar = e => {
     localStorage.setItem(`jar0`, localStorage.getItem(`jar${e}`))
     setPage("")
+  }
+
+  const getRNG = async () => {
+    setCode('loading')
+    const snapshot = await getDocs(query(collectionGroup(db, "players")))
+    const codes = snapshot.docs.map(doc => {
+      return doc.ref._key.path.segments[6]
+    })
+    let code = Math.floor(Math.random()*10000)
+    while(codes.indexOf(`${code}`) > -1){
+      code === 9999 ? code = 0 : code += 1
+    }
+    setCode(code)
+    setPage("wait")
   }
 
   const typeCode = e => {
@@ -75,8 +93,8 @@ function Home() {
             </div>
             <div style={{width: '20%'}}/>
             <div style={{justifyContent:"center"}} class='laying hexagon' onClick={()=>typeCode({target:{id: `01234${code.length}`}})}>
-              <div style={{heightMin:"30em", transform: "rotate(0deg)"}}>
-               <div style={{fontSize: "3vw"}}>Battle Code</div>
+            {code !== 'loading' && <div style={{heightMin:"30em", transform: "rotate(0deg)"}}>
+                <div style={{fontSize: "3vw"}}>Battle Code</div>
                 <div style={{width: "10%"}}></div>
                 <div style={{display: 'flex', justifyContent:"space-around", width: '100%', marginTop:"2%", marginBottom:"10%"}}>
                   <div style={{width: "20%", pointerEvents:'none'}}></div>
@@ -94,17 +112,17 @@ function Home() {
                   </div>
                   <div style={{width: "20%"}}></div>
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
-          <div class="laying hexagon" onClick={() => setPage("wait")}>
+          <div class="laying hexagon" onClick={() => {if(code !== 'loading'){code ? setPage("wait") : getRNG()}}}>
             <div style={{fontSize: "4vw",  zIndex:2, cursor:'default', position: "relative", transform: "rotate(0deg)"}}>  
-              <>{code ? "Join" : "Create"}</>
+              <>{code && code !== 'loading' ? "Join" : "Create"}</>
               <div>Battle</div>
             </div>
           </div>
         <div style={{display: 'flex', justifyContent:"center", width: '100%', marginTop: '-10%'}} >
-            <div class='laying hexagon' onClick={() => setPage("jars")}>
+            <div class='laying hexagon' onClick={() => code !== 'loading' && setPage("jars")}>
               <div style={{fontSize: "3vw", transform: "rotate(0deg)"}}>
                 Edit Jars
               </div>

@@ -203,8 +203,8 @@
 }
 
 @keyframes protectAnimation {
-  0% { filter: saturate(200%); }
-	100% { filter: saturate(400%); }
+  0% { filter: saturate(0%); }
+	100% { filter: saturate(0%); }
 }
 
 @-webkit-keyframes protectAnimation {
