@@ -13,11 +13,284 @@
   }
 }
 
+.hurt{
+  animation-name: hurtAnimation;
+  animation-duration: .5s;
+  animation-timing-function: linear;
+  -webkit-animation-name: hurtAnimation;
+  -webkit-animation-duration: .5s;
+  -webkit-animation-timing-function: linear;
+}
+
+@keyframes hurtAnimation {
+  0%{
+    opacity:0;
+  }
+  33%{
+    opacity: 0;
+  }
+  34%{
+    opacity: 1;
+  }
+  66%{
+    opacity: 1;
+  }
+  67%{
+    opacity: 0;
+  }
+  99%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes hurtAnimation {
+  0%{
+    opacity:0;
+  }
+  33%{
+    opacity: 0;
+  }
+  34%{
+    opacity: 1;
+  }
+  66%{
+    opacity: 1;
+  }
+  67%{
+    opacity: 0;
+  }
+  99%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+.hurt2{
+  animation-name: hurt2Animation;
+  animation-duration: .5s;
+  animation-timing-function: linear;
+  -webkit-animation-name: hurt2Animation;
+  -webkit-animation-duration: .5s;
+  -webkit-animation-timing-function: linear;
+}
+
+@keyframes hurt2Animation {
+  0%{
+    opacity:0;
+  }
+  33%{
+    opacity: 0;
+  }
+  34%{
+    opacity: 1;
+  }
+  66%{
+    opacity: 1;
+  }
+  67%{
+    opacity: 0;
+  }
+  99%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes hurt2Animation {
+  0%{
+    opacity:0;
+  }
+  33%{
+    opacity: 0;
+  }
+  34%{
+    opacity: 1;
+  }
+  66%{
+    opacity: 1;
+  }
+  67%{
+    opacity: 0;
+  }
+  99%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+
+}
+.agroJug{
+  animation-name: agroJugAnimation;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  -webkit-animation-name: agroJugAnimation;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-timing-function: ease-out;
+}
+
+@keyframes agroJugAnimation {
+  0%{
+    transform: scaleX(-1) translateX(0em);
+  }
+  20%{
+    transform: scaleX(-1) translateX(10em);
+  }
+  100%{
+    transform: scaleX(-1) translateX(0em);
+  }
+}
+
+@-webkit-keyframes agroJugAnimation {
+  0%{
+    transform: scaleX(-1) translateX(0em);
+  }
+  20%{
+    transform: scaleX(-1) translateX(10em);
+  }
+  100%{
+    transform: scaleX(-1) translateX(0em);
+  }
+}
+
+.agroJar{
+  animation-name: agroJarAnimation;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  -webkit-animation-name: agroJarAnimation;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-timing-function: ease-out;
+}
+
+@keyframes agroJarAnimation {
+  0%{
+    transform: translateX(0em);
+  }
+  20%{
+    transform: translateX(10em);
+  }
+  100%{
+    transform: translateX(0em);
+  }
+}
+
+@-webkit-keyframes agroJarAnimation {
+  0%{
+    transform: translateX(0em);
+  }
+  20%{
+    transform: translateX(10em);
+  }
+  100%{
+    transform: translateX(0em);
+  }
+}
+
+.protect{
+  animation: protectAnimation;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  -webkit-animation: protectAnimation;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-timing-function: linear;
+}
+
+@keyframes protectAnimation {
+  0% { filter: saturate(200%); }
+	100% { filter: saturate(400%); }
+}
+
+@-webkit-keyframes protectAnimation {
+  0% { filter: saturate(200%); }
+	100% { filter: saturate(400%); }
+}
+
+.shakeJar{
+  animation: selfJar;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  -webkit-animation: selfJar;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-timing-function: linear;
+}
+
+@keyframes selfJar {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+@-webkit-keyframes selfJar {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.shakeJug{
+  animation: selfJug;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  -webkit-animation: selfJug;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-timing-function: linear;
+}
+
+@keyframes selfJug {
+  0% { transform: scaleX(-1) translate(1px, 1px) rotate(0deg); }
+  10% { transform: scaleX(-1) translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: scaleX(-1) translate(-3px, 0px) rotate(1deg); }
+  30% { transform: scaleX(-1) translate(3px, 2px) rotate(0deg); }
+  40% { transform: scaleX(-1) translate(1px, -1px) rotate(1deg); }
+  50% { transform: scaleX(-1) translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: scaleX(-1) translate(-3px, 1px) rotate(0deg); }
+  70% { transform: scaleX(-1) translate(3px, 1px) rotate(-1deg); }
+  80% { transform: scaleX(-1) translate(-1px, -1px) rotate(1deg); }
+  90% { transform: scaleX(-1) translate(1px, 2px) rotate(0deg); }
+  100% { transform: scaleX(-1) translate(1px, -2px) rotate(-1deg); }
+}
+
+@-webkit-keyframes selfJug {
+  0% { transform: scaleX(-1) translate(1px, 1px) rotate(0deg); }
+  10% { transform: scaleX(-1) translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: scaleX(-1) translate(-3px, 0px) rotate(1deg); }
+  30% { transform: scaleX(-1) translate(3px, 2px) rotate(0deg); }
+  40% { transform: scaleX(-1) translate(1px, -1px) rotate(1deg); }
+  50% { transform: scaleX(-1) translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: scaleX(-1) translate(-3px, 1px) rotate(0deg); }
+  70% { transform: scaleX(-1) translate(3px, 1px) rotate(-1deg); }
+  80% { transform: scaleX(-1) translate(-1px, -1px) rotate(1deg); }
+  90% { transform: scaleX(-1) translate(1px, 2px) rotate(0deg); }
+  100% { transform: scaleX(-1) translate(1px, -2px) rotate(-1deg); }
+}
+
 .glowing {
   box-shadow: inset 0 0 5em 0 silver;
   background-color: darkgray;
   background-image: linear-gradient(gray, dimgray, gray);
-  animation: glow-animation 3s steps(15, start) infinite;
+  animation: glow-animation 3s steps(5, start) infinite;
 }
 
 @keyframes glow-animation {

@@ -41,7 +41,10 @@ function Home() {
 
   const typeCode = e => {
     if(e?.nativeEvent && e.type === 'keydown' && e.keyCode === 8 && e.target.value === ""){return document.getElementById(`input${parseInt(e.target.id[5]) - 1}`).focus()}
-    if(e?.nativeEvent && (e.type === 'click' || e.type === 'keydown')){return e.stopPropagation()}
+    if(e?.nativeEvent && (e.type === 'click' || e.type === 'keydown')){
+      e.stopPropagation()
+      if(e.type === 'click'){return document.getElementById(`input${1 + code.length}`).focus()}
+    }
     const lol = document.getElementById("input1").value + document.getElementById("input2").value + document.getElementById("input3").value + document.getElementById("input4").value
     setCode(lol)
     if(e.target.id !== "input4" && e.target.value !== "" ){ document.getElementById(`input${1 + parseInt(e.target.id[5])}`).focus() }

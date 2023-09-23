@@ -69,6 +69,7 @@ function Jar({jar, jug, setJar, setPage, user}) {
     const bug = items.filter(i => i.type === "a" && i.rarity.search("1") > -1 ).length > 0 ? itemBug("1", commonBugs) : commonBugs[Math.floor(Math.random()*commonBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd), inft: 0}
     if (bug.name === "Caterpillar"){bugParams["form"] = Math.floor(Math.random()*2)}
+    if (bug.name === "Lacewing Larva"){bugParams["form"] = 5}
     return randomInfect({...bug, ...bugParams})
   }
 
@@ -76,6 +77,7 @@ function Jar({jar, jug, setJar, setPage, user}) {
     const bug = items.filter(i => i.type === "a" && i.rarity.search("2") > -1 ).length > 0 ? itemBug("2", rareBugs) : rareBugs[Math.floor(Math.random()*rareBugs.length)]
     const bugParams = {user: user, id: uuid(), temp:{}, health: bug.hp * 10, spd: speedCalc(bug.spd), inft: 0}
     if (bug.name === "Chrysalis"){bugParams["form"] = Math.floor(Math.random()*2)}
+    if (bug.name === "Caddisfly Larva"){bugParams["form"] = 4}
     return randomInfect({...bug, ...bugParams})
   }
 

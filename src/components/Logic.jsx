@@ -154,6 +154,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       setConvo(dialog)
       const newtl = timeline
       newtl.shift()
+      setClass()
       setTimeline(newtl)
     }
   }
@@ -189,12 +190,12 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     } else if(lose.length === 0){
       setConvo([`You are all out of bugs! ${rival.name} wins`, returnHome])
       setStage('over')
-    } else if(deaths.length > 0 && lose.length > 1 ){
+    } else if(deaths.length > 0 && (lose.length > 1 || deaths.length === 2)){
       setStep(jar[0].health === 0 ? 0 : 1)
       setStage('switch')
       setDeath(deaths)
       setConvo([])
-    } else if ((jug[0].health === 0 || jug[1].health === 0) && win.length > 1) {
+    } else if ((jug[0].health === 0 || jug[1].health === 0) && (win.length > 1 || (jug[0].health === 0 && jug[1].health === 0))) {
       setDeath(['easteregg'])
       setStep(2)
       setStage('end')
@@ -221,6 +222,8 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
 
   const selectedMove = m => {
     const b = jar[step]
+    const survivor = jar.filter(b=> b.health > 0).length === 1
+    const singleDeath = death.length === 1
     if(b.inft === 2 && !b.temp?.move && m.name !== "Crystalize" && m.name !== "Metamorphose"){
       b.temp.move = m
     }
@@ -230,10 +233,10 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     if(m.name === "Saltatorial Stomps"){
       const a = moves
       const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) / 100)}
-      if(jug[0].health > 0){a.push({bug: b, move: rm, target: 1})}
-      if(jug[1].health > 0){a.push({bug: b, move: rm, target: 2})}
-      setStep(jar.filter(b=> b.health > 0).length === 1 || death.length === 1 ? 2 : step + 1)
-      setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1 || death.length === 1  ? 'end' : 'turn') 
+      a.push({bug: b, move: rm, target: 1})
+      a.push({bug: b, move: rm, target: 2})
+      setStep(survivor || singleDeath ? 2 : step + 1)
+      setStage(survivor|| step >= 1 || singleDeath  ? 'end' : 'turn') 
     } else if (m.power || m.name === "Prevention Trap"){
       const a = moves
       const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) /100)}
@@ -242,13 +245,14 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       setStage('target')
     } else {
       const a = moves
-      a.push({bug: b, move: m, target: m.name === 'switch' ? m.target : step - 2, dead: death.length > 0}) 
+      const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) / 100)}
+      a.push({bug: b, move: rm, target: m.name === 'switch' ? m.target : step - 2, dead: death.length > 0}) 
       setMoves(a)
-      setStep(jar.filter(b=> b.health > 0).length === 1 || death.length === 1 ? 2 : step + 1)
+      setStep(survivor || singleDeath ? 2 : step + 1)
       if(death.length === 2 && step === 0){
-        setStage('switch')
+        setStage(survivor ? 'end' : 'switch')
       } else {
-        setStage(jar.filter(b=> b.health > 0).length === 1 || step >= 1 || death.length === 1  ? 'end' : 'turn') 
+        setStage(survivor || step >= 1 || singleDeath ? 'end' : 'turn') 
       }
     }
   }
@@ -291,6 +295,30 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     });
     setStep(0)
     setMoves([])
+  }
+
+  const setClass = () => {
+    [jar[0],jar[1],jug[0],jug[1]].map(b=>{
+     let insect = document.getElementById(b.id)
+     if(insect){
+       insect.className = getClass(b, insect.className === 'hurt')
+     }
+    })
+  }
+
+  const getClass = (bug, alreadyHurt) => {
+    const temp = bug.temp
+    if(temp?.hurt){
+      return alreadyHurt ? 'hurt2' : 'hurt'
+    } else if (temp?.shake) {
+      return  bug.user === rival.uid ? 'shakeJug' : 'shakeJar'
+    } else if (temp?.protect) {
+      return 'protect'
+    } else if (temp?.agro){
+      return  bug.user === rival.uid ? 'agroJug' : 'agroJar'
+    } else {
+      return ''
+    }
   }
 
   const switching = i => {

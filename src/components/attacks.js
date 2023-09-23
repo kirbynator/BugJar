@@ -3,6 +3,18 @@ const attackLogic = (attacks, jar, jug, area, rival) => {
   let localJug = jug
   let localArea = area
   let dialog = []
+  localJar.map(b=>{
+    b.temp.hurt = false
+    b.temp.agro = false
+    b.temp.shake = false
+    b.temp.protect = false
+  })
+  localJug.map(b=>{
+    b.temp.hurt = false
+    b.temp.agro = false
+    b.temp.shake = false
+    b.temp.protect = false
+  })
   attacks.map(attack => {
     if(attack.move.name === "surrender"){
       if (attack.user === rival){
@@ -82,8 +94,9 @@ const attackEffect = (move, bug, target, localArea) => {
       return damageCal(move, bug, target)
     break;
     case "Shell Shield":
+      bug.temp.protect = true
       if(bug.temp?.wasInv) {
-        bug.temp.inv = Math.random() > 0.5
+        bug.temp.inv = move.random > 0.93
         return([bug.temp.inv ? [`${bug.name} used Shell Shield to try to protect itself, and was successful!`] : [`${bug.name} used Shell Shield to try to protect themself, and failed`], bug])
       } else {
         bug.temp.inv = true
@@ -91,8 +104,11 @@ const attackEffect = (move, bug, target, localArea) => {
       }
     break;
     case "Prevention Trap":
+      bug.temp.shake = true
+      if(!target){return damageCal(move, bug, target)}
+      target.temp.protect = true
       if(target.temp?.wasInv) {
-        target.temp.inv = Math.random() > 0.5
+        target.temp.inv = move.random > 0.93
         return([target.temp.inv ? [`${bug.name} used Prevention Trap to try to protect ${target.name}, and was successful`] : [`${bug.name} used Prevention Trap to try to protect ${target.name}, and failed`], bug, target])
       } else {
         target.temp.inv = true
@@ -111,9 +127,11 @@ const attackEffect = (move, bug, target, localArea) => {
       return([convo, insect, enemy])
     break;
     case "Royal Decree":
+      bug.temp.shake = true
       return([[`${bug.name} used Royal Decree`, `${bug.name} created an ant hill arena`], bug, null, true, 'an ant hill'])
     break;
     case "Crystalize":
+      bug.temp.shake = true
       var insect = {...bug}
       insect.name = "Chrysalis"
       insect.atk = 1
@@ -124,7 +142,10 @@ const attackEffect = (move, bug, target, localArea) => {
       return([[`${bug.name} used Crystalize, and becomes a Chrysalis!`], insect])
     break;
     case "Metamorphose":
+      bug.temp.shake = true
       var insect = {...bug}
+      insect.moves[0] = {name: "Flutter Fury", power: 3, pryo: 0, info: "This bugs stikes with a fast series of blows"}
+      insect.moves[1] = {name: "Butterfly Kiss", power: 0, pryo: 0, info: "Heals this bug and ally bug"}
       if (insect.form === 1){
         insect.name = "Skipper Butterfly"
         insect.atk = 5
@@ -135,14 +156,25 @@ const attackEffect = (move, bug, target, localArea) => {
         insect.atk = 5
         insect.def = 10
         insect.spd = 5
+      } else if (insect.form === 4){
+        insect.name = "Caddisfly"
+        insect.atk = 4
+        insect.def = 8
+        insect.spd = 5
+        insect.moves[0] = {name: "Domain Drop", power: 2,  pryo:0,  info:"If the arena is a pond, this attack takes priority"}
+        insect.moves[1] = {name:"Nibble", power: 1, pryo:0, info: "Will raise ally bug's stats when this bug runs out of hp"}
+      } else if (insect.form === 5){
+        insect.name = "Lacewing"
+        insect.atk = 9
+        insect.def = 2
+        insect.spd = 9
+        insect.moves[1] = {name: "Floral Feint", power: 2, pryo: 0, info: "This attack can't be blocked",}
       } else {
         insect.name = "Monarch Butterfly"
         insect.atk = 10
         insect.def = 5
         insect.spd = 5
       }
-      insect.moves[0] = {name: "Flutter Fury", power: 3, pryo: 0, info: "This bugs stikes with a fast series of blows"}
-      insect.moves[1] = {name: "Butterfly Kiss", power: 0, pryo: 0, info: "Heals this bug and ally bug"}
       return([[`${bug.name} used Metamorphose, emerging as a ${insect.name}!`], insect])
     break;
     case "Luminous Burst":
@@ -170,24 +202,28 @@ const attackEffect = (move, bug, target, localArea) => {
       }
     break;
     case "Carapace Castle":
+      bug.temp.shake = true
       var convo = [`${bug.name} used Carapace Castle`]
       if((bug.temp?.def || 0) < 7) {
         bug.temp.def = (bug.temp?.def || 0) + 1
         convo.push(`${bug.name}'s defense rose`)
       } else {convo.push(`${bug.name}'s defense can't rise anymore`)}
       if(target && ((target.temp?.def || 0) < 7)) {
+        target.temp.shake = true
         target.temp.def = (target.temp?.def || 0) + 1
         convo.push(`${target.name}'s defense rose`)
       } else if(target){convo.push(`${target.name}'s defense can't rise anymore`)}
       return([convo, bug, target])
     break;
     case "Cutting Edge":
+      bug.temp.shake = true
       var convo = [`${bug.name} used Cutting Edge`]
       if((bug.temp?.atk || 0) < 7) {
         bug.temp.atk = (bug.temp?.atk || 0) + 1
         convo.push(`${bug.name}'s attack rose`)
       } else {convo.push(`${bug.name}'s attack can't rise anymore`)}
       if(target && ((target.temp?.atk || 0) < 7)) {
+        target.temp.shake = true
         target.temp.atk = (target.temp?.atk || 0) + 1
         convo.push(`${target.name}'s attack rose`)
       } else if(target){convo.push(`${target.name}'s attack can't rise anymore`)}
@@ -200,6 +236,7 @@ const attackEffect = (move, bug, target, localArea) => {
       var enemy = calc[2]
       if (calc[3] && enemy.health > 0){
         enemy.temp = {}
+        enemy.temp.hurt = true
         convo.push(`${enemy.name} was so surprised by the sudden sound it reset them`)
       }
       return([convo, insect, enemy])
@@ -210,7 +247,7 @@ const attackEffect = (move, bug, target, localArea) => {
       var insect = calc[1];
       var enemy = calc[2];
       if (calc[3] && localArea === "glowing"){
-        convo.push(`${insect.name} stats were rised!`);
+        convo.push(`${insect.name} stats' were rised!`);
         (insect.temp?.atk || 0) < 7 ? insect.temp.atk = (insect.temp?.atk || 0) + 1 : convo.push(`${insect.name}'s attack can't rise anymore`)
         (insect.temp?.def || 0) < 7 ? insect.temp.def = (insect.temp?.def || 0) + 1 : convo.push(`${insect.name}'s defense can't rise anymore`)
         (insect.temp?.spd|| 0) < 7 ? insect.temp.spd = (insect.temp?.spd|| 0) + 1 : convo.push(`${insect.name}'s speed can't rise anymore`)
@@ -270,11 +307,12 @@ const attackEffect = (move, bug, target, localArea) => {
       return([convo, insect, enemy])
     break
     case "Swift Strike":
-      move.power = bug.spd + (bug.temp?.spd) > target.speed + (target.temp?.spd) ? 4 : 2
+      move.power = bug.spd * tempStatMulti(bug.temp?.spd) > target.speed * tempStatMulti(target.temp?.spd) ? 4 : 2
       console.log(`Swift Strikes power is ${move.power}`)
       return damageCal(move, bug, target)
     break
     case "Vibes":
+      bug.temp.shake = true
       var insect = {...bug};
       var convo = [`${insect?.name} vibes`];
       var successful = false;
@@ -290,24 +328,28 @@ const attackEffect = (move, bug, target, localArea) => {
       return damageCal(move, bug, target)
     break
     case "Persistent":
+      bug.temp.shake = true
       var insect = bug
       var convo = [`${bug.name} used Persistent, healing itself!`]
       insect.health = Math.min(insect.health + (insect.hp * 10 / 2), insect.hp * 10)
       return([convo, insect])
     break
     case "Butterfly Kiss":
+      bug.temp.shake = true
       var convo = [`${bug.name} used Butterfly Kiss`]
       bug.health = Math.min(bug.hp * 10, bug.health + Math.floor(bug.hp * 10 / 8))
       convo.push(`${bug.name} was healed`)  
       if(target && target.health > 0){
+        target.temp.shake = true
         target.health = Math.min(target.hp * 10, target.health + Math.floor(target.hp * 10 / 8))
         convo.push(`${target.name} was healed`)  
       }
       return([convo, bug, target])
     break;
-    case "Water Walk":
+    case "Water Ponder":
+      bug.temp.shake = true
       var insect = {...bug};
-      var convo = [`${insect?.name} uses Water Walk`];
+      var convo = [`${insect?.name} uses Water Ponder`];
       var successful = false;
       (insect.temp?.atk || 0) < 7 ? successful = true : convo.push(`${insect.name}'s attack can't rise anymore`);
       if(successful){
@@ -349,6 +391,8 @@ const damageCal = (move, bug, target) => {
     const totalDef = target.def * 10 * tempStatMulti(target.temp?.def)
     const damage = Math.floor((Math.floor(Math.floor(Math.floor(2 * 20 / 5 + 2) * (move.power * 40) * totalAtk / totalDef) / 50) + 2) * (move?.random || 1))
     target.health = Math.max(target.health - damage, 0)
+    target.temp.hurt = true
+    bug.temp.agro = true
     const message = [`${bug.name} used ${move.name} on ${target.name} dealing ${damage} damage!`]
     if (target.health === 0 && target.inft !== 1 && !target.temp?.nbl){message.push(`${target.name} scampered away from the fight`)}
     return([message, bug, target, true])
