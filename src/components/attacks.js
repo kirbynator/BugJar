@@ -137,7 +137,7 @@ const attackEffect = (move, bug, target, localArea) => {
       insect.atk = 1
       insect.def = 10
       insect.spd = 3
-      insect.moves[0] = {name: "Metamorphose", power: 0,  pryo:0, info: "Emerge into a butterfly"}
+      insect.moves[0] = {name: "Metamorphose", power: 0,  pryo:0, info: "Emerge into the adult form of this bug"}
       insect.moves[1] = {name: "Shell Shield", power: 0,  pryo:2, info: "Before attacks, this bug tries to protect itself"}
       return([[`${bug.name} used Crystalize, and becomes a Chrysalis!`], insect])
     break;
@@ -329,11 +329,15 @@ const attackEffect = (move, bug, target, localArea) => {
     break
     case "Persistent":
       bug.temp.shake = true
+      if(insect.health === insect.hp * 10){return([[`${bug.name} used Persistent, but it failed`], bug])}
       var insect = bug
       var convo = [`${bug.name} used Persistent, healing itself!`]
-      insect.health = Math.min(insect.health + (insect.hp * 10 / 2), insect.hp * 10)
+      var moves = insect.moves
+      insect.health = insect.hp * 10
+      moves.splice(moves.findIndex(m => m.name === 'Persistent'), 1)
+      insect.moves = moves
       return([convo, insect])
-    break
+    break;
     case "Butterfly Kiss":
       bug.temp.shake = true
       var convo = [`${bug.name} used Butterfly Kiss`]

@@ -542,7 +542,7 @@ const bugs = [
     hp: 6,
     atk: 4,
     def: 4,
-    spd: 4,
+    spd: 5,
     moves: [
       {
         name: "Domain Drop",
@@ -679,7 +679,7 @@ const bugs = [
     spd: 6,
     moves: [
       { name: "Sting", power: 3, pryo: 0, info: "This bug becomes ill" },
-      { name: "Persistent", power: 0, pryo: 0, info: "This bug heals itself" },
+      { name: "Persistent", power: 0, pryo: 0, info: "This bug heals itself, can only be used once" },
     ],
   },
   {
@@ -718,7 +718,7 @@ const bugs = [
         pryo: 0,
         info: "This bug rams into it's target",
       },
-      { name: "Persistent", power: 0, pryo: 0, info: "This bug heals itself" },
+      { name: "Persistent", power: 0, pryo: 0, info: "This bug heals itself, can only be used once" },
     ],
   },
   {
@@ -1099,14 +1099,14 @@ const bugs = [
         pryo: 0,
         info: "Lowers this bugs defense, while raising it's attack",
       },
-      { name: "Persistent", power: 0, pryo: 0, info: "This bug heals itself" },
+      { name: "Persistent", power: 0, pryo: 0, info: "This bug heals itself, can only be used once" },
     ],
   },
   {
     name: "Scarab",
     rarity: 3,
     hp: 7,
-    atk: 7,
+    atk: 8,
     def: 8,
     spd: 2,
     moves: [
@@ -1128,9 +1128,9 @@ const bugs = [
     name: "Caddisfly",
     rarity: 3,
     hp: 8,
-    atk: 4,
+    atk: 7,
     def: 7,
-    spd: 5,
+    spd: 3,
     moves: [
       {
         name: "Domain Drop",

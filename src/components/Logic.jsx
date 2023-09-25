@@ -224,7 +224,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     const b = jar[step]
     const survivor = jar.filter(b=> b.health > 0).length === 1
     const singleDeath = death.length === 1
-    if(b.inft === 2 && !b.temp?.move && m.name !== "Crystalize" && m.name !== "Metamorphose"){
+    if(b.inft === 2 && !b.temp?.move && m.name !== "Crystalize" && m.name !== "Metamorphose" && m.name !== "Persistent"){
       b.temp.move = m
     }
     if(m.name === "Domain Drop" && area === "a pond"){
