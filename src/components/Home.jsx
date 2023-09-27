@@ -122,7 +122,7 @@ function Home() {
             </div>
           </div>
         <div style={{display: 'flex', justifyContent:"center", width: '100%', marginTop: '-10%'}} >
-            <div class='laying hexagon' onClick={() => code !== 'loading' && setPage("jars")}>
+            <div class='laying hexagon' onClick={() => {if(code !== 'loading'){window.history.pushState(null, null, window.location.origin); setPage("jars")}}}>
               <div style={{fontSize: "3vw", transform: "rotate(0deg)"}}>
                 Edit Jars
               </div>

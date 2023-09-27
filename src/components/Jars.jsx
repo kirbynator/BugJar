@@ -14,6 +14,8 @@ const Jars = props => {
     return (<JarBuilder jar={selectedJar} save={saveJar} cancel={setSelectedJar}/>)
   }
 
+  window.addEventListener('popstate', (event) => {props.setPage('')})
+
   return(
     <div key={selectedJar?.name} style={{width:"100%", height:"100%"}}>
       <div style={{width:"100%", height:"30%", display: "flex", justifyContent:"space-around", flexWrap: 'wrap'}}>
