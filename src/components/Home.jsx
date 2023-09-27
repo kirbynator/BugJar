@@ -99,16 +99,16 @@ function Home() {
                 <div style={{display: 'flex', justifyContent:"space-around", width: '100%', marginTop:"2%", marginBottom:"10%"}}>
                   <div style={{width: "20%", pointerEvents:'none'}}></div>
                   <div style={{width: "20%"}}>
-                    <input maxlength="1" id='input1' class="input" value={code[0]} onClick={(e)=>typeCode(e)} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
+                    <input type="text" inputMode='numeric' pattern='[0-9]*' maxlength="1" id='input1' class="input" value={code[0]} onClick={(e)=>typeCode(e)} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
                   </div>
                   <div style={{width: "20%"}}>
-                    <input maxlength="1" id='input2' class="input" value={code[1]} onKeyDown={(e)=>typeCode(e)} onClick={(e)=>typeCode(e)} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/> 
+                    <input type="text" inputMode='numeric' pattern='[0-9]*' maxlength="1" id='input2' class="input" value={code[1]} onKeyDown={(e)=>typeCode(e)} onClick={(e)=>typeCode(e)} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/> 
                   </div>
                   <div style={{width: "20%"}}>
-                    <input maxlength="1" id='input3' class="input" value={code[2]} onKeyDown={(e)=>typeCode(e)} onClick={(e)=>typeCode(e)} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
+                    <input type="text" inputMode='numeric' pattern='[0-9]*' maxlength="1" id='input3' class="input" value={code[2]} onKeyDown={(e)=>typeCode(e)} onClick={(e)=>typeCode(e)} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
                   </div>
                   <div style={{width: "20%"}}>
-                    <input maxlength="1" id='input4' class="input" value={code[3]} onKeyDown={(e)=>typeCode(e)} onClick={(e)=>typeCode(e)} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
+                    <input type="text" inputMode='numeric' pattern='[0-9]*' maxlength="1" id='input4' class="input" value={code[3]} onKeyDown={(e)=>typeCode(e)} onClick={(e)=>typeCode(e)} onChange={e =>typeCode(e)} onPaste={e => setCode(e.clipboardData.getData('Text'))}/>
                   </div>
                   <div style={{width: "20%"}}></div>
                 </div>
