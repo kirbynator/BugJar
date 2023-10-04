@@ -4,6 +4,7 @@ const cleanUp = (jar, jug, area, rival) => {
   const dialog = []
 
   const modBugs = [localJar[0],localJar[1],localJug[0],localJug[1]].map((b, i)=>{
+    b.temp.wasInv = false
     if(b.temp?.ill && b.health > 0){
       var newHealth = Math.max(0,b.health - Math.floor((b.hp * 10) / 16))
       dialog.push(`${b.name} is ill, dropping its health to ${newHealth}`)
@@ -21,12 +22,7 @@ const cleanUp = (jar, jug, area, rival) => {
         b.name = null;
       }
     }
-    b.temp.wasInv = false
-    if(b.temp?.inv){
-     b.temp.inv = false
-     b.temp.wasInv = true
-    }
-    if(b.temp?.nbl && b.health === 0) {
+    if(b.temp?.nbl && b.health <= 0) {
       var target = i % 2 === 0 ? i + 1 : i - 1
       var insect = [localJar[0],localJar[1],localJug[0],localJug[1]][target]
       if (insect.health > 0){
@@ -37,6 +33,11 @@ const cleanUp = (jar, jug, area, rival) => {
         (insect.temp?.def || 0) < 7 ? insect.temp.def  = (insect.temp?.def || 0) + 1 : dialog.push(`${insect.name}'s defense can't rise anymore`);
         (insect.temp?.spd|| 0) < 7 ? insect.temp.spd = (insect.temp?.spd|| 0) + 1 : dialog.push(`${insect.name}'s speed can't rise anymore`);
       }
+    }
+    if(b.health <= 0){return b}
+    if(b.temp?.inv){
+     b.temp.inv = false
+     b.temp.wasInv = true
     }
     if(area === 'an ant hill' && b.health > 0 && b.name.search("Ant") > -1){
       var newHealth = Math.min(b.hp * 10, b.health + Math.floor(b.hp * 10 / 16))
