@@ -432,7 +432,7 @@ const bugs = [
     ],
   },
   {
-    name: "Hercules Beetle",
+    name: "Stink Bug",
     rarity: 1,
     hp: 9,
     atk: 8,
@@ -440,10 +440,10 @@ const bugs = [
     spd: 1,
     moves: [
       {
-        name: "Mandible Maul",
-        power: 2,
+        name: "Toxic Tincture",
+        power: 1,
         pryo: 0,
-        info: "This bug takes a bite out of it's target",
+        info: "Makes the target ill, doing damage over time",
       },
       {
         name: "Shell Shield",
