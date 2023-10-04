@@ -316,6 +316,11 @@ const attackEffect = (move, bug, target, localArea) => {
       var insect = {...bug};
       var convo = [`${insect?.name} vibes`];
       var successful = false;
+      (insect.temp?.def || 0) < 7 ? successful = true : convo.push(`${insect.name}'s defence can't rise anymore`);
+      if(successful){
+        convo.push(`${bug.name}'s defense rose`) ;
+        insect.temp.spd = (insect.temp?.def || 0) + 1;
+      }
       (insect.temp?.spd || 0) < 7 ? successful = true : convo.push(`${insect.name}'s speed can't rise anymore`);
       if(successful){
         convo.push(`${bug.name}'s speed rose`) ;
@@ -370,11 +375,6 @@ const attackEffect = (move, bug, target, localArea) => {
       var enemy = calc[2]
       var successful = false
       if (calc[3]){
-        (insect.temp?.def || 0) > -7 ? successful = true : convo.push(`${insect.name}'s defense can't go lower`)
-        if(successful){
-          convo.push(`${insect.name} defense was lowered`) 
-          insect.temp.atk = (insect.temp?.def || 0) - 1
-        }
         (insect.temp?.atk || 0) < 7 ? successful = true : convo.push(`${insect.name}'s attack can't rise anymore`)
         if(successful){
           convo.push(`${bug.name}'s attack rose`);

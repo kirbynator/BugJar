@@ -184,7 +184,7 @@ const bugs = [
         pryo: 0,
         info: "Raises all stats if the arena is bright",
       },
-      { name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs speed" },
+      { name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs defense and speed" },
     ],
   },
   {
@@ -213,9 +213,9 @@ const bugs = [
     name: "Cricket",
     rarity: 1,
     hp: 4,
-    atk: 4,
+    atk: 3,
     def: 7,
-    spd: 3,
+    spd: 7,
     moves: [
       { name: "Chirp", power: 1, pryo: 0, info: "Resets this bug's target" },
       {
@@ -638,7 +638,7 @@ const bugs = [
         pryo: 0,
         info: "This attack can't be blocked",
       },
-      { name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs speed" },
+      { name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs defense and speed" },
     ],
   },
   {
@@ -655,7 +655,7 @@ const bugs = [
         pryo: 0,
         info: "Doubles damage if this bug is faster than target",
       },
-      { name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs speed" },
+      { name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs defense and speed" },
     ],
   },
   {
@@ -667,7 +667,7 @@ const bugs = [
     spd: 1,
     moves: [
       { name: "Chirp", power: 1, pryo: 0, info: "Resets this bug's target" },
-      { name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs speed" },
+      { name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs defense and speed" },
     ],
   },
   {
@@ -994,7 +994,7 @@ const bugs = [
         pryo: 0,
         info: "Doubles damage if this bug is faster than target",
       },
-      { name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs speed" },
+      { name: "Vibes", power: 0, pryo: 0, info: "Raises this bugs defense and speed" },
     ],
   },
   {
@@ -1097,7 +1097,7 @@ const bugs = [
         name: "Visceral Violate",
         power: 3,
         pryo: 0,
-        info: "Lowers this bugs defense, while raising it's attack",
+        info: "This bug raises it's attack",
       },
       { name: "Persistent", power: 0, pryo: 0, info: "This bug heals itself, can only be used once" },
     ],

@@ -22,7 +22,7 @@ const cleanUp = (jar, jug, area, rival) => {
         b.name = null;
       }
     }
-    if(b.temp?.nbl && b.health <= 0) {
+    if(b.temp?.nbl && b.health <= 0 && b.name != null) {
       var target = i % 2 === 0 ? i + 1 : i - 1
       var insect = [localJar[0],localJar[1],localJug[0],localJug[1]][target]
       if (insect.health > 0){
