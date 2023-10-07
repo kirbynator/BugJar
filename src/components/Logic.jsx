@@ -59,9 +59,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       setTurn(seedsTurn)
       localTurn = seedsTurn
     }
-    console.log(`trying ${seedsTurn}`)
     if(sortedSeeds.length === 2 && seedsTurn === localTurn && timeline.length === 0 && stage !== 'convo'){
-      console.log(`success ${seedsTurn}`)
       setTurn(seedsTurn + 1)
       setJarReady(true)
       setJugReady(true)
@@ -150,7 +148,7 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       setArea(attack[3])
       setJar([...attack[1]])
       setJug([...attack[2]])
-      dialog.push(nextLine)
+      dialog.push(timeline[0].move.name === 'surrender' ? endTurn : nextLine)
       setConvo(dialog)
       const newtl = timeline
       newtl.shift()
@@ -224,6 +222,8 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
     const b = jar[step]
     const survivor = jar.filter(b=> b.health > 0).length === 1
     const singleDeath = death.length === 1
+    const a = moves
+    const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) / 100)}
     if(b.inft === 2 && !b.temp?.move && m.name !== "Crystalize" && m.name !== "Metamorphose" && m.name !== "Persistent"){
       b.temp.move = m
     }
@@ -231,22 +231,23 @@ function Logic({jar, jug, area, setJar, setJug, setArea, rival, rng, returnHome,
       m.pryo = 1
     }
     if(m.name === "Saltatorial Stomps"){
-      const a = moves
-      const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) / 100)}
       a.push({bug: b, move: rm, target: 1})
       a.push({bug: b, move: rm, target: 2})
       setStep(survivor || singleDeath ? 2 : step + 1)
       setStage(survivor|| step >= 1 || singleDeath  ? 'end' : 'turn') 
-    } else if (m.power || m.name === "Prevention Trap"){
-      const a = moves
-      const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) /100)}
+    } else if ((m.power && m.name !== "Pharaoh's Blight") || m.name === "Prevention Trap"){
       a.push({bug: b, move: rm, target: null})
       setMoves(a)
       setStage('target')
     } else {
-      const a = moves
-      const rm = {...m, random: ((Math.floor(Math.random() * 16) + 85) / 100)}
-      a.push({bug: b, move: rm, target: m.name === 'switch' ? m.target : step - 2, dead: death.length > 0}) 
+      if (m.name ===  "Pharaoh's Blight"){
+        jar.filter(insect => insect.name === 'Scarab' || insect.name === 'Locust' || insect.name?.search('Grasshopper') > -1)
+        .slice(0, 4).forEach(i=>{
+          a.push({bug: b, move: rm, target: Math.floor(Math.random() * 2) + 1})
+        })
+      } else {
+        a.push({bug: b, move: rm, target: m.name === 'switch' ? m.target : step - 2, dead: death.length > 0}) 
+      }
       setMoves(a)
       setStep(survivor || singleDeath ? 2 : step + 1)
       if(death.length === 2 && step === 0){

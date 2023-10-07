@@ -17,7 +17,7 @@ const attackLogic = (attacks, jar, jug, area, rival) => {
   })
   attacks.map(attack => {
     if(attack.move.name === "surrender"){
-      if (attack.user === rival){
+      if (attack.move.user === rival){
         localJar.map(b=>{
           b.health = 0;
           b.name = null
@@ -91,6 +91,7 @@ const attackEffect = (move, bug, target, localArea) => {
     case "Swarm":
     case "Domain Drop":
     case "Saltatorial Stomps":
+    case "Pharaoh's Blight":
       return damageCal(move, bug, target)
     break;
     case "Shell Shield":
@@ -285,14 +286,19 @@ const attackEffect = (move, bug, target, localArea) => {
       return([convo, insect, enemy])
     break;
     case "Outbreak":
-      var calc = damageCal(move, bug, target)
-      var convo = calc[0]
-      var insect = calc[1]
-      var enemy = calc[2]
+      var calc = damageCal(move, bug, target);
+      var convo = calc[0];
+      var insect = calc[1];
+      var enemy = calc[2];
       if (calc[3]){
-        convo.push(`${insect.name} is getting rowdy`)
-        insect.temp.ob = true
-      }
+        convo.push(`${insect.name} is getting rowdy`);
+        insect.temp.ob = true;
+        (insect.temp?.spd || 0) > -7 ? successful = true : convo.push(`${insect.name}'s speed can't go lower`);
+        if(successful){
+          convo.push(`${insect.name} speed was lowered`);
+          insect.temp.spd = (insect.temp?.spd || 0) - 1;
+        };
+      };
       return([convo, insect, enemy])
     break
     case "Sting":
@@ -307,7 +313,7 @@ const attackEffect = (move, bug, target, localArea) => {
       return([convo, insect, enemy])
     break
     case "Swift Strike":
-      move.power = bug.spd * tempStatMulti(bug.temp?.spd) > target.speed * tempStatMulti(target.temp?.spd) ? 4 : 2
+      move.power = bug.spd * tempStatMulti(bug.temp?.spd) > target.spd * tempStatMulti(target.temp?.spd) ? 4 : 2
       console.log(`Swift Strikes power is ${move.power}`)
       return damageCal(move, bug, target)
     break
