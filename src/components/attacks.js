@@ -340,8 +340,8 @@ const attackEffect = (move, bug, target, localArea) => {
     break
     case "Persistent":
       bug.temp.shake = true
-      if(insect.health === insect.hp * 10){return([[`${bug.name} used Persistent, but it failed`], bug])}
       var insect = bug
+      if(insect.health === insect.hp * 10){return([[`${bug.name} used Persistent, but it failed`], bug])}
       var convo = [`${bug.name} used Persistent, healing itself!`]
       var moves = insect.moves
       insect.health = insect.hp * 10
