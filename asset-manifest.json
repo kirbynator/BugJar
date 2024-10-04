@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/BugJarBattles/static/css/main.9780b6ab.css",
+    "main.js": "/BugJarBattles/static/js/main.f4f13c71.js",
+    "static/media/ant.png": "/BugJarBattles/static/media/ant.ef9a37024a3ec1f5aea5.png",
+    "static/media/wave.png": "/BugJarBattles/static/media/wave.04c4d5bc04ef9ad477bb.png",
+    "index.html": "/BugJarBattles/index.html",
+    "main.9780b6ab.css.map": "/BugJarBattles/static/css/main.9780b6ab.css.map",
+    "main.f4f13c71.js.map": "/BugJarBattles/static/js/main.f4f13c71.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9780b6ab.css",
+    "static/js/main.f4f13c71.js"
+  ]
+}
